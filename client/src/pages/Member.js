@@ -15,7 +15,7 @@ const Member = ({ }) => {
 }
 
 Member.propTypes = {
-    
+
 }
 
 export default Member;

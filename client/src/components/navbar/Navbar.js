@@ -11,7 +11,7 @@ const Navbar = () => {
 }
 
 Navbar.propTypes = {
-    
+
 }
 
 export default Navbar;
