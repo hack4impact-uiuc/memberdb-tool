@@ -12,7 +12,7 @@ import Navbar from './components/navbar/Navbar';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <div className="App">
+      <div className='App'>
         <Navbar />
         <Switch>
           <Route exact path={Routes.DEFAULT_ROUTE} component={Home} />
