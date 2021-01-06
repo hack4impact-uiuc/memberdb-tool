@@ -1,65 +1,65 @@
-/** 
+/**
  * Schema representing a H4I member
  */
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const levelEnum = {
-  ADMIN: "ADMIN",
-  DIRECTOR: "DIRECTOR",
-  LEAD: "LEAD",
-  MEMBER: "MEMBER",
-  TBD: "TBD",
+  ADMIN: 'ADMIN',
+  DIRECTOR: 'DIRECTOR',
+  LEAD: 'LEAD',
+  MEMBER: 'MEMBER',
+  TBD: 'TBD',
 };
 
 const locationEnum = {
-    REMOTE: "REMOTE",
-    CAMPUS: "CAMPUS",
-    TBD: "TBD",
+  REMOTE: 'REMOTE',
+  CAMPUS: 'CAMPUS',
+  TBD: 'TBD',
 };
 
 const roleEnum = {
-    CO_DIRECTOR: "CO_DIRECTOR",
-    COMMUNITY_DIRECTOR: "COMMUNITY_DIRECTOR",
-    EXTERNAL_DIRECTOR: "EXTERNAL_DIRECTOR",
-    ACADEMY_LEAD: "ACADEMY_LEAD",
-    TECH_LEAD: "TECH_LEAD",
-    PR_LEAD: "PR_LEAD",
-    PRODUCT_MANAGER: "PRODUCT_MANAGER",
-    PRODUCT_DESIGNER: "PRODUCT_DESIGNER",
-    DEVELOPER: "DEVELOPER",
-    ACADEMY_MEMBER: "ACADEMY_MEMBER",
+  CO_DIRECTOR: 'CO_DIRECTOR',
+  COMMUNITY_DIRECTOR: 'COMMUNITY_DIRECTOR',
+  EXTERNAL_DIRECTOR: 'EXTERNAL_DIRECTOR',
+  ACADEMY_LEAD: 'ACADEMY_LEAD',
+  TECH_LEAD: 'TECH_LEAD',
+  PR_LEAD: 'PR_LEAD',
+  PRODUCT_MANAGER: 'PRODUCT_MANAGER',
+  PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
+  DEVELOPER: 'DEVELOPER',
+  ACADEMY_MEMBER: 'ACADEMY_MEMBER',
 };
 
 const statusEnum = {
-    ACTIVE: "ACTIVE",
-    HIATUS: "HIATUS",
-    RETIRED: "RETIRED",
-    TBD: "TBD",
+  ACTIVE: 'ACTIVE',
+  HIATUS: 'HIATUS',
+  RETIRED: 'RETIRED',
+  TBD: 'TBD',
 };
 
 const semesterEnum = {
-    FALL: "FALL",
-    SPRING: "SPRING",
+  FALL: 'FALL',
+  SPRING: 'SPRING',
 };
 
 const classStandingEnum = {
-    FRESHMAN: "FRESHMAN",
-    SOPHOMORE: "SOPHOMORE",
-    JUNIOR: "JUNIOR",
-    SPRING_SENIOR: "SPRING_SENIOR",
-    FALL_SENIOR: "FALL_SENIOR",
-    MASTERS: "MASTERS",
-    PHD: "PHD",
+  FRESHMAN: 'FRESHMAN',
+  SOPHOMORE: 'SOPHOMORE',
+  JUNIOR: 'JUNIOR',
+  SPRING_SENIOR: 'SPRING_SENIOR',
+  FALL_SENIOR: 'FALL_SENIOR',
+  MASTERS: 'MASTERS',
+  PHD: 'PHD',
 };
 
 const Member = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   oauthID: { type: String, required: true, unique: true },
-  email: {type: String, required: true, unique: true },
-  phone: { type: String, required: true},
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true },
   netID: { type: String, required: true },
-  UIN: {type: String, required: true},
+  UIN: { type: String, required: true },
   major: { type: String, required: true },
   birthdate: { type: Date, required: true },
   github: { type: String, required: false },
@@ -69,40 +69,40 @@ const Member = new mongoose.Schema({
 
   gradYear: { type: Number, required: true },
   gradSemester: {
-      type: String,
-      enum: [...semesterEnum],
-      required: true,
+    type: String,
+    enum: [...semesterEnum],
+    required: true,
   },
 
   classStanding: {
-      type: String,
-      enum: [...classStandingEnum],
-      required: true,
+    type: String,
+    enum: [...classStandingEnum],
+    required: true,
   },
 
   generationYear: { type: Number, required: true },
   generationSemester: {
-      type: String,
-      enum: [...semesterEnum],
-      required: true,
+    type: String,
+    enum: [...semesterEnum],
+    required: true,
   },
 
   location: {
-      type: String,
-      enum: [...locationEnum],
-      required: true,
+    type: String,
+    enum: [...locationEnum],
+    required: true,
   },
 
   role: {
-      type: String,
-      enum: [...roleEnum],
-      required: true,
+    type: String,
+    enum: [...roleEnum],
+    required: true,
   },
-  
+
   level: {
-      type: String,
-      enum: [...levelEnum],
-      required: true,
+    type: String,
+    enum: [...levelEnum],
+    required: true,
   },
 
   status: {
@@ -112,5 +112,5 @@ const Member = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Member", Member);
+module.exports = mongoose.model('Member', Member);
 module.exports.levelEnum = levelEnum;
