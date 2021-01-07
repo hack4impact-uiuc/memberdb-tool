@@ -70,44 +70,44 @@ const Member = new mongoose.Schema({
   gradYear: { type: Number, required: true },
   gradSemester: {
     type: String,
-    enum: [...semesterEnum],
+    enum: Object.values(semesterEnum),
     required: true,
   },
 
   classStanding: {
     type: String,
-    enum: [...classStandingEnum],
+    enum: Object.values(classStandingEnum),
     required: true,
   },
 
   generationYear: { type: Number, required: true },
   generationSemester: {
     type: String,
-    enum: [...semesterEnum],
+    enum: Object.values(semesterEnum),
     required: true,
   },
 
   location: {
     type: String,
-    enum: [...locationEnum],
+    enum: Object.values(locationEnum),
     required: true,
   },
 
   role: {
     type: String,
-    enum: [...roleEnum],
+    enum: Object.values(roleEnum),
     required: true,
   },
 
   level: {
     type: String,
-    enum: [...levelEnum],
+    enum: Object.values(levelEnum),
     required: true,
   },
 
   status: {
     type: String,
-    enum: [...statusEnum],
+    enum: Object.values(statusEnum),
     required: true,
   },
 });
