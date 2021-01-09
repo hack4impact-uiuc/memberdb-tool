@@ -8,6 +8,11 @@
     flex-grow: 1;
 }
 
+.nav .nav-link {
+    text-decoration: none;
+    color: black;
+}
+
 .nav .profile-item {
     display: flex;
     align-items: center;

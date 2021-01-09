@@ -1,0 +1,39 @@
+.login-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    display: flex;
+}
+
+.login-card {
+    padding: 10rem;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
+}
+
+.login-btn {
+    background-color: #dd4b39;
+    color: white;
+    font-weight: 700;
+    padding: 3px;
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+}
+
+.google-icon {
+    width: 28px;
+    height: 28px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5rem;
+    margin: 2px 5px 2px 5px;
+}
+
+.login-btn:hover {
+    cursor: pointer;
+}
