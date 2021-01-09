@@ -13,24 +13,24 @@ const bodyParser = require('body-parser');
 const app = express();
 const { errorHandler } = require('./middleware');
 
-if (process.env.NODE_ENV != 'production') {
+const environment = process.env.NODE_ENV || 'dev';
+if (environment != 'production') {
   dotenv.config({
-    path: path.resolve(__dirname, `../config/${process.env.NODE_ENV}.env`),
+    path: path.resolve(__dirname, `../config/${environment}.env`),
   });
 }
 
 // CONNECTION TO MONGO
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-// mongoose.connect(process.env.MONGO_URL, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+mongoose.Promise = global.Promise;
 
-// mongoose.Promise = global.Promise;
-
-// mongoose.connection
-//   .once('open', () => console.log('Connected to MongoLab instance.'))
-//   .on('error', error => console.log('Error connecting to MongoLab:', error));
+mongoose.connection
+  .once('open', () => console.log('Connected to MongoLab instance.'))
+  .on('error', error => console.log('Error connecting to MongoLab:', error));
 
 app.use(helmet());
 app.use(cors());
