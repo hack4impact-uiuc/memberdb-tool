@@ -9,7 +9,7 @@ const Login = ({ login }) => {
     <div className="login-wrapper">
       <div className="login-card">
         <h1>Member Database Login</h1>
-        <button onClick={login} className="login-btn">
+        <button type="button" onClick={login} className="login-btn">
           <img className="google-icon" src={googleIcon} alt="Google Icon" />
           Sign in with Google
         </button>

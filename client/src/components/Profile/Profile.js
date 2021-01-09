@@ -10,10 +10,15 @@ const Profile = ({ logout }) => {
     <div className="dropdown">
       <img alt="Blank Profile" src={blankProfilePicture} className="avatar" />
       <div className="dropdown-content">
-          <Link className="dropdown-item dropdown-link" to={Routes.MEMBER_PAGE_ROUTE}>
-            View Profile
-          </Link>
-        <button className="dropdown-item" onClick={logout}>Logout</button>
+        <Link
+          className="dropdown-item dropdown-link"
+          to={Routes.MEMBER_PAGE_ROUTE}
+        >
+          View Profile
+        </Link>
+        <button type="button" className="dropdown-item" onClick={logout}>
+          Logout
+        </button>
       </div>
     </div>
   );

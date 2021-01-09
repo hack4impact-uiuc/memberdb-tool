@@ -11,8 +11,10 @@
 .login-card {
     padding: 10rem;
     margin: auto;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;;
+    background-color: #4285F4;
+    color: white;
+    border-radius: 10%;
 }
 
 .login-btn {
@@ -40,4 +42,5 @@
 
 .login-btn:hover {
     cursor: pointer;
+    background-color: #ED7465;
 }

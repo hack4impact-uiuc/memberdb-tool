@@ -13,7 +13,6 @@ import Member from './pages/Member';
 import Login from './pages/Login';
 
 import Navbar from './components/navbar/Navbar';
-import NotFound from './pages/NotFound';
 
 import {
   endUserSession,
@@ -68,9 +67,6 @@ function App() {
           </Route>
           <Route path={Routes.MEMBER_PAGE_ROUTE} exact>
             {isAuthenticated ? <Member /> : <Redirect to="/login" />}
-          </Route>
-          <Route path="*">
-            {isAuthenticated ? <NotFound /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </Router>
