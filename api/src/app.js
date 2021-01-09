@@ -7,8 +7,10 @@ const helmet = require('helmet');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
-const routes = require('./routes');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const routes = require('./routes');
 
 const app = express();
 const { errorHandler } = require('./middleware');
@@ -29,7 +31,7 @@ mongoose.Promise = global.Promise;
 
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error));
+  .on('error', (error) => console.log('Error connecting to MongoLab:', error));
 
 app.use(helmet());
 app.use(cors());
@@ -38,6 +40,19 @@ app.use(logger('dev'));
 
 app.use(bodyParser.json({ limit: '2.1mb' }));
 app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
+
+// Session support, needed for authentication
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    cookie: {},
+  }),
+);
+
+// Passport setup
+require('./middleware/passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 
