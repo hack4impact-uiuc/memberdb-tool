@@ -1,15 +1,14 @@
 // @flow
-import React, { useEffect, useState } from 'react';
-import type { Node } from 'react';
+import React from 'react';
 
 import { getSampleResponse } from '../utils/apiWrapper';
 
 import '../css/Home.css';
 
-function Home(): Node {
-  const [text, setText] = useState('You did not run local API!');
+const Home = () => {
+  const [text, setText] = React.useState('You did not run local API!');
 
-  useEffect(() => {
+  React.useEffect(() => {
     const populateText = async () => {
       const resp = await getSampleResponse();
       if (!resp.error) setText(resp.data.result);
@@ -28,6 +27,6 @@ function Home(): Node {
       </p>
     </>
   );
-}
+};
 
 export default Home;
