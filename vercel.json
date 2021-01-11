@@ -2,11 +2,11 @@
   "regions": ["iad1"],
   "build": {
     "env": {
-      "BACKEND_URL": "@mern_template_backend_url"
+      "BACKEND_URL": "@memberdb_tool_backend_url"
     }
   },
   "env": {
-    "MONGO_URL": "@mern_template_db_url"
+    "MONGO_URL": "@memberdb_tool_db_url"
   },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },
