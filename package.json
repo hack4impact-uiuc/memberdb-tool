@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@hack4impact-uiuc/bridge": "^1.1.0"
+    "@hack4impact-uiuc/bridge": "^1.1.0",
+    "global": "^4.4.0",
+    "vercel": "^21.0.1"
   }
 }

@@ -2,11 +2,11 @@
   "regions": ["iad1"],
   "build": {
     "env": {
-      "BACKEND_URL": "@memberdb_tool_backend_url"
+      "REACT_APP_BACKEND_URL": "@memberdb_tool_backend_url"
     }
   },
   "env": {
-    "MONGO_URL": "@memberdb_tool_db_url"
+    "REACT_APP_REACT_APP_MONGO_URL": "@memberdb_tool_db_url"
   },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },

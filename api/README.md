@@ -11,7 +11,7 @@ There are three environments that the backend runs in: `production`, `dev`, and 
 To set up, first create a `/config` directory in the `/api` directory. Then, create three `.env` files: `production.env`, `dev.env`, and `test.env`. Each should contain the following field, with unique values (a seperate database for each environment).
 
 ```
-MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
+REACT_APP_MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
 ```
 
 Make sure that you have `dotenv-cli` installed globally with,

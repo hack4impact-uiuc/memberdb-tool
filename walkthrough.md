@@ -62,7 +62,7 @@ Here in `/src`, there are many folders. `/src/api` contains the code for fetchin
 There is also configuration for three seperate envirments: production (`production`), development (`dev`), and testing (`test`). Each of these have their own database, which can be configured within the `/config` directory. Inside, create three `.env` files: `production.env`, `dev.env`, and `test.env`. Each should contain the following field, with unique values (a seperate database for each environment).
 
 ```
-MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
+REACT_APP_MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
 ```
 
 `production` is set on deployment, `dev` is set whenever running locally, and `test` is set when tests are running. These environments are automatically set based on the task within `app.js`.
