@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../../css/Profile.css';
 import blankProfilePicture from '../../assets/blank-profile-picture.png';
 import * as Routes from '../../routes';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 const Profile = ({ logout }) => {
   const [redirectToMemberPage, setRedirectToMemberPage] = React.useState(false);

@@ -21,6 +21,10 @@ const Home = () => {
 
   return (
     <div>
+      <div style={{ textAlign: 'center' }}>
+        <h1>API Status Below</h1>
+        <p>{text}</p>
+      </div>
       <Table />
     </div>
   );
