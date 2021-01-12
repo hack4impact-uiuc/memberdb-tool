@@ -7,13 +7,11 @@ const Home = require('../models/home');
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    // MongoDB connection
-    // const homeText = await Home.findOne();
-    const homeText = "You've connected the database! Isn't it so beautiful???";
+    const home = await Home.findOne();
     res.status(200).json({
       message: `Successfully returned home text`,
       success: true,
-      result: homeText,
+      result: home.text,
     });
   }),
 );
