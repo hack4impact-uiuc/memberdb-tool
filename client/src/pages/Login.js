@@ -8,7 +8,7 @@ const Login = ({ login }) => {
   return (
     <div className="login-wrapper">
       <div className="login-card">
-        <h1>Member Database Login</h1>
+        <h2>Member Database Login</h2>
         <button type="button" onClick={login} className="login-btn">
           <img className="google-icon" src={googleIcon} alt="Google Icon" />
           Sign in with Google
