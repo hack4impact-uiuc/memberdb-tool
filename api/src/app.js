@@ -46,7 +46,10 @@ app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    cookie: {},
+    cookie: {
+    },
+    resave: false,
+    saveUninitialized: false,
   }),
 );
 
