@@ -3,19 +3,31 @@ import PropTypes from 'prop-types';
 import '../../css/Profile.css';
 import blankProfilePicture from '../../assets/blank-profile-picture.png';
 import * as Routes from '../../routes';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const Profile = ({ logout }) => {
+  const [redirectToMemberPage, setRedirectToMemberPage] = React.useState(false);
+
+  const handleProfileRedirect = () => {
+    setRedirectToMemberPage(true);
+  };
+
   return (
     <div className="dropdown">
+      {redirectToMemberPage ? (
+        <Redirect to={Routes.MEMBER_PAGE_ROUTE} />
+      ) : (
+        <></>
+      )}
       <img alt="Blank Profile" src={blankProfilePicture} className="avatar" />
       <div className="dropdown-content">
-        <Link
-          className="dropdown-item dropdown-link"
-          to={Routes.MEMBER_PAGE_ROUTE}
+        <button
+          onClick={handleProfileRedirect}
+          type="button"
+          className="dropdown-item"
         >
           View Profile
-        </Link>
+        </button>
         <button type="button" className="dropdown-item" onClick={logout}>
           Logout
         </button>

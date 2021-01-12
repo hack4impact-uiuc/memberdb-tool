@@ -27,17 +27,16 @@
 
 .dropdown-item {
     float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
     display: block;
-    text-align: left;
+    padding: 12px 28px 12px 28px;
     width: 100%;
     border: none;
-}
-
-.dropdown-link {
-    padding: 5px;
+    color: black;
+    text-decoration: none;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    background-color: white;
 }
 
 .dropdown-content .dropdown-item:hover {
