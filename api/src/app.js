@@ -21,7 +21,7 @@ if (environment != 'production') {
 }
 
 // CONNECTION TO MONGO
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.REACT_APP_MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
