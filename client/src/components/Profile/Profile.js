@@ -5,6 +5,10 @@ import blankProfilePicture from '../../assets/blank-profile-picture.png';
 import * as Routes from '../../routes';
 import { Redirect } from 'react-router-dom';
 
+/**
+ * Displays the Profile icon in the navbar and posses the dropdown components for logout and viewing profile
+ * @param {func} logout connects to backend to end a users current session and log them out.
+ */
 const Profile = ({ logout }) => {
   const [redirectToMemberPage, setRedirectToMemberPage] = React.useState(false);
 

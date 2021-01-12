@@ -4,6 +4,10 @@ import googleIcon from '../assets/google-logo.png';
 
 import '../css/Login.css';
 
+/**
+ * Displays the login page over everything else
+ * @param {func} login connects to backend to start a users current session.
+ */
 const Login = ({ login }) => {
   return (
     <div className="login-wrapper">
