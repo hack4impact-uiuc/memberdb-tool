@@ -30,7 +30,7 @@ mongoose.Promise = global.Promise;
 
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error));
+  .on('error', (error) => console.log('Error connecting to MongoLab:', error));
 
 app.use(helmet());
 app.use(cors());
@@ -46,7 +46,7 @@ app.get('/', (req, res) => res.json('API working!'));
 
 app.get('/favicon.ico', (req, res) => res.status(204));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
