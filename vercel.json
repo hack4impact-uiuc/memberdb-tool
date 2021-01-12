@@ -1,7 +1,7 @@
 {
   "regions": ["iad1"],
   "env": {
-    "REACT_APP_MONGO_URL": "@memberdb_tool_db_url"
+    "MONGO_URL": "@memberdb_tool_db_url"
   },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },
