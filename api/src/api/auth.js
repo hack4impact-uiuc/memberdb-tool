@@ -6,8 +6,7 @@ router.get('/user', (req, res) => {
   const user = req.user || null;
 
   res.json({
-    code: 200,
-    data: user,
+    result: user,
     success: true,
   });
 });
@@ -29,8 +28,7 @@ router.get(
 router.post('/logout', (req, res) => {
   req.logout();
   res.json({
-    code: 200,
-    message: 'Logged out.',
+    message: 'Logged out',
     success: true,
   });
 });
