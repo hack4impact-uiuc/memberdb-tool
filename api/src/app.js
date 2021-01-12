@@ -53,7 +53,7 @@ app.use(
 );
 
 // Passport setup
-require('./middleware/passport');
+require('./passport-setup');
 app.use(passport.initialize());
 app.use(passport.session());
 
