@@ -15,9 +15,10 @@ const routes = require('./routes');
 const app = express();
 const { errorHandler } = require('./middleware');
 
-if (process.env.NODE_ENV != 'production') {
+const environment = process.env.NODE_ENV || 'dev';
+if (environment != 'production') {
   dotenv.config({
-    path: path.resolve(__dirname, `../config/${process.env.NODE_ENV}.env`),
+    path: path.resolve(__dirname, `../config/${environment}.env`),
   });
 }
 
