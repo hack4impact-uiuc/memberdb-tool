@@ -30,11 +30,7 @@ mongoose.Promise = global.Promise;
 
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
-<<<<<<< HEAD
-  .on('error', error => console.log('Error connecting to MongoLab:', error));
-=======
   .on('error', (error) => console.log('Error connecting to MongoLab:', error));
->>>>>>> fb18f4ef1ef0b94d66fd7f4d2a499ece34a4bfd7
 
 app.use(helmet());
 app.use(cors());
