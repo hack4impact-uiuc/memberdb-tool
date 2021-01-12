@@ -1,5 +1,5 @@
 import React from 'react';
-import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -7,30 +7,76 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 // basic ag-grid table to ensure functionality
 const Table = () => {
-  const [gridApi, setGridApi] = React.useState(null);
-  const [gridColumnApi, setGridColumnApi] = React.useState(null);
-
-  const [rowData, setRowData] = React.useState([
-    { make: 'Toyota', model: 'Celica', price: 35000 },
-    { make: 'Ford', model: 'Mondeo', price: 32000 },
-    { make: 'Porsche', model: 'Boxter', price: 72000 },
+  const [columnDefs] = React.useState([
+    { headerName: 'Name', field: 'name', width: 100, sortable: true },
+    { headerName: 'Email', field: 'email', width: 180, sortable: true },
+    { headerName: 'Phone #', field: 'phone', width: 160, sortable: true },
+    { headerName: 'NetID', field: 'netid', width: 120, sortable: true },
+    { headerName: 'UIN', field: 'uin', width: 120, sortable: true },
+    { headerName: 'Major', field: 'major', width: 120, sortable: true },
+    {
+      headerName: 'Birth Date',
+      field: 'birthdate',
+      width: 120,
+      sortable: true,
+    },
+    { headerName: 'Github', field: 'github', width: 140, sortable: true },
+    { headerName: 'Snapchat', field: 'snapchat', width: 140, sortable: true },
+    { headerName: 'Instagram', field: 'instagram', width: 140, sortable: true },
+    { headerName: 'Grad Sem/Yr', field: 'grad', width: 190, sortable: true },
+    {
+      headerName: 'Generation',
+      field: 'generation',
+      width: 120,
+      sortable: true,
+    },
+    { headerName: 'Location', field: 'location', width: 120, sortable: true },
+    { headerName: 'Role', field: 'role', width: 160, sortable: true },
+    { headerName: 'Level', field: 'level', width: 120, sortable: true },
+    { headerName: 'Status', field: 'status', width: 120, sortable: true },
+    { headerName: 'Dues', field: 'dues', width: 100, sortable: true },
+    {
+      headerName: 'Address Form',
+      field: 'addressform',
+      width: 140,
+      sortable: true,
+    },
+    {
+      headerName: 'Next Semester',
+      field: 'semesterform',
+      width: 160,
+      sortable: true,
+    },
   ]);
-
-  function onGridReady(params) {
-    setGridApi(params.api);
-    setGridColumnApi(params.columnApi);
-  }
-
+  const [rowData] = React.useState([
+    {
+      name: 'Amit',
+      email: 'sawhney4@illinois.edu',
+      phone: '(309) 838-5466',
+      netid: 'sawhney4',
+      uin: 659426199,
+      major: 'CS + Math',
+      birthdate: '02/14/2002',
+      github: 'amit-sawhney',
+      snapchat: 'amit_sawhney02',
+      instagram: 'amit__02',
+      grad: 'Spring 2024 (Freshman)',
+      generation: 'Fall 2020',
+      location: 'On-campus',
+      role: 'Software Developer',
+      level: 'Member',
+      status: 'Active',
+      dues: 'Y',
+      addressform: 'Y',
+      semesterform: 'Y',
+    },
+  ]);
   return (
     <div
       className="ag-theme-alpine"
-      style={{ height: 400, width: '80%', margin: 'auto' }}
+      style={{ height: 400, width: '100%', margin: 'auto' }}
     >
-      <AgGridReact onGridReady={onGridReady} rowData={rowData}>
-        <AgGridColumn field="make"></AgGridColumn>
-        <AgGridColumn field="model"></AgGridColumn>
-        <AgGridColumn field="price"></AgGridColumn>
-      </AgGridReact>
+      <AgGridReact columnDefs={columnDefs} rowData={rowData}></AgGridReact>
     </div>
   );
 };
