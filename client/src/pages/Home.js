@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 
+import Table from '../components/table/Table';
+
 import { getSampleResponse } from '../utils/apiWrapper';
 
 import '../css/Home.css';
@@ -18,14 +20,9 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <h1>MERN Template</h1>
-      <p>
-        Below will tell you if the API is running.
-        <br />
-        {text}
-      </p>
-    </>
+    <div>
+      <Table />
+    </div>
   );
 };
 
