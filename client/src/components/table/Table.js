@@ -53,6 +53,24 @@ const Table = () => {
       level: 'Member',
       status: 'Active',
     },
+    {
+      name: 'Alice',
+      email: 'alicesf2@illinois.edu',
+      phone: '(123)-456-7891',
+      netid: 'alicesf2',
+      uin: 123456789,
+      major: 'CS',
+      birthdate: '01/02/3000',
+      github: 'alicesf2',
+      snapchat: 'alicesf2',
+      instagram: 'alicesf2',
+      grad: 'Fall 2020 (Alum)',
+      generation: 'Fall 2018',
+      location: 'On-campus',
+      role: 'Tech Lead',
+      level: 'Member',
+      status: 'Active',
+    },
   ]);
   return (
     <div className="ag-theme-alpine table-wrapper">
