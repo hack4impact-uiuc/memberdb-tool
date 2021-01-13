@@ -99,5 +99,10 @@ dist
 # TernJS port file
 .tern-port
 
+# Env files
+*.env
+*.env.test
+*.env.production
+
 # Vercel
 .vercel
