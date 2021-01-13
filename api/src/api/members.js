@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Member = require('./../models/member');
 const { errorWrap } = require('../middleware');
+const { requireMember } = require('../middleware/auth');
 
 router.get(
   '/',
+  requireMember,
   errorWrap(async (req, res) => {
     Member.find({}, (err, members) => {
         const condensedMembers = [];
@@ -30,9 +32,11 @@ router.get(
               curMember.status = member.status;
               curMember._id = member._id;
 
-              // TODO: Check auth level before adding these fields.
-              curMember.level = member.level;
-              curMember.areDuesPaid = member.areDuesPaid;
+              const directorLevels = [Member.levelEnum.ADMIN, Member.levelEnum.DIRECTOR]
+              if (directorLevels.includes(req.user.level)) {
+                curMember.level = member.level;
+                curMember.areDuesPaid = member.areDuesPaid;
+              }
 
               condensedMembers.push(curMember);
           })
