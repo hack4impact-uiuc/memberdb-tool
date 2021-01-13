@@ -61,7 +61,9 @@ router.get(
   '/callback',
   (req, res, next) => {
     const { state } = req.query;
-    const { successRedirect, failureRedirect } = JSON.parse(Buffer.from(state, 'base64').toString());
+    const { successRedirect, failureRedirect } = JSON.parse(
+      Buffer.from(state, 'base64').toString(),
+    );
 
     const auth = passport.authenticate('google', {
       successRedirect,
