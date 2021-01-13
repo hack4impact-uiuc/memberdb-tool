@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
+import '../../css/Table.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
@@ -32,19 +33,6 @@ const Table = () => {
     { headerName: 'Role', field: 'role', width: 160, sortable: true },
     { headerName: 'Level', field: 'level', width: 120, sortable: true },
     { headerName: 'Status', field: 'status', width: 120, sortable: true },
-    { headerName: 'Dues', field: 'dues', width: 100, sortable: true },
-    {
-      headerName: 'Address Form',
-      field: 'addressform',
-      width: 140,
-      sortable: true,
-    },
-    {
-      headerName: 'Next Semester',
-      field: 'semesterform',
-      width: 160,
-      sortable: true,
-    },
   ]);
   const [rowData] = useState([
     {
@@ -64,16 +52,10 @@ const Table = () => {
       role: 'Software Developer',
       level: 'Member',
       status: 'Active',
-      dues: 'Y',
-      addressform: 'Y',
-      semesterform: 'Y',
     },
   ]);
   return (
-    <div
-      className="ag-theme-alpine"
-      style={{ height: 400, width: '100%', margin: 'auto' }}
-    >
+    <div className="ag-theme-alpine table-wrapper">
       <AgGridReact columnDefs={columnDefs} rowData={rowData}></AgGridReact>
     </div>
   );

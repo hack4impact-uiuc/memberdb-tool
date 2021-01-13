@@ -36,7 +36,10 @@ function App() {
       const resp = await startUserSession();
       if (!resp.error) setIsAuthenticated(true);
     };
+
+    // TODO: remove unnecessary line after backend is connected properly
     setIsAuthenticated(true);
+
     startSession();
   };
 
@@ -45,7 +48,10 @@ function App() {
       const resp = await endUserSession();
       if (!resp.error) setIsAuthenticated(false);
     };
+
+    // TODO: remove unnecessary line after backend is connected properly
     setIsAuthenticated(false);
+
     endSession();
   };
 

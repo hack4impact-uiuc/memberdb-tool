@@ -17,7 +17,6 @@ const Profile = ({ logout }) => {
   }, [redirectToMemberPage]);
 
   const handleProfileRedirect = () => {
-    console.log(redirectToMemberPage);
     setRedirectToMemberPage(true);
   };
 
