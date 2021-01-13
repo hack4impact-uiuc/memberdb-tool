@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../../css/Profile.css';
 import blankProfilePicture from '../../assets/blank-profile-picture.png';
@@ -10,19 +10,20 @@ import { Redirect } from 'react-router-dom';
  * @param {func} logout connects to backend to end a users current session and log them out.
  */
 const Profile = ({ logout }) => {
-  const [redirectToMemberPage, setRedirectToMemberPage] = React.useState(false);
+  const [redirectToMemberPage, setRedirectToMemberPage] = useState(false);
+
+  useEffect(() => {
+    setRedirectToMemberPage(false);
+  }, [redirectToMemberPage]);
 
   const handleProfileRedirect = () => {
+    console.log(redirectToMemberPage);
     setRedirectToMemberPage(true);
   };
 
   return (
     <div className="dropdown">
-      {redirectToMemberPage ? (
-        <Redirect to={Routes.MEMBER_PAGE_ROUTE} />
-      ) : (
-        <></>
-      )}
+      {redirectToMemberPage && <Redirect to={Routes.MEMBER_PAGE_ROUTE} />}
       <img alt="Blank Profile" src={blankProfilePicture} className="avatar" />
       <div className="dropdown-content">
         <button

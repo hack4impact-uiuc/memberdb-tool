@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,9 +21,9 @@ import {
 } from './utils/apiWrapper';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const userAuth = async () => {
       const resp = await getUserAuth();
       if (!resp.error) setIsAuthenticated(resp.data.result);
@@ -32,7 +32,6 @@ function App() {
   }, []);
 
   const login = () => {
-    // call backend api/auth/login
     const startSession = async () => {
       const resp = await startUserSession();
       if (!resp.error) setIsAuthenticated(true);

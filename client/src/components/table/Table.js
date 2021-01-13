@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
-import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-// basic ag-grid table to ensure functionality
 const Table = () => {
-  const [columnDefs] = React.useState([
+  const [columnDefs] = useState([
     { headerName: 'Name', field: 'name', width: 100, sortable: true },
     { headerName: 'Email', field: 'email', width: 180, sortable: true },
     { headerName: 'Phone #', field: 'phone', width: 160, sortable: true },
@@ -48,7 +46,7 @@ const Table = () => {
       sortable: true,
     },
   ]);
-  const [rowData] = React.useState([
+  const [rowData] = useState([
     {
       name: 'Amit',
       email: 'sawhney4@illinois.edu',
