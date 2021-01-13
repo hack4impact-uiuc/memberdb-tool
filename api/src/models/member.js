@@ -53,50 +53,50 @@ const classStandingEnum = {
 };
 
 const Member = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String, required: false },
+  lastName: { type: String, required: false },
   oauthID: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true },
-  netID: { type: String, required: true },
-  UIN: { type: String, required: true },
-  major: { type: String, required: true },
-  birthdate: { type: Date, required: true },
+  email: { type: String, required: false, unique: true },
+  phone: { type: String, required: false },
+  netID: { type: String, required: false },
+  UIN: { type: String, required: false },
+  major: { type: String, required: false },
+  birthdate: { type: Date, required: false },
   github: { type: String, required: false },
   snapchat: { type: String, required: false },
   instagram: { type: String, required: false },
-  areDuesPaid: { type: Boolean, required: true },
+  areDuesPaid: { type: Boolean, required: false },
 
-  gradYear: { type: Number, required: true },
+  gradYear: { type: Number, required: false },
   gradSemester: {
     type: String,
     enum: Object.values(semesterEnum),
-    required: true,
+    required: false,
   },
 
   classStanding: {
     type: String,
     enum: Object.values(classStandingEnum),
-    required: true,
+    required: false,
   },
 
-  generationYear: { type: Number, required: true },
+  generationYear: { type: Number, required: false },
   generationSemester: {
     type: String,
     enum: Object.values(semesterEnum),
-    required: true,
+    required: false,
   },
 
   location: {
     type: String,
     enum: Object.values(locationEnum),
-    required: true,
+    required: false,
   },
 
   role: {
     type: String,
     enum: Object.values(roleEnum),
-    required: true,
+    required: false,
   },
 
   level: {
@@ -108,7 +108,7 @@ const Member = new mongoose.Schema({
   status: {
     type: String,
     enum: Object.values(statusEnum),
-    required: true,
+    required: false,
   },
 });
 

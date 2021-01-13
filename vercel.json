@@ -1,7 +1,11 @@
 {
   "regions": ["iad1"],
   "env": {
-    "MONGO_URL": "@memberdb_tool_db_url"
+    "MONGO_URL": "@memberdb_tool_db_url",
+    "GOOGLE_CLIENT_ID": "@memberdb_tool_google_client_id",
+    "GOOGLE_CLIENT_SECRET": "@memberdb_tool_google_client_secret",
+    "SESSION_SECRET": "@memberdb_tool_session_secret",
+    "OAUTH_CALLBACK_URI": "https://memberdb-tool.vercel.app/api/auth/redirectURI"
   },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },
@@ -40,6 +44,3 @@
     { "src": "/(.*)", "dest": "client/index.html" }
   ]
 }
-
-
-
