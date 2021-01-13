@@ -3,10 +3,8 @@ const router = express.Router();
 const passport = require('passport');
 
 router.get('/user', (req, res) => {
-  const user = req.user || null;
-
   res.json({
-    result: user,
+    result: req.user || null,
     success: true,
   });
 });
