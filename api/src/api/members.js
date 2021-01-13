@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const member = require('./../models/member');
+const Member = require('./../models/member');
 const { errorWrap } = require('../middleware');
 
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    member.find({}, (err, members) => {
+    Member.find({}, (err, members) => {
         const condensedMembers = [];
 
         if (members)
