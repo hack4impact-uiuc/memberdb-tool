@@ -28,10 +28,11 @@ router.get(
               curMember.location = member.location;
               curMember.role = member.role;
               curMember.status = member.status;
+              curMember._id = member._id;
 
               // TODO: Check auth level before adding these fields.
               curMember.level = member.level;
-              curMember.dues = member.dues;
+              curMember.areDuesPaid = member.areDuesPaid;
 
               condensedMembers.push(curMember);
           })
