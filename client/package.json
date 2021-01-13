@@ -4,6 +4,9 @@
   "homepage": "https://pineapple.lol/",
   "license": "MIT",
   "dependencies": {
+    "ag-grid-community": "^25.0.0",
+    "ag-grid-enterprise": "^25.0.0",
+    "ag-grid-react": "^25.0.0",
     "axios": "^0.21.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
