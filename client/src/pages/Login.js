@@ -22,7 +22,7 @@ const Login = ({ login }) => {
   );
 };
 
-Login.propType = {
+Login.propTypes = {
   login: PropTypes.func.isRequired,
 };
 

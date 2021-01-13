@@ -28,7 +28,7 @@ const Navbar = ({ logout }) => {
   );
 };
 
-Navbar.propType = {
+Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
 };
 

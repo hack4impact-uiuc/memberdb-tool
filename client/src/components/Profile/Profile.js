@@ -40,7 +40,7 @@ const Profile = ({ logout }) => {
   );
 };
 
-Profile.propType = {
+Profile.propTypes = {
   logout: PropTypes.func.isRequired,
 };
 
