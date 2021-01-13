@@ -1,10 +1,5 @@
 {
   "regions": ["iad1"],
-  "build": {
-    "env": {
-      "BACKEND_URL": "@memberdb_tool_backend_url"
-    }
-  },
   "env": {
     "MONGO_URL": "@memberdb_tool_db_url"
   },
