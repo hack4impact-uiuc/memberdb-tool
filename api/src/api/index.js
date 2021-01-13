@@ -1,7 +1,7 @@
-const home = require('./home');
-const members = require('./members');
+const express = require("express");
+const router = express.Router();
 
-module.exports = {
-  home,
-  members
-};
+router.use("/home", require('./home'));
+router.use("/members", require('./members'));
+
+module.exports = router;
