@@ -31,8 +31,6 @@ passport.use(
       // find the user in the database based on their oauth id
       const user = await Member.findOne({ oauthID: profile.id });
 
-      console.log(profile);
-
       if (user) {
         // user exists
         return cb(null, user);
