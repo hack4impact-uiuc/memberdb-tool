@@ -14,6 +14,12 @@ router.get(
             curMember.lastName = member.lastName;
             curMember.email = member.email;
             curMember.netID = member.netID;
+            curMember.phone = member.phone;
+            curMember.major = member.major; 
+            curMember.birthdate = member.birthdate;
+            curMember.github = member.github; 
+            curMember.snapchat = member.snapchat;
+            curMember.instagram = member.instagram;
             // TODO: Determine fields needed for frontend.
         })
 
