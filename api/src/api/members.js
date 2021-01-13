@@ -16,12 +16,22 @@ router.get(
               curMember.lastName = member.lastName;
               curMember.email = member.email;
               curMember.netID = member.netID;
+              curMember.UIN = member.UIN;
               curMember.phone = member.phone;
               curMember.major = member.major; 
               curMember.birthdate = member.birthdate;
               curMember.github = member.github; 
               curMember.snapchat = member.snapchat;
               curMember.instagram = member.instagram;
+              curMember.gradYear = member.gradYear;
+              curMember.gradSemester = member.gradSemester;
+              curMember.location = member.location;
+              curMember.role = member.role;
+              curMember.status = member.status;
+
+              // TODO: Check auth level before adding these fields.
+              curMember.level = member.level;
+              curMember.dues = member.dues;
 
               condensedMembers.push(curMember);
           })
