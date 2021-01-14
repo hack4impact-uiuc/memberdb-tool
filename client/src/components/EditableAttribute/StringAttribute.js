@@ -4,7 +4,7 @@ import { TextField } from '@hack4impact-uiuc/bridge';
 const StringAttribute = ({type, value, attributeLabel, isDisabled, onChange}) => {
 
     const onValueChange = (e) => {
-        onChange(e, attributeLabel)
+        onChange(e.target.value, attributeLabel)
     }
 
     return (

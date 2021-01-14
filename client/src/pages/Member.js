@@ -16,48 +16,24 @@ const Member = ({memberID}) => {
     const [schemaTypes, setSchemaTypes] = useState({})
     
     useEffect(() => {
-        async function getUser() {
+        async function getUserData() {
             let memberDataResponse = await getMemberByID(memberID);
-            if (!isResponseSuccessful(memberDataResponse)) {
-                alert("Could not get member data");
-                return;
-            }
-            setUser(memberDataResponse.data.result);
-        };
-
-        async function getUserPermissions() {
             let memberPermissionResponse = await getMemberPermissionsByID(memberID);
-            if (!isResponseSuccessful(memberPermissionResponse)){
-                alert("Could not get member permissions");
-                return;
-            }
-            setUserPermissions(memberPermissionResponse.data.result);
-        };
-
-        async function getSchemaTypes() {
             let memberSchemaResponse = await getMemberSchemaTypes();
-            if (!isResponseSuccessful(memberSchemaResponse)){
-                alert("Could not get member schema types");
-                return;
-            }
-            setSchemaTypes(memberSchemaResponse.data.result)
-        }
-
-        async function getEnumOptions() {
             let enumOptionsResponse = await getMemberEnumOptions();
-            if (!isResponseSuccessful(enumOptionsResponse)) {
-                alert("Could not get enum options");
+
+            if (!areResponsesSuccessful(memberDataResponse, memberPermissionResponse, memberSchemaResponse, enumOptionsResponse)) {
+                alert("An error occurred");
                 return;
             }
 
-            console.log(enumOptionsResponse)
+            setUser(memberDataResponse.data.result);
+            setUserPermissions(memberPermissionResponse.data.result);
+            setSchemaTypes(memberSchemaResponse.data.result)
             setEnumOptions(enumOptionsResponse.data.result);
         };
 
-        getUser();
-        getUserPermissions();
-        getSchemaTypes();
-        getEnumOptions();
+        getUserData();
     }, []);
 
     
@@ -70,19 +46,18 @@ const Member = ({memberID}) => {
         return schemaTypes[type].includes(attribute);
     };
 
-    const isResponseSuccessful = (response) => {
-        return response && response.data && response.data.success
+    const areResponsesSuccessful  = (...responses) => {
+        responses.forEach(response => {
+          if (response == null || response.data == null || !response.data.success)  
+            return false
+        });
+
+        return true;
     };
 
-    const onStringAttributeChange = (e, attributeLabel) => {
+    const onAttributeChange = (e, attributeLabel) => {
         var userCopy = { ...user };
         userCopy[attributeLabel] = e.target.value
-        setUser(userCopy);
-    };
-
-    const onEnumAttributeChange = (value, attributeLabel) => {
-        var userCopy = { ...user };
-        userCopy[attributeLabel] = value
         setUser(userCopy);
     };
 
@@ -94,7 +69,7 @@ const Member = ({memberID}) => {
                         type="text"
                         value={user[attribute]} 
                         attributeLabel={attribute} 
-                        onChange={onStringAttributeChange} 
+                        onChange={onAttributeChange} 
                         isDisabled={!userPermissions.edit.includes(attribute)} />
 
                 if (isOfType(attribute, "Number"))
@@ -102,7 +77,7 @@ const Member = ({memberID}) => {
                         type="number"
                         value={user[attribute]} 
                         attributeLabel={attribute} 
-                        onChange={onStringAttributeChange} 
+                        onChange={onAttributeChange} 
                         isDisabled={!userPermissions.edit.includes(attribute)} />
 
                 if (isOfType(attribute, "Enum"))
@@ -110,21 +85,21 @@ const Member = ({memberID}) => {
                         value={user[attribute]} 
                         valueOptions={enumOptions[attribute]}
                         attributeLabel={attribute} 
-                        onChange={onEnumAttributeChange} 
+                        onChange={onAttributeChange} 
                         isDisabled={!userPermissions.edit.includes(attribute)} />
                 
                 if (isOfType(attribute, "Boolean"))
                     return <BooleanAttribute 
                         value={user[attribute]} 
                         attributeLabel={attribute} 
-                        onChange={onEnumAttributeChange} 
+                        onChange={onAttributeChange} 
                         isDisabled={!userPermissions.edit.includes(attribute)} />
 
                 if (isOfType(attribute, "Date"))
                     return <DateAttribute 
                         value={Date.parse(user[attribute])} 
                         attributeLabel={attribute} 
-                        onChange={onEnumAttributeChange} 
+                        onChange={onAttributeChange} 
                         isDisabled={!userPermissions.edit.includes(attribute)} />
             })}
         </div>
