@@ -1,29 +1,13 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_VERCEL_URL
-  ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
-  : 'http://localhost:9000/api';
+import { BACKEND_BASE_URL } from './apiUrls';
 
-/**
- * Returns a sample API response to demonstrate a working backend
- * Returns GET_SAMPLE_FAIL upon failure
- */
-export const getSampleResponse = () => {
-  const requestString = `${BASE_URL}/home`;
-  return axios
-    .get(requestString, {
-      headers: {
-        'Content-Type': 'application/JSON',
-      },
-    })
-    .catch(error => ({
-      type: 'GET_SAMPLE_FAIL',
-      error,
-    }));
-};
+// Axios Configuration
+axios.defaults.withCredentials = true;
 
+// retrieves the session status of the current user
 export const getUserAuth = () => {
-  const requestString = `${BASE_URL}/auth`;
+  const requestString = `${BACKEND_BASE_URL}/auth/user`;
   return axios
     .get(requestString, {
       headers: {
@@ -36,48 +20,17 @@ export const getUserAuth = () => {
     }));
 };
 
-export const startUserSession = () => {
-  const requestString = `${BASE_URL}/auth/login`;
-  return axios
-    .get(requestString, {
-      headers: {
-        'Content-Type': 'application/JSON',
-      },
-    })
-    .catch(error => ({
-      type: 'GET_SESSION_START_FAIL',
-      error,
-    }));
-};
-
+// logs a user out
 export const endUserSession = () => {
-  const requestString = `${BASE_URL}/auth/logout`;
+  const requestString = `${BACKEND_BASE_URL}/auth/logout`;
   return axios
-    .get(requestString, {
+    .post(requestString, {
       headers: {
         'Content-Type': 'application/JSON',
       },
     })
     .catch(error => ({
       type: 'GET_SESSION_END_FAIL',
-      error,
-    }));
-};
-
-/**
- * Executes a sample POST request
- * Returns POST_SAMPLE_FAIL upon failure
- */
-export const addSampleResponse = body => {
-  const requestString = `${BASE_URL}/home`;
-  return axios
-    .post(requestString, body, {
-      headers: {
-        'Content-Type': 'application/JSON',
-      },
-    })
-    .catch(error => ({
-      type: 'POST_SAMPLE_FAIL',
       error,
     }));
 };
