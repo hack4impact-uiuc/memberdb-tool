@@ -10,26 +10,26 @@ import * as Routes from '../../routes';
 
 /**
  * Navbar display to view user sesion and React-route-dom navigation
- * @param {func} logout connects to backend to end a users current session and log them out.
+ * @param {Object} user the current user of the session
  */
-const Navbar = ({ logout }) => {
+const Navbar = ({ user }) => {
   return (
     <nav className="nav">
       <h2 id="nav-title">
-        <Link className="nav-link" to={Routes.DEFAULT_ROUTE}>
+        <Link className="nav-link" to={Routes.DEFAULT}>
           Member Database
         </Link>
       </h2>
       <div className="profile-item">
-        <h2 id="welcome-text">Hello, User!</h2>
-        <Profile logout={logout} />
+        <h2 id="welcome-text">Hello, {user.firstName}!</h2>
+        <Profile />
       </div>
     </nav>
   );
 };
 
 Navbar.propTypes = {
-  logout: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };
 
 export default Navbar;

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import '../../css/Profile.css';
 import blankProfilePicture from '../../assets/blank-profile-picture.png';
 import * as Routes from '../../routes';
 import { Redirect } from 'react-router-dom';
+import { endUserSession } from '../../utils/apiWrapper';
 
 /**
  * Displays the Profile icon in the navbar + dropdown components for logout and viewing profile
- * @param {func} logout connects to backend to end a users current session and log them out.
  */
-const Profile = ({ logout }) => {
+const Profile = () => {
   const [redirectToMemberPage, setRedirectToMemberPage] = useState(false);
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
 
+  // resets redirectToMemberPage to false after leaving page
   useEffect(() => {
     setRedirectToMemberPage(false);
   }, [redirectToMemberPage]);
@@ -20,9 +21,21 @@ const Profile = ({ logout }) => {
     setRedirectToMemberPage(true);
   };
 
+  const logout = () => {
+    const endSession = async () => {
+      const resp = await endUserSession();
+      if (!resp.error) setIsLoggedOut(true);
+    };
+    endSession();
+  };
+
   return (
     <div className="dropdown">
-      {redirectToMemberPage && <Redirect to={Routes.MEMBER_PAGE_ROUTE} />}
+      {/** JSX Redirects */}
+      {redirectToMemberPage && <Redirect to={Routes.MEMBER_PAGE} />}
+      {isLoggedOut && <Redirect to={Routes.LOGIN_PAGE} />}
+
+      {/** Rendered JSX */}
       <img alt="Blank Profile" src={blankProfilePicture} className="avatar" />
       <div className="dropdown-content">
         <button
@@ -38,10 +51,6 @@ const Profile = ({ logout }) => {
       </div>
     </div>
   );
-};
-
-Profile.propTypes = {
-  logout: PropTypes.func.isRequired,
 };
 
 export default Profile;
