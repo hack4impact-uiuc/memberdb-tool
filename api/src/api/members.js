@@ -16,7 +16,7 @@ const validateMemberQuery = (req, res, next) => {
   const editableFields = getEditableFields(req.user, req.params.memberId);
 
   for (const field in req.body) {
-    if (!allFields.hasOwnProperty(field)) {
+    if (!allFields.includes(field)) {
       return res.status(400).json({
         success: false,
         message: `No such field ${field} in member`,
@@ -126,7 +126,7 @@ router.put(
     res.json({
       success: true,
       message: 'Member updated',
-      result: updatedMember,
+      result: filterViewableFields(req.user, updatedMember),
     });
   }),
 );
