@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import { getMemberByID, getMemberEnumOptions, getMemberPermissionsByID } from '../utils/apiWrapper';
+import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 
 const stringAttributes = ["firstName", "lastName", "email", "phone", "netID", "UIN", "major", "github", "instagram", "snapchat"];
 const enumAttributes = ["gradSemester", "classStanding", "generationSemester", "location", "role", "level", "status"];
+const booleanAttributes = ["areDuesPaid"];
 
 const Member = ({memberID}) => {
     // TODO: Remove this once the table pulls real data
@@ -96,6 +98,13 @@ const Member = ({memberID}) => {
                     return <EnumAttribute 
                         value={user[attribute]} 
                         valueOptions={enumOptions[attribute]}
+                        attributeLabel={attribute} 
+                        onChange={onEnumAttributeChange} 
+                        isDisabled={!userPermissions.edit.includes(attribute)} />
+                
+                if (booleanAttributes.includes(attribute))
+                    return <BooleanAttribute 
+                        value={user[attribute]} 
                         attributeLabel={attribute} 
                         onChange={onEnumAttributeChange} 
                         isDisabled={!userPermissions.edit.includes(attribute)} />
