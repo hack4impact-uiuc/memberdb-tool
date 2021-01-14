@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Member = require('./../models/member');
-const { levelEnum } = Member;
 const errorWrap = require('../middleware/errorWrap');
-const { requireRegistered, requireDirector } = require('../middleware/auth');
+const {
+  requireRegistered,
+  requireDirector,
+  isDirector,
+} = require('../middleware/auth');
 const { filterSensitiveInfo } = require('../utils/user-utils');
 
 const validateMemberQuery = (req, res, next) => {
@@ -20,6 +23,10 @@ const validateMemberQuery = (req, res, next) => {
   next();
 };
 
+// TODO: omit notes fields once they are added to the DB
+const additionalOmitFields = (user) =>
+  isDirector(user) ? [] : ['level', 'areDuesPaid'];
+
 router.get(
   '/current',
   errorWrap(async (req, res) => {
@@ -34,16 +41,9 @@ router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
-    let omitFields;
-    if ([levelEnum.ADMIN, levelEnum.DIRECTOR].includes(req.user.level)) {
-      omitFields = [];
-    } else {
-      omitFields = ['level', 'areDuesPaid'];
-    }
-
     const members = await Member.find({});
     const filteredMembers = members.map((member) =>
-      filterSensitiveInfo(member, omitFields),
+      filterSensitiveInfo(member, additionalOmitFields(req.user)),
     );
 
     res.json({
@@ -81,7 +81,7 @@ router.get(
 
     res.json({
       success: true,
-      result: filterSensitiveInfo(member),
+      result: filterSensitiveInfo(member, additionalOmitFields(req.user)),
     });
   }),
 );
