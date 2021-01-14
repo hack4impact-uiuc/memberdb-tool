@@ -21,8 +21,7 @@ const Navbar = ({ user }) => (
     <div className="profile-item">
       <h2 id="welcome-text">
         Hello,
-        {user.firstName}
-        !
+        {user.firstName}!
       </h2>
       <Profile />
     </div>

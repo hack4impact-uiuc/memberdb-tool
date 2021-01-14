@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Route, Switch, Redirect, useLocation,
-} from 'react-router-dom';
+import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 
 import * as Routes from './routes';
 import Home from './pages/Home';
