@@ -4,6 +4,8 @@ import googleIcon from '../assets/google-logo.png';
 
 import '../css/Login.css';
 
+import { BASE_URL } from '../utils/apiWrapper';
+
 /**
  * Displays the login page over everything else
  * @param {func} login connects to backend to start a users current session.
@@ -17,6 +19,10 @@ const Login = ({ login }) => {
           <img className="google-icon" src={googleIcon} alt="Google Icon" />
           Sign in with Google
         </button>
+        <a type="button" href={`${BASE_URL}/auth/login?successRedirect=http://localhost:3000`} className="login-btn">
+          <img className="google-icon" src={googleIcon} alt="Google Icon" />
+          Sign in with Google
+        </a>
       </div>
     </div>
   );

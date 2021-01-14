@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_VERCEL_URL
+export const BASE_URL = process.env.REACT_APP_VERCEL_URL
   ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
   : 'http://localhost:9000/api';
 
@@ -23,7 +23,8 @@ export const getSampleResponse = () => {
 };
 
 export const getUserAuth = () => {
-  const requestString = `${BASE_URL}/auth`;
+  const requestString = `${BASE_URL}/auth/user`;
+  console.log(requestString);
   return axios
     .get(requestString, {
       headers: {

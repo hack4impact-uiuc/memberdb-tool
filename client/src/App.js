@@ -26,7 +26,8 @@ function App() {
   useEffect(() => {
     const userAuth = async () => {
       const resp = await getUserAuth();
-      if (!resp.error) setIsAuthenticated(resp.data.result);
+      console.log(resp);
+      if (!resp.error) setIsAuthenticated(resp.data !== null);
     };
     userAuth();
   }, []);
