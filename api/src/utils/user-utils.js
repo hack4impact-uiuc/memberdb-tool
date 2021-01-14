@@ -1,7 +1,7 @@
 const Member = require('./../models/member');
 const { isDirector } = require('../middleware/auth');
 
-const difference = (arr, exclude) => arr.filter((el) => exclude.includes(el));
+const difference = (arr, exclude) => arr.filter((el) => !exclude.includes(el));
 
 // All fields in Member
 const allFields = Member.schema.paths;
