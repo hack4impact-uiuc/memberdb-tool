@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
+import {
+  Route, Switch, Redirect, useLocation,
+} from 'react-router-dom';
 
 import * as Routes from './routes';
-
 import Home from './pages/Home';
 import Member from './pages/Member';
 import Login from './pages/Login';
-
 import Navbar from './components/navbar/Navbar';
-
 import { getUserAuth } from './utils/apiWrapper';
 
 function App() {

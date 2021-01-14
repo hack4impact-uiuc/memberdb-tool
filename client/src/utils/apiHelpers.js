@@ -7,7 +7,7 @@ import { BACKEND_BASE_URL } from './apiUrls';
  * @param {String} failureRedirect  URL to redirect to on failed requests
  */
 const buildURI = (endpoint, successRedirect, failureRedirect = '/login') => {
-  let uri = new URL(`${BACKEND_BASE_URL}/${endpoint}`);
+  const uri = new URL(`${BACKEND_BASE_URL}/${endpoint}`);
 
   switch (endpoint) {
     case 'auth/login':
@@ -20,4 +20,4 @@ const buildURI = (endpoint, successRedirect, failureRedirect = '/login') => {
   return uri;
 };
 
-export { buildURI };
+export default buildURI;

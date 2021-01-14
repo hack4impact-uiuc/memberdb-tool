@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/Profile.css';
+import { Redirect } from 'react-router-dom';
+
 import blankProfilePicture from '../../assets/blank-profile-picture.png';
 import * as Routes from '../../routes';
-import { Redirect } from 'react-router-dom';
 import { endUserSession } from '../../utils/apiWrapper';
 
 /**

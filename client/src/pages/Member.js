@@ -1,7 +1,5 @@
 import React from 'react';
 
-const Member = () => {
-  return <div></div>;
-};
+const Member = () => <div />;
 
 export default Member;
