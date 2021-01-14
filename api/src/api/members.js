@@ -20,6 +20,12 @@ const validateMemberQuery = (req, res, next) => {
   next();
 };
 
+const isDirector = (user) =>
+  [levelEnum.ADMIN, levelEnum.DIRECTOR].includes(user.level);
+// TODO: omit notes fields once they are added to the DB
+const additionalOmitFields = (user) =>
+  isDirector(user) ? [] : ['level', 'areDuesPaid'];
+
 router.get(
   '/current',
   errorWrap(async (req, res) => {
@@ -34,16 +40,9 @@ router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
-    let omitFields;
-    if ([levelEnum.ADMIN, levelEnum.DIRECTOR].includes(req.user.level)) {
-      omitFields = [];
-    } else {
-      omitFields = ['level', 'areDuesPaid'];
-    }
-
     const members = await Member.find({});
     const filteredMembers = members.map((member) =>
-      filterSensitiveInfo(member, omitFields),
+      filterSensitiveInfo(member, additionalOmitFields(req.user)),
     );
 
     res.json({
@@ -81,7 +80,7 @@ router.get(
 
     res.json({
       success: true,
-      result: filterSensitiveInfo(member),
+      result: filterSensitiveInfo(member, additionalOmitFields(req.user)),
     });
   }),
 );
