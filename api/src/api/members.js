@@ -88,6 +88,7 @@ router.get(
       status: Member.statusEnum,
     }
 
+    // Label all items with 'label' and 'value'
     const labeledOptions = {};
     for (var attributeLabel in options) {
         if (!Object.prototype.hasOwnProperty.call(options, attributeLabel))
@@ -125,7 +126,7 @@ router.get(
       if (schemaTypes[schemaType.instance] == null)
         schemaTypes[schemaType.instance] = [];
       
-      if (schemaType.enumValues != null)
+      if (schemaType.enumValues != null && schemaType.enumValues.length > 0)
         schemaTypes["Enum"].push(pathname);
       else
         schemaTypes[schemaType.instance].push(pathname);
