@@ -1,5 +1,9 @@
 const { levelEnum } = require('../models/member');
 
+// In this auth scheme, all "higher" levels will have permissions of
+// lower levels when using isXXX or requireXXX. Thus by default, a
+// lead is a member, a director is a lead, unless requireLevel is
+// used directly with a different set of levels
 const allLevels = [
   levelEnum.TBD,
   levelEnum.MEMBER,
