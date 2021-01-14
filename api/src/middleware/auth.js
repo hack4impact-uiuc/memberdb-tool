@@ -1,7 +1,6 @@
 const { levelEnum } = require('../models/member');
 
 const requireLevel = (levels) => (req, res, next) => {
-  console.log(req.user);
   if (!req.user || !levels.includes(req.user.level)) {
     return res.status(401).json({
       success: false,
