@@ -1,47 +1,113 @@
 const express = require('express');
 const router = express.Router();
 const Member = require('./../models/member');
-const { errorWrap } = require('../middleware');
+const { levelEnum } = Member;
+const errorWrap = require('../middleware/errorWrap');
+const { requireRegistered, requireDirector } = require('../middleware/auth');
+const { filterSensitiveInfo } = require('../utils/user-utils');
+
+const validateMemberQuery = (req, res, next) => {
+  // Middleware that verifies that fields to be inserted/updated actually
+  // exist in the Member schema
+  for (const field in req.body) {
+    if (!Member.schema.paths[field]) {
+      return res.status(400).json({
+        success: false,
+        message: `no such field ${field} in member`,
+      });
+    }
+  }
+  next();
+};
+
+router.get(
+  '/current',
+  errorWrap(async (req, res) => {
+    res.json({
+      success: true,
+      result: req.user ? filterSensitiveInfo(req.user) : null,
+    });
+  }),
+);
 
 router.get(
   '/',
+  requireRegistered,
   errorWrap(async (req, res) => {
-    Member.find({}, (err, members) => {
-        const condensedMembers = [];
+    let omitFields;
+    if ([levelEnum.ADMIN, levelEnum.DIRECTOR].includes(req.user.level)) {
+      omitFields = [];
+    } else {
+      omitFields = ['level', 'areDuesPaid'];
+    }
 
-        if (members)
-          members.forEach(member => {
-              curMember = {};
-              curMember.firstName = member.firstName;
-              curMember.lastName = member.lastName;
-              curMember.email = member.email;
-              curMember.netID = member.netID;
-              curMember.UIN = member.UIN;
-              curMember.phone = member.phone;
-              curMember.major = member.major; 
-              curMember.birthdate = member.birthdate;
-              curMember.github = member.github; 
-              curMember.snapchat = member.snapchat;
-              curMember.instagram = member.instagram;
-              curMember.gradYear = member.gradYear;
-              curMember.gradSemester = member.gradSemester;
-              curMember.location = member.location;
-              curMember.role = member.role;
-              curMember.status = member.status;
-              curMember._id = member._id;
+    const members = await Member.find({});
+    const filteredMembers = members.map((member) =>
+      filterSensitiveInfo(member, omitFields),
+    );
 
-              // TODO: Check auth level before adding these fields.
-              curMember.level = member.level;
-              curMember.areDuesPaid = member.areDuesPaid;
+    res.json({
+      success: true,
+      result: filteredMembers,
+    });
+  }),
+);
 
-              condensedMembers.push(curMember);
-          })
+router.post(
+  '/',
+  requireDirector,
+  validateMemberQuery,
+  errorWrap(async (req, res) => {
+    const member = await Member.create(req.body);
+    return res.status(200).json({
+      success: true,
+      result: member,
+    });
+  }),
+);
 
-        res.status(200).json({
-            success: true,
-            result: condensedMembers
-        })
-    })
+router.get(
+  '/:memberId',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const member = await Member.findOne({ _id: req.params.memberId });
+
+    if (!member) {
+      return res.status(404).json({
+        success: false,
+        message: 'member not found with id',
+      });
+    }
+
+    res.json({
+      success: true,
+      result: filterSensitiveInfo(member),
+    });
+  }),
+);
+
+router.put(
+  '/:memberId',
+  requireDirector,
+  validateMemberQuery,
+  errorWrap(async (req, res) => {
+    const origMember = await Member.findByIdAndUpdate(
+      req.params.memberId,
+      req.body,
+      { runValidators: true },
+    );
+
+    if (!origMember) {
+      return res.status(404).json({
+        success: false,
+        message: 'member not found with id',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'member updated',
+    });
   }),
 );
 
