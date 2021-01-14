@@ -15,13 +15,7 @@ const EnumAttribute = ({value, valueOptions, attributeLabel, isDisabled, onChang
     }
 
     return (
-        <Select defaultValue={value} name={attributeLabel} options={valueOptions} onChange={onValueChange}/>
-    //     <Dropdown open={isOpen} onToggle={handleToggle} onClickOutside={handleClickOutside} onSelect={onValueChange} onChange={onValueChange}>
-    //     <Dropdown.Summary>{attributeLabel}</Dropdown.Summary>
-    //     <Dropdown.Menu>
-    //         {valueOptions.map(option => <Dropdown.Item key={option} onChange={onValueChange}>{option}</Dropdown.Item>)}
-    //     </Dropdown.Menu>
-    // </Dropdown>
+        <Select defaultValue={value} isDisabled={isDisabled} name={attributeLabel} options={valueOptions} onChange={onValueChange}/>
     )
 }
 
