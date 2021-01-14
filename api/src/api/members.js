@@ -90,7 +90,7 @@ router.get(
 );
 
 router.get(
-  '/:memberId/fields',
+  '/:memberId/permissions',
   requireRegistered,
   errorWrap(async (req, res) => {
     res.json({

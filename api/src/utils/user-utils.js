@@ -1,12 +1,11 @@
+const { difference, pick } = require('lodash');
 const Member = require('./../models/member');
 const { isDirector } = require('../middleware/auth');
 
-const difference = (arr, exclude) => arr.filter((el) => !exclude.includes(el));
-
-// All fields in Member
-const allFields = Member.schema.paths;
 // Fields that are never viewable
 const sensitiveFields = ['oauthID', '__v'];
+// All fields in Member, except sensitive fields
+const allFields = difference(Object.keys(Member.schema.paths), sensitiveFields);
 // Fields that non-directors cannot view for other users
 // TODO: omit notes fields once they are added to the DB
 const nonViewableFields = ['level', 'areDuesPaid'];
@@ -16,7 +15,7 @@ const nonEditableFields = ['level', 'areDuesPaid'];
 const getViewableFields = (currentUser, memberId) => {
   if (isDirector(currentUser)) {
     return allFields;
-  } else if (currentUser.id == memberId) {
+  } else if (currentUser._id == memberId) {
     return allFields;
   } else {
     return difference(allFields, nonViewableFields);
@@ -26,34 +25,19 @@ const getViewableFields = (currentUser, memberId) => {
 const getEditableFields = (currentUser, memberId) => {
   if (isDirector(user)) {
     return allFields;
-  } else if (currentUser.id == memberId) {
+  } else if (currentUser._id == memberId) {
     return difference(allFields, nonEditableFields);
   } else {
     return []; // Non-directors can never edit other users' info
   }
 };
 
-const removeFields = (obj, fields) => {
-  const objCopy = { ...obj };
-
-  fields.forEach((field) => {
-    delete objCopy[field];
-  });
-
-  return objCopy;
-};
-
 const filterViewableFields = (currentUser, member) => {
-  const omitFields = [
-    ...sensitiveFields,
-    ...difference(allFields, getViewableFields(currentUser, member._id)),
-    '_id',
-  ];
-
-  const filteredMember = {
-    ...removeFields(member.toObject(), omitFields),
-    id: member._id, // Rename member._id to member.id
-  };
+  const viewable = getViewableFields(currentUser, member._id);
+  const filteredMember = pick(member.toObject(), viewable);
+  // Rename _id to id
+  filteredMember.id = filteredMember._id;
+  delete filteredMember._id;
 
   return filteredMember;
 };
