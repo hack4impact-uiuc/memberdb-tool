@@ -72,6 +72,28 @@ router.post(
   }),
 );
 
+// Gives the enum options to the frontend to populate the dropdown.
+// The key in the 'options' object must be the same as the DB attribute.
+router.get(
+  '/options',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const options = {
+      level: Member.levelEnum,
+      location: Member.locationEnum,
+      role: Member.roleEnum,
+      gradSemester: Member.semesterEnum,
+      generationSemester: Member.semesterEnum,
+      classStanding: Member.classStandingEnum,
+    }
+
+    res.json({
+      success: true,
+      result: options,
+    });
+  })
+)
+
 router.get(
   '/:memberId',
   requireRegistered,

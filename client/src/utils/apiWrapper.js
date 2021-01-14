@@ -64,3 +64,18 @@ export const getMemberPermissionsByID = (mongoID) => {
       error,
     }));
 }
+
+// Retrieves a member's permissions from their mongo ID
+export const getMemberEnumOptions = (mongoID) => {
+  const requestString = `${BACKEND_BASE_URL}/members/options`
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch(error => ({
+      type: 'GET_MEMBER_ENUM_OPTIONS_FAIL',
+      error,
+    }));
+}
