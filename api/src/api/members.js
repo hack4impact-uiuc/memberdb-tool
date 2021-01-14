@@ -5,6 +5,7 @@ const errorWrap = require('../middleware/errorWrap');
 const { requireRegistered, requireDirector } = require('../middleware/auth');
 const {
   filterViewableFields,
+  getViewableFields,
   getEditableFields,
 } = require('../utils/user-utils');
 

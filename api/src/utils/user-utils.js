@@ -2,10 +2,12 @@ const { difference, pick } = require('lodash');
 const Member = require('./../models/member');
 const { isDirector } = require('../middleware/auth');
 
+// All fields in Member
+const allFields = Object.keys(Member.schema.paths);
 // Fields that are never viewable
-const sensitiveFields = ['oauthID', '__v'];
-// All fields in Member, except sensitive fields
-const allFields = difference(Object.keys(Member.schema.paths), sensitiveFields);
+const neverViewableFields = ['oauthID', '__v'];
+// Fields that are never editable
+const neverEditableFields = ['_id', 'oauthID', '__v'];
 // Fields that non-directors cannot view for other users
 // TODO: omit notes fields once they are added to the DB
 const nonViewableFields = ['level', 'areDuesPaid'];
@@ -13,20 +15,22 @@ const nonViewableFields = ['level', 'areDuesPaid'];
 const nonEditableFields = ['level', 'areDuesPaid'];
 
 const getViewableFields = (currentUser, memberId) => {
+  const viewableFields = difference(allFields, neverViewableFields);
   if (isDirector(currentUser)) {
-    return allFields;
+    return viewableFields;
   } else if (currentUser._id == memberId) {
-    return allFields;
+    return viewableFields;
   } else {
-    return difference(allFields, nonViewableFields);
+    return difference(viewableFields, nonViewableFields);
   }
 };
 
 const getEditableFields = (currentUser, memberId) => {
-  if (isDirector(user)) {
-    return allFields;
+  const editableFields = difference(allFields, neverEditableFields);
+  if (isDirector(currentUser)) {
+    return editableFields;
   } else if (currentUser._id == memberId) {
-    return difference(allFields, nonEditableFields);
+    return difference(editableFields, nonEditableFields);
   } else {
     return []; // Non-directors can never edit other users' info
   }
@@ -35,10 +39,6 @@ const getEditableFields = (currentUser, memberId) => {
 const filterViewableFields = (currentUser, member) => {
   const viewable = getViewableFields(currentUser, member._id);
   const filteredMember = pick(member.toObject(), viewable);
-  // Rename _id to id
-  filteredMember.id = filteredMember._id;
-  delete filteredMember._id;
-
   return filteredMember;
 };
 
