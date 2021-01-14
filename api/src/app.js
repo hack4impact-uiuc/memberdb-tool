@@ -57,7 +57,7 @@ app.use(
 );
 
 // Passport setup
-require('./passport-setup');
+require('./utils/passport-setup');
 app.use(passport.initialize());
 app.use(passport.session());
 
