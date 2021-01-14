@@ -1,8 +1,11 @@
+import { string } from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import EditableAttribute from '../components/EditableAttribute/EditableAttribute';
+import StringAttribute from '../components/EditableAttribute/StringAttribute';
+import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import { getMemberByID, getMemberPermissionsByID } from '../utils/apiWrapper';
 
-
+const stringAttributes = ["firstName", "lastName", "email", "phone", "netID", "UIN", "major", "github", "instagram", "snapchat"];
+const enumAttributes = ["gradSemester", "classStanding", "generationSemester", "location", "role", "level", "status"];
 
 const Member = ({memberID}) => {
     // TODO: Remove this once the table pulls real data
@@ -20,7 +23,6 @@ const Member = ({memberID}) => {
             }
             setUser(memberDataResponse.data.result);
 
-            console.log(memberPermissionResponse)
             if (!isResponseSuccessful(memberPermissionResponse)){
                 alert("Could not get member permissions");
                 return;
@@ -40,25 +42,30 @@ const Member = ({memberID}) => {
         setUser(userCopy);
     }
 
+    const onEnumAttributeChange = (value, attributeLabel) => {
+        var userCopy = { ...user };
+        userCopy[attributeLabel] = value
+        setUser(userCopy);
+    }
+
     return ( 
         <div>
             {userPermissions.view.map(attribute => {
-                return <EditableAttribute 
-                    value={user[attribute]} 
-                    attributeLabel={attribute} 
-                    onChange={onStringAttributeChange} 
-                    isDisabled={!userPermissions.edit.includes(attribute)} />
+                if (stringAttributes.includes(attribute))
+                    return <StringAttribute 
+                        value={user[attribute]} 
+                        attributeLabel={attribute} 
+                        onChange={onStringAttributeChange} 
+                        isDisabled={!userPermissions.edit.includes(attribute)} />
+
+                if (enumAttributes.includes(attribute))
+                    return <EnumAttribute 
+                        value={user[attribute]} 
+                        valueOptions={[{value:'one', label:"one"}, {value:'two', label:"two"}]}
+                        attributeLabel={attribute} 
+                        onChange={onEnumAttributeChange} 
+                        isDisabled={!userPermissions.edit.includes(attribute)} />
             })}
-            {/* <EditableAttribute value={user.firstName} attributeLabel="firstName" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.lastName} attributeLabel="lastName" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.email} attributeLabel="email" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.phone} attributeLabel="phone" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.netID} attributeLabel="netID" onChange={onStringAttributeChange} /> 
-            <EditableAttribute value={user.UIN} attributeLabel="UIN" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.major} attributeLabel="major" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.github} attributeLabel="github" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.instagram} attributeLabel="instagram" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.snapchat} attributeLabel="snapchat" onChange={onStringAttributeChange} /> */}
         </div>
     );
 };

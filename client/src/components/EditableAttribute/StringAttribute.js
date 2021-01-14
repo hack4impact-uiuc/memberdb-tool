@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
-const EditableAttribute = ({value, attributeLabel, isDisabled, onChange}) => {
+const StringAttribute = ({value, attributeLabel, isDisabled, onChange}) => {
 
     const onValueChange = (e) => {
         onChange(e, attributeLabel)
@@ -12,4 +12,4 @@ const EditableAttribute = ({value, attributeLabel, isDisabled, onChange}) => {
     )
 }
 
-export default EditableAttribute;
+export default StringAttribute;
