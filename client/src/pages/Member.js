@@ -41,7 +41,7 @@ const Member = ({memberID}) => {
     // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
     const isOfType = (attribute, type) => {
         if (!schemaTypes || !type || !schemaTypes[type])
-        return false;
+            return false;
         
         return schemaTypes[type].includes(attribute);
     };
@@ -55,9 +55,9 @@ const Member = ({memberID}) => {
         return true;
     };
 
-    const onAttributeChange = (e, attributeLabel) => {
+    const onAttributeChange = (value, attributeLabel) => {
         var userCopy = { ...user };
-        userCopy[attributeLabel] = e.target.value
+        userCopy[attributeLabel] = value
         setUser(userCopy);
     };
 
