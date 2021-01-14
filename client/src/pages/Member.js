@@ -6,6 +6,7 @@ import { getMemberByID, getMemberEnumOptions, getMemberPermissionsByID } from '.
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 
 const stringAttributes = ["firstName", "lastName", "email", "phone", "netID", "UIN", "major", "github", "instagram", "snapchat"];
+const numberAttributes = ["gradYear", "generationYear"];
 const enumAttributes = ["gradSemester", "classStanding", "generationSemester", "location", "role", "level", "status"];
 const booleanAttributes = ["areDuesPaid"];
 
@@ -89,6 +90,15 @@ const Member = ({memberID}) => {
             {userPermissions.view.map(attribute => {
                 if (stringAttributes.includes(attribute))
                     return <StringAttribute 
+                        type="text"
+                        value={user[attribute]} 
+                        attributeLabel={attribute} 
+                        onChange={onStringAttributeChange} 
+                        isDisabled={!userPermissions.edit.includes(attribute)} />
+
+                if (numberAttributes.includes(attribute))
+                    return <StringAttribute 
+                        type="number"
                         value={user[attribute]} 
                         attributeLabel={attribute} 
                         onChange={onStringAttributeChange} 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
-const StringAttribute = ({value, attributeLabel, isDisabled, onChange}) => {
+const StringAttribute = ({type, value, attributeLabel, isDisabled, onChange}) => {
 
     const onValueChange = (e) => {
         onChange(e, attributeLabel)
@@ -10,7 +10,7 @@ const StringAttribute = ({value, attributeLabel, isDisabled, onChange}) => {
     return (
         <div>
             <p>{attributeLabel}</p>
-            <TextField placeholder={value} onChange={onValueChange} disabled={isDisabled} />
+            <TextField type={type} placeholder={value} onChange={onValueChange} disabled={isDisabled} />
         </div>
     )
 }
