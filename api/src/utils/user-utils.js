@@ -43,6 +43,7 @@ const filterViewableFields = (currentUser, member) => {
 };
 
 module.exports = {
+  allFields,
   getEditableFields,
   getViewableFields,
   filterViewableFields,

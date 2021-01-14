@@ -4,6 +4,7 @@ const Member = require('./../models/member');
 const errorWrap = require('../middleware/errorWrap');
 const { requireRegistered, requireDirector } = require('../middleware/auth');
 const {
+  allFields,
   filterViewableFields,
   getViewableFields,
   getEditableFields,
@@ -15,7 +16,7 @@ const validateMemberQuery = (req, res, next) => {
   const editableFields = getEditableFields(req.user, req.params.memberId);
 
   for (const field in req.body) {
-    if (!allMemberFields.hasOwnProperty(field)) {
+    if (!allFields.hasOwnProperty(field)) {
       return res.status(400).json({
         success: false,
         message: `No such field ${field} in member`,
