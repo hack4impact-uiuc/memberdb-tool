@@ -15,7 +15,10 @@ const EnumAttribute = ({value, valueOptions, attributeLabel, isDisabled, onChang
     }
 
     return (
-        <Select defaultValue={value} isDisabled={isDisabled} name={attributeLabel} options={valueOptions} onChange={onValueChange}/>
+        <div>
+            <p>{attributeLabel}</p>
+            <Select defaultValue={value} value={value} placeholder={value} isDisabled={isDisabled} name={attributeLabel} options={valueOptions} onChange={onValueChange}/>
+        </div>
     )
 }
 

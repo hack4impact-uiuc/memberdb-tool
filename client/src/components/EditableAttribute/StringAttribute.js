@@ -8,7 +8,10 @@ const StringAttribute = ({value, attributeLabel, isDisabled, onChange}) => {
     }
 
     return (
-        <TextField placeholder={value} onChange={onValueChange} disabled={isDisabled} />
+        <div>
+            <p>{attributeLabel}</p>
+            <TextField placeholder={value} onChange={onValueChange} disabled={isDisabled} />
+        </div>
     )
 }
 
