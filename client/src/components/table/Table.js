@@ -6,33 +6,33 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const Table = () => {
-  // Sort Birth Dates in ascending order (earlier dates first)   
+  // Sort Birth Dates in ascending order (earlier dates first)
   const dateComparator = (value1, value2) => {
-    const date1 = new Date(value1)
-    const date2 = new Date(value2)
-    return date1 - date2
-  }
+    const date1 = new Date(value1);
+    const date2 = new Date(value2);
+    return date1 - date2;
+  };
 
   // Sort Grad Year in ascending order (earlier grad years first)
   const semesterComparator = (value1, value2) => {
-    const sem1 = value1.split(" ")[0]
-    const year1 = value1.split(" ")[1]
-    const sem2 = value2.split(" ")[0]
-    const year2 = value2.split(" ")[1]
+    const sem1 = value1.split(' ')[0];
+    const year1 = value1.split(' ')[1];
+    const sem2 = value2.split(' ')[0];
+    const year2 = value2.split(' ')[1];
     if (year1 < year2) {
-      return -1
+      return -1;
     } else if (year1 > year2) {
-      return 1
+      return 1;
     } else {
-      if (sem1 === "Fall" && sem2 === "Spring") {
-        return 1
-      } else if (sem1 === "Spring" && sem2 === "Fall") {
-        return -1
+      if (sem1 === 'Fall' && sem2 === 'Spring') {
+        return 1;
+      } else if (sem1 === 'Spring' && sem2 === 'Fall') {
+        return -1;
       } else {
-        return 0
+        return 0;
       }
     }
-  }
+  };
 
   const [columnDefs] = useState([
     { headerName: 'Name', field: 'name', width: 100, sortable: true },
@@ -52,7 +52,7 @@ const Table = () => {
       field: 'birthdate',
       width: 120,
       sortable: true,
-      comparator: dateComparator
+      comparator: dateComparator,
     },
     { headerName: 'Github', field: 'github', width: 140, sortable: true },
     { headerName: 'Snapchat', field: 'snapchat', width: 140, sortable: true },
@@ -63,7 +63,7 @@ const Table = () => {
       width: 190,
       sortable: true,
       filter: true,
-      comparator: semesterComparator
+      comparator: semesterComparator,
     },
     {
       headerName: 'Generation',
@@ -71,7 +71,7 @@ const Table = () => {
       width: 120,
       sortable: true,
       filter: true,
-      comparator: semesterComparator
+      comparator: semesterComparator,
     },
     {
       headerName: 'Location',
