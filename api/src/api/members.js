@@ -86,32 +86,34 @@ router.get(
       generationSemester: Member.semesterEnum,
       classStanding: Member.classStandingEnum,
       status: Member.statusEnum,
-    }
+    };
 
     // Label all items with 'label' and 'value'
     const labeledOptions = {};
     for (var attributeLabel in options) {
-        if (!Object.prototype.hasOwnProperty.call(options, attributeLabel))
-            continue
+      if (!Object.prototype.hasOwnProperty.call(options, attributeLabel))
+        continue;
 
-        labeledOptions[attributeLabel] = [];
-        for (var option in options[attributeLabel]) {
-            if (!Object.prototype.hasOwnProperty.call(options[attributeLabel], option))
-                continue
+      labeledOptions[attributeLabel] = [];
+      for (var option in options[attributeLabel]) {
+        if (
+          !Object.prototype.hasOwnProperty.call(options[attributeLabel], option)
+        )
+          continue;
 
-            labeledOptions[attributeLabel].push({
-                label: options[attributeLabel][option],
-                value: options[attributeLabel][option],
-            });
-        }
+        labeledOptions[attributeLabel].push({
+          label: options[attributeLabel][option],
+          value: options[attributeLabel][option],
+        });
+      }
     }
 
     res.json({
       success: true,
       result: labeledOptions,
     });
-  })
-)
+  }),
+);
 
 // Returns the types of all the schema properties for member. This allows the frontend
 // to decide the best way to provide input for each attribute.
@@ -119,25 +121,24 @@ router.get(
 router.get(
   '/schema',
   requireRegistered,
-  errorWrap(async(req, res) => {
-    const schemaTypes = {Enum: []}
+  errorWrap(async (req, res) => {
+    const schemaTypes = { Enum: [] };
 
     Member.schema.eachPath((pathname, schemaType) => {
       if (schemaTypes[schemaType.instance] == null)
         schemaTypes[schemaType.instance] = [];
-      
+
       if (schemaType.enumValues != null && schemaType.enumValues.length > 0)
-        schemaTypes["Enum"].push(pathname);
-      else
-        schemaTypes[schemaType.instance].push(pathname);
-    })
-  
+        schemaTypes['Enum'].push(pathname);
+      else schemaTypes[schemaType.instance].push(pathname);
+    });
+
     res.json({
       success: true,
       result: schemaTypes,
-    })
-  })
-)
+    });
+  }),
+);
 
 router.get(
   '/:memberId',

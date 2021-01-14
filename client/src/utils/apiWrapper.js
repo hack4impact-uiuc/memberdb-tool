@@ -36,8 +36,8 @@ export const endUserSession = () => {
 };
 
 // Retrieves a member from their mongo ID
-export const getMemberByID = (mongoID) => {
-  const requestString = `${BACKEND_BASE_URL}/members/${mongoID}`
+export const getMemberByID = mongoID => {
+  const requestString = `${BACKEND_BASE_URL}/members/${mongoID}`;
   return axios
     .get(requestString, {
       headers: {
@@ -48,11 +48,11 @@ export const getMemberByID = (mongoID) => {
       type: 'GET_MEMBER_BY_ID_FAIL',
       error,
     }));
-}
+};
 
 // Retrieves a member's permissions from their mongo ID
-export const getMemberPermissionsByID = (mongoID) => {
-  const requestString = `${BACKEND_BASE_URL}/members/${mongoID}/permissions`
+export const getMemberPermissionsByID = mongoID => {
+  const requestString = `${BACKEND_BASE_URL}/members/${mongoID}/permissions`;
   return axios
     .get(requestString, {
       headers: {
@@ -63,11 +63,11 @@ export const getMemberPermissionsByID = (mongoID) => {
       type: 'GET_MEMBER_PERMISSIONS_BY_ID_FAIL',
       error,
     }));
-}
+};
 
 // Retrieves a member's permissions from their mongo ID
 export const getMemberEnumOptions = () => {
-  const requestString = `${BACKEND_BASE_URL}/members/options`
+  const requestString = `${BACKEND_BASE_URL}/members/options`;
   return axios
     .get(requestString, {
       headers: {
@@ -78,11 +78,11 @@ export const getMemberEnumOptions = () => {
       type: 'GET_MEMBER_ENUM_OPTIONS_FAIL',
       error,
     }));
-}
+};
 
 // Retrieves a member's permissions from their mongo ID
 export const getMemberSchemaTypes = () => {
-  const requestString = `${BACKEND_BASE_URL}/members/schema`
+  const requestString = `${BACKEND_BASE_URL}/members/schema`;
   return axios
     .get(requestString, {
       headers: {
@@ -93,4 +93,4 @@ export const getMemberSchemaTypes = () => {
       type: 'GET_MEMBER_SCHEMA_TYPES_FAIL',
       error,
     }));
-}
+};
