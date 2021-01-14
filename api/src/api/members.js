@@ -88,9 +88,26 @@ router.get(
       status: Member.statusEnum,
     }
 
+    const labeledOptions = {};
+    for (var attributeLabel in options) {
+        if (!Object.prototype.hasOwnProperty.call(options, attributeLabel))
+            continue
+
+        labeledOptions[attributeLabel] = [];
+        for (var option in options[attributeLabel]) {
+            if (!Object.prototype.hasOwnProperty.call(options[attributeLabel], option))
+                continue
+
+            labeledOptions[attributeLabel].push({
+                label: options[attributeLabel][option],
+                value: options[attributeLabel][option],
+            });
+        }
+    }
+
     res.json({
       success: true,
-      result: options,
+      result: labeledOptions,
     });
   })
 )
