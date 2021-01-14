@@ -85,6 +85,7 @@ router.get(
       gradSemester: Member.semesterEnum,
       generationSemester: Member.semesterEnum,
       classStanding: Member.classStandingEnum,
+      status: Member.statusEnum,
     }
 
     res.json({
