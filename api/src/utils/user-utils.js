@@ -8,9 +8,14 @@ const removeFields = (obj, fields) => {
   return objCopy;
 };
 
-const filterSensitiveInfo = (user) => {
-  const userCopy = { ...user, id: user._id };
-  return removeFields(userCopy, ['oauthID', '_id']);
+const filterSensitiveInfo = (user, additionalFields = []) => {
+  const omitFields = ['_id', 'oauthID', '__v', ...additionalFields];
+  const filteredUser = {
+    ...removeFields(user.toObject(), omitFields),
+    id: user._id, // Rename user._id to user.id
+  };
+
+  return filteredUser;
 };
 
 module.exports = {
