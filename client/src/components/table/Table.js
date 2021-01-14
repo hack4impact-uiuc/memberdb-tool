@@ -13,7 +13,7 @@ const Table = () => {
     return date1 - date2;
   };
 
-  // Sort Grad Year in ascending order (earlier grad years first)
+  // Sort Grad Year && Generation in ascending order (earlier cohorts first)
   const semesterComparator = (value1, value2) => {
     const sem1 = value1.split(' ')[0];
     const year1 = value1.split(' ')[1];
@@ -35,11 +35,41 @@ const Table = () => {
   };
 
   const [columnDefs] = useState([
-    { headerName: 'Name', field: 'name', width: 100, sortable: true },
-    { headerName: 'Email', field: 'email', width: 180, sortable: true },
-    { headerName: 'Phone #', field: 'phone', width: 160, sortable: true },
-    { headerName: 'NetID', field: 'netid', width: 120, sortable: true },
-    { headerName: 'UIN', field: 'uin', width: 120, sortable: true },
+    {
+      headerName: 'Name',
+      field: 'name',
+      width: 100,
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'Email',
+      field: 'email',
+      width: 180,
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'Phone #',
+      field: 'phone',
+      width: 160,
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'NetID',
+      field: 'netid',
+      width: 120,
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'UIN',
+      field: 'uin',
+      width: 120,
+      sortable: true,
+      filter: true,
+    },
     {
       headerName: 'Major',
       field: 'major',
@@ -53,10 +83,29 @@ const Table = () => {
       width: 120,
       sortable: true,
       comparator: dateComparator,
+      filter: true,
     },
-    { headerName: 'Github', field: 'github', width: 140, sortable: true },
-    { headerName: 'Snapchat', field: 'snapchat', width: 140, sortable: true },
-    { headerName: 'Instagram', field: 'instagram', width: 140, sortable: true },
+    {
+      headerName: 'Github',
+      field: 'github',
+      width: 140,
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'Snapchat',
+      field: 'snapchat',
+      width: 140,
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'Instagram',
+      field: 'instagram',
+      width: 140,
+      sortable: true,
+      filter: true,
+    },
     {
       headerName: 'Grad Sem/Yr',
       field: 'grad',
