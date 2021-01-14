@@ -113,6 +113,7 @@ const Member = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Member', Member);
+module.exports.schema = Member;
 module.exports.levelEnum = levelEnum;
 module.exports.locationEnum = locationEnum;
 module.exports.roleEnum = roleEnum;

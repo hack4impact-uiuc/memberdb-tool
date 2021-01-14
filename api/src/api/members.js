@@ -95,6 +95,32 @@ router.get(
   })
 )
 
+// Returns the types of all the schema properties for member. This allows the frontend
+// to decide the best way to provide input for each attribute.
+// Note: This will only work for non-nested fields
+router.get(
+  '/schema',
+  requireRegistered,
+  errorWrap(async(req, res) => {
+    const schemaTypes = {Enum: []}
+
+    Member.schema.eachPath((pathname, schemaType) => {
+      if (schemaTypes[schemaType.instance] == null)
+        schemaTypes[schemaType.instance] = [];
+      
+      if (schemaType.enumValues != null)
+        schemaTypes["Enum"].push(pathname);
+      else
+        schemaTypes[schemaType.instance].push(pathname);
+    })
+  
+    res.json({
+      success: true,
+      result: schemaTypes,
+    })
+  })
+)
+
 router.get(
   '/:memberId',
   requireRegistered,
