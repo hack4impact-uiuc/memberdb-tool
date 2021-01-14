@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Member = require('./../models/member');
-const { levelEnum } = Member;
 const errorWrap = require('../middleware/errorWrap');
-const { requireRegistered, requireDirector } = require('../middleware/auth');
+const {
+  requireRegistered,
+  requireDirector,
+  isDirector,
+} = require('../middleware/auth');
 const { filterSensitiveInfo } = require('../utils/user-utils');
 
 const validateMemberQuery = (req, res, next) => {
@@ -20,8 +23,6 @@ const validateMemberQuery = (req, res, next) => {
   next();
 };
 
-const isDirector = (user) =>
-  [levelEnum.ADMIN, levelEnum.DIRECTOR].includes(user.level);
 // TODO: omit notes fields once they are added to the DB
 const additionalOmitFields = (user) =>
   isDirector(user) ? [] : ['level', 'areDuesPaid'];
