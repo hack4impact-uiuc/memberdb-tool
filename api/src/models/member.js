@@ -102,7 +102,7 @@ const Member = new mongoose.Schema({
   level: {
     type: String,
     enum: Object.values(levelEnum),
-    default: null,
+    default: levelEnum.TBD,
   },
 
   status: {
