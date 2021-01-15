@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 
 // retrieves the session status of the current user
 export const getUserAuth = () => {
-  const requestString = `${BACKEND_BASE_URL}/auth/user`;
+  const requestString = `${BACKEND_BASE_URL}/members/current`;
   return axios
     .get(requestString, {
       headers: {

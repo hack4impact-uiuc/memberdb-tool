@@ -53,62 +53,62 @@ const classStandingEnum = {
 };
 
 const Member = new mongoose.Schema({
-  firstName: { type: String, required: false },
-  lastName: { type: String, required: false },
-  oauthID: { type: String, required: true, unique: true },
-  email: { type: String, required: false, unique: true },
-  phone: { type: String, required: false },
-  netID: { type: String, required: false },
-  UIN: { type: String, required: false },
-  major: { type: String, required: false },
-  birthdate: { type: Date, required: false },
-  github: { type: String, required: false },
-  snapchat: { type: String, required: false },
-  instagram: { type: String, required: false },
-  areDuesPaid: { type: Boolean, required: false },
+  firstName: { type: String, default: null },
+  lastName: { type: String, default: null },
+  oauthID: { type: String, default: null, unique: true },
+  email: { type: String, default: null, unique: true },
+  phone: { type: String, default: null },
+  netID: { type: String, default: null },
+  UIN: { type: String, default: null },
+  major: { type: String, default: null },
+  birthdate: { type: Date, default: null },
+  github: { type: String, default: null },
+  snapchat: { type: String, default: null },
+  instagram: { type: String, default: null },
+  areDuesPaid: { type: Boolean, default: null },
 
-  gradYear: { type: Number, required: false },
+  gradYear: { type: Number, default: null },
   gradSemester: {
     type: String,
     enum: Object.values(semesterEnum),
-    required: false,
+    default: null,
   },
 
   classStanding: {
     type: String,
     enum: Object.values(classStandingEnum),
-    required: false,
+    default: null,
   },
 
-  generationYear: { type: Number, required: false },
+  generationYear: { type: Number, default: null },
   generationSemester: {
     type: String,
     enum: Object.values(semesterEnum),
-    required: false,
+    default: null,
   },
 
   location: {
     type: String,
     enum: Object.values(locationEnum),
-    required: false,
+    default: null,
   },
 
   role: {
     type: String,
     enum: Object.values(roleEnum),
-    required: false,
+    default: null,
   },
 
   level: {
     type: String,
     enum: Object.values(levelEnum),
-    required: true,
+    default: levelEnum.TBD,
   },
 
   status: {
     type: String,
     enum: Object.values(statusEnum),
-    required: false,
+    default: null,
   },
 });
 
