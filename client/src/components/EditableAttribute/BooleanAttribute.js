@@ -20,10 +20,10 @@ const BooleanAttribute = ({ value, attributeLabel, isDisabled, onChange }) => {
 };
 
 BooleanAttribute.propTypes = {
-    value: PropTypes.string,
-    attributeLabel: PropTypes.string,
-    isDisabled: PropTypes.bool,
-    onChange: PropTypes.func,
+  value: PropTypes.string,
+  attributeLabel: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default BooleanAttribute;

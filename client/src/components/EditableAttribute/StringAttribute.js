@@ -27,11 +27,11 @@ const StringAttribute = ({
 };
 
 StringAttribute.propTypes = {
-    type: PropTypes.string,
-    value: PropTypes.string,
-    attributeLabel: PropTypes.string,
-    isDisabled: PropTypes.bool,
-    onChange: PropTypes.func,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  attributeLabel: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default StringAttribute;

@@ -30,11 +30,11 @@ const EnumAttribute = ({
 };
 
 EnumAttribute.propTypes = {
-    value: PropTypes.string,
-    valueOptions: PropTypes.arrayOf(PropTypes.string),
-    attributeLabel: PropTypes.string,
-    isDisabled: PropTypes.bool,
-    onChange: PropTypes.func,
+  value: PropTypes.string,
+  valueOptions: PropTypes.arrayOf(PropTypes.string),
+  attributeLabel: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default EnumAttribute;

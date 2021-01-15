@@ -13,12 +13,12 @@ import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
 
 const areResponsesSuccessful = (...responses) => {
-    responses.forEach(response => {
-        if (response == null || response.data == null || !response.data.success)
-        return false;
-    });
+  responses.forEach(response => {
+    if (response == null || response.data == null || !response.data.success)
+      return false;
+  });
 
-    return true;
+  return true;
 };
 
 const Member = ({ memberID }) => {
@@ -136,7 +136,7 @@ const Member = ({ memberID }) => {
 };
 
 Member.propTypes = {
-    memberID: PropTypes.string,
-}
+  memberID: PropTypes.string,
+};
 
 export default Member;
