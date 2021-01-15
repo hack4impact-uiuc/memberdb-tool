@@ -1,4 +1,4 @@
-export const mockMemberData = [
+export default [
   {
     name: 'Amitahwieufhfawileuhfaiweuhf',
     email: 'sawhney4@illinois.edu',

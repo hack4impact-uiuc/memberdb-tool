@@ -16,7 +16,7 @@ const semesterComparator = (value1, value2) => {
   return 0;
 };
 
-export const columnDefs = [
+export default [
   {
     headerName: 'Name',
     field: 'name',
