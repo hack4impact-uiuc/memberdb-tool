@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const DateAttribute = ({ value, attributeLabel, isDisabled, onChange }) => {
+const DateAttribute = ({ value = '', attributeLabel = '', isDisabled = false, onChange }) => {
   const onValueChange = date => {
     onChange(date, attributeLabel);
   };
@@ -27,9 +27,4 @@ DateAttribute.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-DateAttribute.defaultProps = {
-  value: '',
-  attributeLabel: '',
-  isDisabled: false,
-};
 export default DateAttribute;

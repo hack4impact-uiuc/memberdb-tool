@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 const EnumAttribute = ({
-  value,
-  valueOptions,
-  attributeLabel,
-  isDisabled,
+  value = '',
+  valueOptions = [],
+  attributeLabel = '',
+  isDisabled = false,
   onChange,
 }) => {
   const onValueChange = option => {
@@ -35,13 +35,6 @@ EnumAttribute.propTypes = {
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-};
-
-EnumAttribute.defaultProps = {
-  value: '',
-  valueOptions: [],
-  attributeLabel: '',
-  isDisabled: false,
 };
 
 export default EnumAttribute;

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
 const StringAttribute = ({
-  type,
-  value,
-  attributeLabel,
-  isDisabled,
+  type = 'text',
+  value = '',
+  attributeLabel = '',
+  isDisabled = false,
   onChange,
 }) => {
   const onValueChange = e => {
@@ -32,13 +32,6 @@ StringAttribute.propTypes = {
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-};
-
-StringAttribute.defaultProps = {
-  type: 'text',
-  value: '',
-  attributeLabel: '',
-  isDisabled: false,
 };
 
 export default StringAttribute;
