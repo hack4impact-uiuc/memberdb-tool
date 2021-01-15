@@ -4,3 +4,7 @@
     width: 95%;
     margin: auto;
 }
+
+.ag-cell-wrapper {
+    line-height: 1.5rem;
+}
