@@ -49,3 +49,18 @@ export const getMemberByID = (mongoID) => {
       error,
     }));
 }
+
+// Retrieves a member's permissions from their mongo ID
+export const getMemberPermissionsByID = (mongoID) => {
+  const requestString = `${BACKEND_BASE_URL}/members/${mongoID}/permissions`
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch(error => ({
+      type: 'GET_MEMBER_PERMISSIONS_BY_ID_FAIL',
+      error,
+    }));
+}

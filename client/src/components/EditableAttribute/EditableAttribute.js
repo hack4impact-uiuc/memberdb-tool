@@ -8,7 +8,7 @@ const EditableAttribute = ({value, attributeLabel, isEditable, onChange}) => {
     }
 
     return (
-        <TextField placeholder={value} onChange={onValueChange}/>
+        <TextField placeholder={value} onChange={onValueChange} disabled={isEditable} />
     )
 }
 

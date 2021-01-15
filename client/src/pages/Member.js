@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import EditableAttribute from '../components/EditableAttribute/EditableAttribute';
-import { getMemberByID } from '../utils/apiWrapper';
+import { getMemberByID, getMemberPermissionsByID } from '../utils/apiWrapper';
 
 const placeholderUser = {
     firstName: "No First Name Found",
@@ -15,23 +15,35 @@ const placeholderUser = {
     snapchat: "No Snapchat Found",
 };
 
-
 const Member = ({memberID}) => {
     // TODO: Remove this once the table pulls real data
     memberID = "5ffcc6ed3410cba712b969af";
     const [user, setUser] = useState(placeholderUser);
+    const [userPermissions, setUserPermissions] = useState({view:{}, edit:{}});
     
     useEffect(() => {
         async function getUser() {
-            let response = await getMemberByID(memberID);
-            if (response && response.data.success) {
-                setUser(response.data.result);
-            } else {
-                alert("An error occurred while retrieving member information");
+            let memberDataResponse = await getMemberByID(memberID);
+            let memberPermissionResponse = await getMemberPermissionsByID(memberID);
+            if (!isResponseSuccessful(memberDataResponse)) {
+                alert("Could not get member data");
+                return;
             }
+            setUser(memberDataResponse.data.result);
+
+            console.log(memberPermissionResponse)
+            if (!isResponseSuccessful(memberPermissionResponse)){
+                alert("Could not get member permissions");
+                return;
+            }
+            setUserPermissions(memberPermissionResponse.data.result);
         };
         getUser();
     }, []);
+
+    const isResponseSuccessful = (response) => {
+        return response && response.data && response.data.success
+    }
 
     const onStringAttributeChange = (e, attributeLabel) => {
         var userCopy = { ...user };
