@@ -78,15 +78,13 @@ router.get(
   '/options',
   requireRegistered,
   errorWrap(async (req, res) => {
-    const options = {
-      level: Member.levelEnum,
-      location: Member.locationEnum,
-      role: Member.roleEnum,
-      gradSemester: Member.semesterEnum,
-      generationSemester: Member.semesterEnum,
-      classStanding: Member.classStandingEnum,
-      status: Member.statusEnum,
-    };
+    const options = {};
+    Member.schema.eachPath((pathname, schemaType) => {
+      const { enum: optionsEnum } = schemaType.options;
+      if (optionsEnum) {
+        options[pathname] = optionsEnum;
+      }
+    });
 
     // Label all items with 'label' and 'value'
     const labeledOptions = {};

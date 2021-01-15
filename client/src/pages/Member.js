@@ -13,7 +13,7 @@ import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
 
 const areResponsesSuccessful = (...responses) => {
-  var success = true;
+  let success = true;
   responses.forEach(response => {
     if (response == null || response.data == null || !response.data.success)
       success = false;
@@ -69,7 +69,7 @@ const Member = ({ memberID }) => {
   };
 
   const onAttributeChange = (value, attributeLabel) => {
-    var userCopy = { ...user };
+    let userCopy = { ...user };
     userCopy[attributeLabel] = value;
     setUser(userCopy);
   };
