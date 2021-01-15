@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
 const StringAttribute = ({
@@ -23,6 +24,14 @@ const StringAttribute = ({
       />
     </div>
   );
+};
+
+StringAttribute.propTypes = {
+    type: PropTypes.string,
+    value: PropTypes.string,
+    attributeLabel: PropTypes.string,
+    isDisabled: PropTypes.bool,
+    onChange: PropTypes.func,
 };
 
 export default StringAttribute;

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useAlert } from 'react-alert';
+import PropTypes from 'prop-types';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import {
@@ -10,10 +12,20 @@ import {
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
 
+const areResponsesSuccessful = (...responses) => {
+    responses.forEach(response => {
+        if (response == null || response.data == null || !response.data.success)
+        return false;
+    });
+
+    return true;
+};
+
 const Member = ({ memberID }) => {
   // TODO: Remove this once the table pulls real data
   memberID = '5ffcc6ed3410cba712b969af';
 
+  const alert = useAlert();
   const [user, setUser] = useState({});
   const [enumOptions, setEnumOptions] = useState({});
   const [schemaTypes, setSchemaTypes] = useState({});
@@ -37,7 +49,7 @@ const Member = ({ memberID }) => {
           enumOptionsResponse,
         )
       ) {
-        alert('An error occurred');
+        alert.show('An error occurred.');
         return;
       }
 
@@ -56,15 +68,6 @@ const Member = ({ memberID }) => {
     if (!schemaTypes || !type || !schemaTypes[type]) return false;
 
     return schemaTypes[type].includes(attribute);
-  };
-
-  const areResponsesSuccessful = (...responses) => {
-    responses.forEach(response => {
-      if (response == null || response.data == null || !response.data.success)
-        return false;
-    });
-
-    return true;
   };
 
   const onAttributeChange = (value, attributeLabel) => {
@@ -131,5 +134,9 @@ const Member = ({ memberID }) => {
     </div>
   );
 };
+
+Member.propTypes = {
+    memberID: PropTypes.string,
+}
 
 export default Member;

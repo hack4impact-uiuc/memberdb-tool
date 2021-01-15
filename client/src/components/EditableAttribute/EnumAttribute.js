@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 const EnumAttribute = ({
@@ -26,6 +27,14 @@ const EnumAttribute = ({
       />
     </div>
   );
+};
+
+EnumAttribute.propTypes = {
+    value: PropTypes.string,
+    valueOptions: PropTypes.arrayOf(PropTypes.string),
+    attributeLabel: PropTypes.string,
+    isDisabled: PropTypes.bool,
+    onChange: PropTypes.func,
 };
 
 export default EnumAttribute;
