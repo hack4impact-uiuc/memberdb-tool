@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EnumAttribute from './EnumAttribute';
 
 const BooleanAttribute = ({ value = '', attributeLabel = '', isDisabled = false, onChange }) => {
-  const valueOptions = [
+  const VALUE_OPTIONS = [
     { label: 'Yes', value: 'true' },
     { label: 'No', value: 'false' },
   ];
