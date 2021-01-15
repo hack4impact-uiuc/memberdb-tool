@@ -82,26 +82,13 @@ router.get(
     Member.schema.eachPath((pathname, schemaType) => {
       const { enum: optionsEnum } = schemaType.options;
       if (optionsEnum) {
-        options[pathname] = optionsEnum;
+        options[pathname] = optionsEnum.map(option => new Object({label: option, value: option}));
       }
     });
 
-    // Label all items with 'label' and 'value'
-    const labeledOptions = {};
-    for (const [attributeLabel, attribute] in Object.entries(options)) {
-      labeledOptions[attributeLabel] = [];
-
-      for (const [option, value] in Object.entries(attribute)) {
-        labeledOptions[attributeLabel].push({
-          label: value,
-          value: value,
-        });
-      }
-    }
-
     res.json({
       success: true,
-      result: labeledOptions,
+      result: options,
     });
   }),
 );
