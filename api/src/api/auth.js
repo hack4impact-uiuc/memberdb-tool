@@ -6,13 +6,6 @@ const passport = require('passport');
 // via Google OAuth's state parameter
 const CALLBACK_ENDPOINT = '/api/auth/callback';
 
-router.get('/user', (req, res) => {
-  res.json({
-    result: req.user || null,
-    success: true,
-  });
-});
-
 router.get('/login', (req, res, next) => {
   // Get URLs to redirect to on success and failure
   const { successRedirect = '/', failureRedirect = '/login' } = req.query;

@@ -1,7 +1,8 @@
-const home = require('./home');
-const auth = require('./auth');
+const express = require('express');
+const router = express.Router();
 
-module.exports = {
-  home,
-  auth,
-};
+router.use('/home', require('./home'));
+router.use('/auth', require('./auth'));
+router.use('/members', require('./members'));
+
+module.exports = router;

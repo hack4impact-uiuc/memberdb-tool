@@ -1,6 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
-const Member = require('./models/member');
+const Member = require('../models/member');
 
 // Defines the default level a user gets assigned with upon first sign-in
 const DEFAULT_LEVEL = process.env.DEFAULT_LEVEL || Member.levelEnum.TBD;

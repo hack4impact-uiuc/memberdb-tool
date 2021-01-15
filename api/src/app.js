@@ -35,7 +35,11 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error));
 
 app.use(helmet());
-app.use(cors());
+if (environment != 'production') {
+  // For authentication to work on CORS, we must specify a non-wildcard origin
+  // and allow credentials (cookies)
+  app.use(cors({ origin: /localhost:\d{4}/, credentials: true }));
+}
 
 app.use(logger('dev'));
 
@@ -53,7 +57,7 @@ app.use(
 );
 
 // Passport setup
-require('./passport-setup');
+require('./utils/passport-setup');
 app.use(passport.initialize());
 app.use(passport.session());
 
