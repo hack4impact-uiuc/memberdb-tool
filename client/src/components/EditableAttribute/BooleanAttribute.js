@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnumAttribute from './EnumAttribute';
 
-const BooleanAttribute = ({ value = '', attributeLabel = '', isDisabled = false, onChange }) => {
+const BooleanAttribute = ({
+  value = '',
+  attributeLabel = '',
+  isDisabled = false,
+  onChange,
+}) => {
   const VALUE_OPTIONS = [
     { label: 'Yes', value: 'true' },
     { label: 'No', value: 'false' },

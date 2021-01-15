@@ -70,8 +70,8 @@ const Member = ({ memberID }) => {
 
   const onAttributeChange = (value, attributeLabel) => {
     setUser({
-        ...user,
-        [attributeLabel]: value,
+      ...user,
+      [attributeLabel]: value,
     });
   };
 
