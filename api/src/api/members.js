@@ -90,12 +90,12 @@ router.get(
 
     // Label all items with 'label' and 'value'
     const labeledOptions = {};
-    for (var attributeLabel in options) {
+    for (let attributeLabel in options) {
       if (!Object.prototype.hasOwnProperty.call(options, attributeLabel))
         continue;
 
       labeledOptions[attributeLabel] = [];
-      for (var option in options[attributeLabel]) {
+      for (let option in options[attributeLabel]) {
         if (
           !Object.prototype.hasOwnProperty.call(options[attributeLabel], option)
         )
