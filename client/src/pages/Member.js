@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Alert, Icon } from '@hack4impact-uiuc/bridge';
 import PropTypes from 'prop-types';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
@@ -12,18 +13,19 @@ import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
 
 const areResponsesSuccessful = (...responses) => {
+  var success = true;
   responses.forEach(response => {
     if (response == null || response.data == null || !response.data.success)
-      return false;
+      success = false;
   });
 
-  return true;
+  return success;
 };
 
 const Member = ({ memberID }) => {
-  // TODO: Remove this once the table pulls real data
   memberID = '5ffcc6ed3410cba712b969af';
 
+  const [isError, setIsError] = useState(false);
   const [user, setUser] = useState({});
   const [enumOptions, setEnumOptions] = useState({});
   const [schemaTypes, setSchemaTypes] = useState({});
@@ -47,7 +49,7 @@ const Member = ({ memberID }) => {
           enumOptionsResponse,
         )
       ) {
-        console.log('An error occurred while fetching user data');
+        setIsError(true);
         return;
       }
 
@@ -76,65 +78,72 @@ const Member = ({ memberID }) => {
 
   return (
     <div>
-      {userPermissions.view.map(attribute => {
-        if (isOfType(attribute, 'Number'))
+      {isError ? (
+        <Alert variant="error" mb="8px">
+          <Icon type="errorAlert" />
+          An error occurred
+        </Alert>
+      ) : (
+        userPermissions.view.map(attribute => {
+          if (isOfType(attribute, 'Number'))
+            return (
+              <StringAttribute
+                type="number"
+                value={user[attribute]}
+                attributeLabel={attribute}
+                onChange={onAttributeChange}
+                isDisabled={!userPermissions.edit.includes(attribute)}
+              />
+            );
+
+          if (isOfType(attribute, 'Enum'))
+            return (
+              <EnumAttribute
+                value={user[attribute]}
+                valueOptions={enumOptions[attribute]}
+                attributeLabel={attribute}
+                onChange={onAttributeChange}
+                isDisabled={!userPermissions.edit.includes(attribute)}
+              />
+            );
+
+          if (isOfType(attribute, 'Boolean'))
+            return (
+              <BooleanAttribute
+                value={user[attribute]}
+                attributeLabel={attribute}
+                onChange={onAttributeChange}
+                isDisabled={!userPermissions.edit.includes(attribute)}
+              />
+            );
+
+          if (isOfType(attribute, 'Date'))
+            return (
+              <DateAttribute
+                value={Date.parse(user[attribute])}
+                attributeLabel={attribute}
+                onChange={onAttributeChange}
+                isDisabled={!userPermissions.edit.includes(attribute)}
+              />
+            );
+
           return (
             <StringAttribute
-              type="number"
+              type="text"
               value={user[attribute]}
               attributeLabel={attribute}
               onChange={onAttributeChange}
               isDisabled={!userPermissions.edit.includes(attribute)}
             />
           );
-
-        if (isOfType(attribute, 'Enum'))
-          return (
-            <EnumAttribute
-              value={user[attribute]}
-              valueOptions={enumOptions[attribute]}
-              attributeLabel={attribute}
-              onChange={onAttributeChange}
-              isDisabled={!userPermissions.edit.includes(attribute)}
-            />
-          );
-
-        if (isOfType(attribute, 'Boolean'))
-          return (
-            <BooleanAttribute
-              value={user[attribute]}
-              attributeLabel={attribute}
-              onChange={onAttributeChange}
-              isDisabled={!userPermissions.edit.includes(attribute)}
-            />
-          );
-
-        if (isOfType(attribute, 'Date'))
-          return (
-            <DateAttribute
-              value={Date.parse(user[attribute])}
-              attributeLabel={attribute}
-              onChange={onAttributeChange}
-              isDisabled={!userPermissions.edit.includes(attribute)}
-            />
-          );
-
-        return (
-          <StringAttribute
-            type="text"
-            value={user[attribute]}
-            attributeLabel={attribute}
-            onChange={onAttributeChange}
-            isDisabled={!userPermissions.edit.includes(attribute)}
-          />
-        );
-      })}
+        })
+      )}
     </div>
   );
 };
 
 Member.propTypes = {
-  memberID: PropTypes.string,
+  memberID: PropTypes.string.isRequired,
 };
 
 export default Member;

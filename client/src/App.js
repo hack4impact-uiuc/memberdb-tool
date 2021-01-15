@@ -32,7 +32,12 @@ function App() {
           {user ? <Home user={user} /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
         <Route path={Routes.MEMBER_PAGE} exact>
-          {user ? <Member user={user} /> : <Redirect to={Routes.LOGIN_PAGE} />}
+          {/* TODO: Replace this with the users ID once we get real data in the DB */}
+          {user ? (
+            <Member memberID="5ffcc6ed3410cba712b969af" />
+          ) : (
+            <Redirect to={Routes.LOGIN_PAGE} />
+          )}
         </Route>
       </Switch>
     </div>

@@ -34,7 +34,14 @@ EnumAttribute.propTypes = {
   valueOptions: PropTypes.arrayOf(PropTypes.string),
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+};
+
+EnumAttribute.defaultProps = {
+  value: '',
+  valueOptions: [],
+  attributeLabel: '',
+  isDisabled: false,
 };
 
 export default EnumAttribute;

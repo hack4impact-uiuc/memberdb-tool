@@ -24,7 +24,12 @@ DateAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 };
 
+DateAttribute.defaultProps = {
+  value: '',
+  attributeLabel: '',
+  isDisabled: false,
+};
 export default DateAttribute;

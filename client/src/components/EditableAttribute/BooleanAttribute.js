@@ -23,7 +23,13 @@ BooleanAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+};
+
+BooleanAttribute.defaultProps = {
+  value: '',
+  attributeLabel: '',
+  isDisabled: false,
 };
 
 export default BooleanAttribute;

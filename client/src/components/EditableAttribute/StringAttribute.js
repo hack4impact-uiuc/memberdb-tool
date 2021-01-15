@@ -31,7 +31,14 @@ StringAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+};
+
+StringAttribute.defaultProps = {
+  type: 'text',
+  value: '',
+  attributeLabel: '',
+  isDisabled: false,
 };
 
 export default StringAttribute;
