@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
 const StringAttribute = ({

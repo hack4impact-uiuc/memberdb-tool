@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Select from 'react-select';
+import React from 'react';
 import EnumAttribute from './EnumAttribute';
 
 const BooleanAttribute = ({ value, attributeLabel, isDisabled, onChange }) => {

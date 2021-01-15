@@ -1,4 +1,3 @@
-import { string } from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
@@ -16,12 +15,12 @@ const Member = ({ memberID }) => {
   memberID = '5ffcc6ed3410cba712b969af';
 
   const [user, setUser] = useState({});
+  const [enumOptions, setEnumOptions] = useState({});
+  const [schemaTypes, setSchemaTypes] = useState({});
   const [userPermissions, setUserPermissions] = useState({
     view: [],
     edit: [],
   });
-  const [enumOptions, setEnumOptions] = useState({});
-  const [schemaTypes, setSchemaTypes] = useState({});
 
   useEffect(() => {
     async function getUserData() {
@@ -49,7 +48,7 @@ const Member = ({ memberID }) => {
     }
 
     getUserData();
-  }, []);
+  }, [memberID]);
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
@@ -77,17 +76,6 @@ const Member = ({ memberID }) => {
   return (
     <div>
       {userPermissions.view.map(attribute => {
-        if (isOfType(attribute, 'String'))
-          return (
-            <StringAttribute
-              type="text"
-              value={user[attribute]}
-              attributeLabel={attribute}
-              onChange={onAttributeChange}
-              isDisabled={!userPermissions.edit.includes(attribute)}
-            />
-          );
-
         if (isOfType(attribute, 'Number'))
           return (
             <StringAttribute
@@ -124,6 +112,16 @@ const Member = ({ memberID }) => {
           return (
             <DateAttribute
               value={Date.parse(user[attribute])}
+              attributeLabel={attribute}
+              onChange={onAttributeChange}
+              isDisabled={!userPermissions.edit.includes(attribute)}
+            />
+          );
+
+          return (
+            <StringAttribute
+              type="text"
+              value={user[attribute]}
               attributeLabel={attribute}
               onChange={onAttributeChange}
               isDisabled={!userPermissions.edit.includes(attribute)}
