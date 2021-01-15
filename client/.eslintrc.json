@@ -13,7 +13,7 @@
   "plugins": ["flowtype", "import", "react", "react-hooks"],
   "rules": {
     "react/require-default-props": "off",
-    "no-underscore-dangle":  ["error", { "allow": ["_id"] }],
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "import/order": [
       "warn",
       {

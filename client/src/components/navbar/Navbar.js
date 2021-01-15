@@ -19,7 +19,10 @@ const Navbar = ({ user }) => (
       </Link>
     </h2>
     <div className="profile-item">
-      <h2 id="welcome-text">Hello, {user.firstName}!</h2>
+      <h2 id="welcome-text">
+        Hello,
+        {user.firstName}!
+      </h2>
       <Profile user={user} />
     </div>
   </nav>

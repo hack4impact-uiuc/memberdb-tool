@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert, Icon } from '@hack4impact-uiuc/bridge';
+
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import {
@@ -41,10 +42,10 @@ const Member = () => {
     async function getUserData() {
       if (memberID == null) return;
 
-      let memberDataResponse = await getMemberByID(memberID);
-      let memberPermissionResponse = await getMemberPermissionsByID(memberID);
-      let memberSchemaResponse = await getMemberSchemaTypes();
-      let enumOptionsResponse = await getMemberEnumOptions();
+      const memberDataResponse = await getMemberByID(memberID);
+      const memberPermissionResponse = await getMemberPermissionsByID(memberID);
+      const memberSchemaResponse = await getMemberSchemaTypes();
+      const enumOptionsResponse = await getMemberEnumOptions();
 
       if (
         !areResponsesSuccessful(
@@ -91,7 +92,7 @@ const Member = () => {
         </Alert>
       ) : (
         userPermissions.view.map(attribute => {
-          if (isOfType(attribute, 'Number'))
+          if (isOfType(attribute, 'Number')) {
             return (
               <StringAttribute
                 type="number"
@@ -101,8 +102,9 @@ const Member = () => {
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
+          }
 
-          if (isOfType(attribute, 'Enum'))
+          if (isOfType(attribute, 'Enum')) {
             return (
               <EnumAttribute
                 value={user[attribute]}
@@ -112,8 +114,9 @@ const Member = () => {
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
+          }
 
-          if (isOfType(attribute, 'Boolean'))
+          if (isOfType(attribute, 'Boolean')) {
             return (
               <BooleanAttribute
                 value={user[attribute]}
@@ -122,8 +125,9 @@ const Member = () => {
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
+          }
 
-          if (isOfType(attribute, 'Date'))
+          if (isOfType(attribute, 'Date')) {
             return (
               <DateAttribute
                 value={Date.parse(user[attribute])}
@@ -132,6 +136,7 @@ const Member = () => {
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
+          }
 
           return (
             <StringAttribute
