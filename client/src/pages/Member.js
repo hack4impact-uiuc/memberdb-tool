@@ -47,8 +47,8 @@ const Member = ({ memberID }) => {
           enumOptionsResponse,
         )
       ) {
-            console.log("An error occurred while fetching user data");
-            return;
+        console.log('An error occurred while fetching user data');
+        return;
       }
 
       setUser(memberDataResponse.data.result);
