@@ -83,7 +83,7 @@ router.get(
       const { enum: optionsEnum } = schemaType.options;
       if (optionsEnum) {
         options[pathname] = optionsEnum.map(
-          (option) => new Object({ label: option, value: option }),
+          (option) => ({ label: option, value: option }),
         );
       }
     });
