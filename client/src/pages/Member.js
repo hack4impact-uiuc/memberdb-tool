@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Alert, Icon } from '@hack4impact-uiuc/bridge';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
@@ -26,19 +26,8 @@ const areResponsesSuccessful = (...responses) => {
   return success;
 };
 
-/**
- * Parases/Returns the member ID from the URL
- * @param {String} url the current webpage url
- */
-const parseMemberID = url => {
-  const urlPartsArray = url.split('/'); // [BASE_URL, member, :memberID]
-  const id = urlPartsArray.pop(); // removes the last element from array
-  return id;
-};
-
 const Member = () => {
-  let location = useLocation();
-  const [memberID, setMemberID] = useState(null);
+  const { memberID } = useParams();
   const [isError, setIsError] = useState(false);
   const [user, setUser] = useState({});
   const [enumOptions, setEnumOptions] = useState({});
@@ -50,7 +39,6 @@ const Member = () => {
 
   useEffect(() => {
     async function getUserData() {
-      console.log(memberID);
       if (memberID == null) return;
 
       let memberDataResponse = await getMemberByID(memberID);
@@ -78,10 +66,6 @@ const Member = () => {
 
     getUserData();
   }, [memberID]);
-
-  useEffect(() => {
-    setMemberID(parseMemberID(location.pathname));
-  }, [location]);
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
