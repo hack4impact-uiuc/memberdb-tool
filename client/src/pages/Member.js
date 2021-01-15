@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Alert, Icon } from '@hack4impact-uiuc/bridge';
-import PropTypes from 'prop-types';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import {
@@ -12,6 +12,10 @@ import {
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
 
+/**
+ * Checks if the given API responses were successful
+ * @param  {...any} responses Any amount of response objects
+ */
 const areResponsesSuccessful = (...responses) => {
   let success = true;
   responses.forEach(response => {
@@ -22,7 +26,19 @@ const areResponsesSuccessful = (...responses) => {
   return success;
 };
 
-const Member = ({ memberID }) => {
+/**
+ * Parases/Returns the member ID from the URL
+ * @param {String} url the current webpage url
+ */
+const parseMemberID = url => {
+  const urlPartsArray = url.split('/'); // [BASE_URL, member, :memberID]
+  const id = urlPartsArray.pop(); // removes the last element from array
+  return id;
+};
+
+const Member = () => {
+  let location = useLocation();
+  const [memberID, setMemberID] = useState(null);
   const [isError, setIsError] = useState(false);
   const [user, setUser] = useState({});
   const [enumOptions, setEnumOptions] = useState({});
@@ -34,6 +50,10 @@ const Member = ({ memberID }) => {
 
   useEffect(() => {
     async function getUserData() {
+        console.log(memberID)
+      if (memberID == null)
+        return;
+        
       let memberDataResponse = await getMemberByID(memberID);
       let memberPermissionResponse = await getMemberPermissionsByID(memberID);
       let memberSchemaResponse = await getMemberSchemaTypes();
@@ -59,6 +79,10 @@ const Member = ({ memberID }) => {
 
     getUserData();
   }, [memberID]);
+
+  useEffect(() => {
+    setMemberID(parseMemberID(location.pathname));
+  }, [location])
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
@@ -139,10 +163,6 @@ const Member = ({ memberID }) => {
       )}
     </div>
   );
-};
-
-Member.propTypes = {
-  memberID: PropTypes.string.isRequired,
 };
 
 export default Member;
