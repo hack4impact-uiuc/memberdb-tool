@@ -33,11 +33,7 @@ function App() {
         </Route>
         <Route path={Routes.MEMBER_PAGE}>
           {/* TODO: Replace this with the users ID once we get real data in the DB */}
-          {user ? (
-            <Member />
-          ) : (
-            <Redirect to={Routes.LOGIN_PAGE} />
-          )}
+          {user ? <Member /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
       </Switch>
     </div>

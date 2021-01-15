@@ -50,10 +50,9 @@ const Member = () => {
 
   useEffect(() => {
     async function getUserData() {
-        console.log(memberID)
-      if (memberID == null)
-        return;
-        
+      console.log(memberID);
+      if (memberID == null) return;
+
       let memberDataResponse = await getMemberByID(memberID);
       let memberPermissionResponse = await getMemberPermissionsByID(memberID);
       let memberSchemaResponse = await getMemberSchemaTypes();
@@ -82,7 +81,7 @@ const Member = () => {
 
   useEffect(() => {
     setMemberID(parseMemberID(location.pathname));
-  }, [location])
+  }, [location]);
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html

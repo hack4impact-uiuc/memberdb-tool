@@ -34,7 +34,14 @@ const Profile = () => {
     <div className="dropdown">
       {/** JSX Redirects */}
       {/* TODO: Fetch the real member ID of the current user */}
-      {redirectToMemberPage && <Redirect to={Routes.MEMBER_PAGE.replace(":memberID", "5ffcc6ed3410cba712b969af")} />}
+      {redirectToMemberPage && (
+        <Redirect
+          to={Routes.MEMBER_PAGE.replace(
+            ':memberID',
+            '5ffcc6ed3410cba712b969af',
+          )}
+        />
+      )}
       {isLoggedOut && <Redirect to={Routes.LOGIN_PAGE} />}
 
       {/** Rendered JSX */}
