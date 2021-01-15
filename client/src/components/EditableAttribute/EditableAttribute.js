@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
-const EditableAttribute = ({value, setValue, isEditable}) => {
+const EditableAttribute = ({value, attributeLabel, isEditable, onChange}) => {
 
     const onValueChange = (e) => {
-        setValue(e.target.value);
+        onChange(e, attributeLabel)
     }
 
     return (
