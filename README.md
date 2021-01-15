@@ -37,11 +37,11 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
 
 <table align="center">
   <tr>
-    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/1014241/LINEStorePC/main.png" width="150px;" alt="Pusheen"/><br /><b>Alice Fang</b></a><br /><sub>Technical Lead</sub></td>
-    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637244/android/sticker.png" width="150px;" alt="Unicorn Pusheen"/><br /><b>Matthew Walowski</b></a><br /><sub>Technical Lead</sub></td>
-    <td align="center"><a href="https://www.linkedin.com/in/jeffrey-tang/"><img src="https://raw.githubusercontent.com/hack4impact-uiuc/closegap/master/.github/team_pics/jeffrey.jpg" width="150px;" alt="Jeffrey Tang"/><br /><b>Jeffrey Tang</b></a><br /><sub>Technical Lead</sub></td>
-    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637273/android/sticker.png" width="150px;" alt="Angry Pusheen"/><br /><b>Amit Sawhney</b></a><br /><sub>Software Developer</sub></td>
-    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637255/android/sticker.png" width="150px;" alt="Chef Pusheen"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
+    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/1014241/LINEStorePC/main.png" width="125px;" alt="Pusheen"/><br /><b>Alice Fang</b></a><br /><sub>Technical Lead</sub></td>
+    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637244/android/sticker.png" width="125px;" alt="Unicorn Pusheen"/><br /><b>Matthew Walowski</b></a><br /><sub>Technical Lead</sub></td>
+    <td align="center"><a href="https://www.linkedin.com/in/jeffrey-tang/"><img src="https://raw.githubusercontent.com/hack4impact-uiuc/closegap/master/.github/team_pics/jeffrey.jpg" width="125px;" alt="Jeffrey Tang"/><br /><b>Jeffrey Tang</b></a><br /><sub>Technical Lead</sub></td>
+    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637273/android/sticker.png" width="125px;" alt="Angry Pusheen"/><br /><b>Amit Sawhney</b></a><br /><sub>Software Developer</sub></td>
+    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637255/android/sticker.png" width="125px;" alt="Chef Pusheen"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
   </tr>
 </table>
 
