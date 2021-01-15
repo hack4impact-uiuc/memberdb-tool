@@ -69,9 +69,10 @@ const Member = ({ memberID }) => {
   };
 
   const onAttributeChange = (value, attributeLabel) => {
-    let userCopy = { ...user };
-    userCopy[attributeLabel] = value;
-    setUser(userCopy);
+    setUser({
+        ...user,
+        [attributeLabel]: value,
+    });
   };
 
   return (
