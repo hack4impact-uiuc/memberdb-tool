@@ -118,15 +118,15 @@ const Member = ({ memberID }) => {
             />
           );
 
-          return (
-            <StringAttribute
-              type="text"
-              value={user[attribute]}
-              attributeLabel={attribute}
-              onChange={onAttributeChange}
-              isDisabled={!userPermissions.edit.includes(attribute)}
-            />
-          );
+        return (
+          <StringAttribute
+            type="text"
+            value={user[attribute]}
+            attributeLabel={attribute}
+            onChange={onAttributeChange}
+            isDisabled={!userPermissions.edit.includes(attribute)}
+          />
+        );
       })}
     </div>
   );
