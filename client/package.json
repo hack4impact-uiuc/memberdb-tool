@@ -11,7 +11,6 @@
     "axios": "^0.21.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-date-picker": "^8.0.6",
     "react-datepicker": "^3.4.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
