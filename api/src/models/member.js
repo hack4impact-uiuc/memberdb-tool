@@ -3,6 +3,8 @@
  */
 const mongoose = require('mongoose');
 
+const getEnumValues = (enumObj) => [...Object.values(enumObj), null];
+
 const levelEnum = {
   ADMIN: 'ADMIN',
   DIRECTOR: 'DIRECTOR',
@@ -70,32 +72,32 @@ const Member = new mongoose.Schema({
   gradYear: { type: Number, default: null },
   gradSemester: {
     type: String,
-    enum: Object.values(semesterEnum),
+    enum: getEnumValues(semesterEnum),
     default: null,
   },
 
   classStanding: {
     type: String,
-    enum: Object.values(classStandingEnum),
+    enum: getEnumValues(classStandingEnum),
     default: null,
   },
 
   generationYear: { type: Number, default: null },
   generationSemester: {
     type: String,
-    enum: Object.values(semesterEnum),
+    enum: getEnumValues(semesterEnum),
     default: null,
   },
 
   location: {
     type: String,
-    enum: Object.values(locationEnum),
+    enum: getEnumValues(locationEnum),
     default: null,
   },
 
   role: {
     type: String,
-    enum: Object.values(roleEnum),
+    enum: getEnumValues(roleEnum),
     default: null,
   },
 
@@ -107,7 +109,7 @@ const Member = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: Object.values(statusEnum),
+    enum: getEnumValues(statusEnum),
     default: null,
   },
 });
