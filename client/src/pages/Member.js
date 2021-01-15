@@ -133,15 +133,18 @@ const Member = () => {
               />
             );
 
-          return (
-            <StringAttribute
-              type="text"
-              value={user[attribute]}
-              attributeLabel={attribute}
-              onChange={onAttributeChange}
-              isDisabled={!userPermissions.edit.includes(attribute)}
-            />
-          );
+          if (isOfType(attribute, 'String'))
+            return (
+              <StringAttribute
+                type="text"
+                value={user[attribute]}
+                attributeLabel={attribute}
+                onChange={onAttributeChange}
+                isDisabled={!userPermissions.edit.includes(attribute)}
+              />
+            );
+
+          return (<div />);
         })
       )}
     </div>
