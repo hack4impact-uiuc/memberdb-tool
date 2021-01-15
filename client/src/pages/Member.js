@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAlert } from 'react-alert';
 import PropTypes from 'prop-types';
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
@@ -25,7 +24,6 @@ const Member = ({ memberID }) => {
   // TODO: Remove this once the table pulls real data
   memberID = '5ffcc6ed3410cba712b969af';
 
-  const alert = useAlert();
   const [user, setUser] = useState({});
   const [enumOptions, setEnumOptions] = useState({});
   const [schemaTypes, setSchemaTypes] = useState({});
@@ -49,8 +47,8 @@ const Member = ({ memberID }) => {
           enumOptionsResponse,
         )
       ) {
-        alert.show('An error occurred.');
-        return;
+            console.log("An error occurred while fetching user data");
+            return;
       }
 
       setUser(memberDataResponse.data.result);
