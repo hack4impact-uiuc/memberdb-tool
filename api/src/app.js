@@ -10,7 +10,7 @@ const path = require('path');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const routes = require('./routes');
+const apiRoutes = require('./api');
 
 const app = express();
 const { errorHandler } = require('./middleware');
@@ -61,7 +61,7 @@ require('./utils/passport-setup');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', routes);
+app.use('/api', apiRoutes);
 
 app.get('/', (req, res) => res.json('API working!'));
 
