@@ -210,7 +210,7 @@ const Table = () => {
   ]);
   return (
     <div className="ag-theme-alpine table-wrapper">
-      <AgGridReact columnDefs={columnDefs} rowData={rowData} />
+      <AgGridReact columnDefs={columnDefs} rowData={rowData} floatingFilter={true} />
     </div>
   );
 };
