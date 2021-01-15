@@ -17,7 +17,7 @@ const BooleanAttribute = ({
     <EnumAttribute
       value={value}
       attributeLabel={attributeLabel}
-      valueOptions={valueOptions}
+      valueOptions={VALUE_OPTIONS}
       isDisabled={isDisabled}
       onChange={onChange}
     />
