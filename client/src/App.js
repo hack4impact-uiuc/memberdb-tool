@@ -3,7 +3,7 @@ import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 
 import * as Routes from './routes';
 import Home from './pages/Home';
-import Member from './pages/Member';
+import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Navbar from './components/navbar/Navbar';
 import { getUserAuth } from './utils/apiWrapper';
@@ -33,7 +33,7 @@ function App() {
         </Route>
         <Route path={Routes.MEMBER_PAGE}>
           {/* TODO: Replace this with the users ID once we get real data in the DB */}
-          {user ? <Member /> : <Redirect to={Routes.LOGIN_PAGE} />}
+          {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
       </Switch>
     </div>

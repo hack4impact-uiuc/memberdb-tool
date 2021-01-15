@@ -26,7 +26,7 @@ const areResponsesSuccessful = (...responses) => {
   return success;
 };
 
-const Member = () => {
+const Profile = () => {
   const { memberID } = useParams();
   const [isError, setIsError] = useState(false);
   const [user, setUser] = useState({});
@@ -151,4 +151,4 @@ const Member = () => {
   );
 };
 
-export default Member;
+export default Profile;
