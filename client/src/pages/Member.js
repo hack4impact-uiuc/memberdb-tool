@@ -2,24 +2,13 @@ import React, { useState, useEffect } from 'react';
 import EditableAttribute from '../components/EditableAttribute/EditableAttribute';
 import { getMemberByID, getMemberPermissionsByID } from '../utils/apiWrapper';
 
-const placeholderUser = {
-    firstName: "No First Name Found",
-    lastName: "No Last Name Found",
-    email: "No Email Found",
-    phone: "No Phone Found",
-    netID: "No NetID Found",
-    UIN: "No UIN Found",
-    major: "No Major Found",
-    github: "No Github Found",
-    instagram: "No Instagram Found",
-    snapchat: "No Snapchat Found",
-};
+
 
 const Member = ({memberID}) => {
     // TODO: Remove this once the table pulls real data
     memberID = "5ffcc6ed3410cba712b969af";
-    const [user, setUser] = useState(placeholderUser);
-    const [userPermissions, setUserPermissions] = useState({view:{}, edit:{}});
+    const [user, setUser] = useState({});
+    const [userPermissions, setUserPermissions] = useState({view:[], edit:[]});
     
     useEffect(() => {
         async function getUser() {
@@ -53,7 +42,14 @@ const Member = ({memberID}) => {
 
     return ( 
         <div>
-            <EditableAttribute value={user.firstName} attributeLabel="firstName" onChange={onStringAttributeChange} />
+            {userPermissions.view.map(attribute => {
+                return <EditableAttribute 
+                    value={user[attribute]} 
+                    attributeLabel={attribute} 
+                    onChange={onStringAttributeChange} 
+                    isDisabled={!userPermissions.edit.includes(attribute)} />
+            })}
+            {/* <EditableAttribute value={user.firstName} attributeLabel="firstName" onChange={onStringAttributeChange} />
             <EditableAttribute value={user.lastName} attributeLabel="lastName" onChange={onStringAttributeChange} />
             <EditableAttribute value={user.email} attributeLabel="email" onChange={onStringAttributeChange} />
             <EditableAttribute value={user.phone} attributeLabel="phone" onChange={onStringAttributeChange} />
@@ -62,7 +58,7 @@ const Member = ({memberID}) => {
             <EditableAttribute value={user.major} attributeLabel="major" onChange={onStringAttributeChange} />
             <EditableAttribute value={user.github} attributeLabel="github" onChange={onStringAttributeChange} />
             <EditableAttribute value={user.instagram} attributeLabel="instagram" onChange={onStringAttributeChange} />
-            <EditableAttribute value={user.snapchat} attributeLabel="snapchat" onChange={onStringAttributeChange} />
+            <EditableAttribute value={user.snapchat} attributeLabel="snapchat" onChange={onStringAttributeChange} /> */}
         </div>
     );
 };
