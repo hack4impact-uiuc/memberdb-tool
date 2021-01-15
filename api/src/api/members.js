@@ -82,9 +82,10 @@ router.get(
     Member.schema.eachPath((pathname, schemaType) => {
       const { enum: optionsEnum } = schemaType.options;
       if (optionsEnum) {
-        options[pathname] = optionsEnum.map(
-          (option) => ({ label: option, value: option }),
-        );
+        options[pathname] = optionsEnum.map((option) => ({
+          label: option,
+          value: option,
+        }));
       }
     });
 
