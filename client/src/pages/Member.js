@@ -23,8 +23,6 @@ const areResponsesSuccessful = (...responses) => {
 };
 
 const Member = ({ memberID }) => {
-  memberID = '5ffcc6ed3410cba712b969af';
-
   const [isError, setIsError] = useState(false);
   const [user, setUser] = useState({});
   const [enumOptions, setEnumOptions] = useState({});
