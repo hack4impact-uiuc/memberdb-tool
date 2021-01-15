@@ -144,7 +144,7 @@ const Profile = () => {
               />
             );
 
-          return (<div />);
+          return <div />;
         })
       )}
     </div>
