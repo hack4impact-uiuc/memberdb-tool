@@ -14,7 +14,7 @@ export const getUserAuth = () => {
         'Content-Type': 'application/JSON',
       },
     })
-    .catch(error => ({
+    .catch((error) => ({
       type: 'GET_AUTH_FAIL',
       error,
     }));
@@ -29,7 +29,7 @@ export const endUserSession = () => {
         'Content-Type': 'application/JSON',
       },
     })
-    .catch(error => ({
+    .catch((error) => ({
       type: 'GET_SESSION_END_FAIL',
       error,
     }));
