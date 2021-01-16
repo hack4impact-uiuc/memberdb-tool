@@ -72,6 +72,55 @@ router.post(
   }),
 );
 
+// Gives the enum options to the frontend to populate the dropdown.
+// The key in the 'options' object must be the same as the DB attribute.
+router.get(
+  '/options',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const options = {};
+    Member.schema.eachPath((pathname, schemaType) => {
+      const { enum: optionsEnum } = schemaType.options;
+      if (optionsEnum) {
+        options[pathname] = optionsEnum.map((option) => ({
+          label: option,
+          value: option,
+        }));
+      }
+    });
+
+    res.json({
+      success: true,
+      result: options,
+    });
+  }),
+);
+
+// Returns the types of all the schema properties for member. This allows the frontend
+// to decide the best way to provide input for each attribute.
+// Note: This will only work for non-nested fields
+router.get(
+  '/schema',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const schemaTypes = { Enum: [] };
+
+    Member.schema.eachPath((pathname, schemaType) => {
+      if (schemaTypes[schemaType.instance] == null)
+        schemaTypes[schemaType.instance] = [];
+
+      if (schemaType.enumValues != null && schemaType.enumValues.length > 0)
+        schemaTypes['Enum'].push(pathname);
+      else schemaTypes[schemaType.instance].push(pathname);
+    });
+
+    res.json({
+      success: true,
+      result: schemaTypes,
+    });
+  }),
+);
+
 router.get(
   '/:memberId',
   requireRegistered,

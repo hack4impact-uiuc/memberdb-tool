@@ -23,7 +23,7 @@ const Navbar = ({ user }) => (
         Hello,
         {user.firstName}!
       </h2>
-      <Profile />
+      <Profile user={user} />
     </div>
   </nav>
 );
@@ -32,11 +32,9 @@ Navbar.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    oauthID: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    level: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    level: PropTypes.string,
   }).isRequired,
 };
 
