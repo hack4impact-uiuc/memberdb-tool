@@ -18,7 +18,7 @@ const StringAttribute = ({
       <p>{attributeLabel}</p>
       <TextField
         type={type}
-        placeholder={value}
+        value={value}
         onChange={onValueChange}
         disabled={isDisabled}
       />
