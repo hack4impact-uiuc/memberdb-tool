@@ -3,8 +3,6 @@
  */
 const mongoose = require('mongoose');
 
-const getEnumValues = (enumObj) => [...Object.values(enumObj), null];
-
 const levelEnum = {
   ADMIN: 'ADMIN',
   DIRECTOR: 'DIRECTOR',
@@ -30,6 +28,7 @@ const roleEnum = {
   PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
   DEVELOPER: 'DEVELOPER',
   ACADEMY_MEMBER: 'ACADEMY_MEMBER',
+  TBD: 'TBD',
 };
 
 const statusEnum = {
@@ -42,6 +41,7 @@ const statusEnum = {
 const semesterEnum = {
   FALL: 'FALL',
   SPRING: 'SPRING',
+  TBD: 'TBD',
 };
 
 const classStandingEnum = {
@@ -52,6 +52,7 @@ const classStandingEnum = {
   FALL_SENIOR: 'FALL_SENIOR',
   MASTERS: 'MASTERS',
   PHD: 'PHD',
+  TBD: 'TBD',
 };
 
 const Member = new mongoose.Schema({
@@ -72,33 +73,33 @@ const Member = new mongoose.Schema({
   gradYear: { type: Number, default: null },
   gradSemester: {
     type: String,
-    enum: getEnumValues(semesterEnum),
-    default: null,
+    enum: Object.values(semesterEnum),
+    default: semesterEnum.TBD,
   },
 
   classStanding: {
     type: String,
-    enum: getEnumValues(classStandingEnum),
-    default: null,
+    enum: Object.values(classStandingEnum),
+    default: classStandingEnum.TBD,
   },
 
   generationYear: { type: Number, default: null },
   generationSemester: {
     type: String,
-    enum: getEnumValues(semesterEnum),
-    default: null,
+    enum: Object.values(semesterEnum),
+    default: semesterEnum.TBD,
   },
 
   location: {
     type: String,
-    enum: getEnumValues(locationEnum),
-    default: null,
+    enum: Object.values(locationEnum),
+    default: locationEnum.TBD,
   },
 
   role: {
     type: String,
-    enum: getEnumValues(roleEnum),
-    default: null,
+    enum: Object.values(roleEnum),
+    default: roleEnum.TBD,
   },
 
   level: {
@@ -109,8 +110,8 @@ const Member = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: getEnumValues(statusEnum),
-    default: null,
+    enum: Object.values(statusEnum),
+    default: statusEnum.TBD,
   },
 });
 
