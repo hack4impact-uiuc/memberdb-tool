@@ -19,9 +19,8 @@ import DateAttribute from '../components/EditableAttribute/DateAttribute';
  */
 const areResponsesSuccessful = (...responses) => {
   let success = true;
-  responses.forEach(response => {
-    if (response == null || response.data == null || !response.data.success)
-      success = false;
+  responses.forEach((response) => {
+    if (response == null || response.data == null || !response.data.success) success = false;
   });
 
   return success;
@@ -91,7 +90,7 @@ const Profile = () => {
           An error occurred
         </Alert>
       ) : (
-        userPermissions.view.map(attribute => {
+        userPermissions.view.map((attribute) => {
           if (isOfType(attribute, 'Number')) {
             return (
               <StringAttribute
@@ -138,7 +137,7 @@ const Profile = () => {
             );
           }
 
-          if (isOfType(attribute, 'String'))
+          if (isOfType(attribute, 'String')) {
             return (
               <StringAttribute
                 type="text"
@@ -148,6 +147,7 @@ const Profile = () => {
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
+          }
 
           return <div />;
         })

@@ -9,7 +9,7 @@ const DateAttribute = ({
   isDisabled = false,
   onChange,
 }) => {
-  const onValueChange = date => {
+  const onValueChange = (date) => {
     onChange(date, attributeLabel);
   };
 

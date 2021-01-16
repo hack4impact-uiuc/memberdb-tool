@@ -36,7 +36,7 @@ export const endUserSession = () => {
 };
 
 // Retrieves a member from their mongo ID
-export const getMemberByID = mongoID => {
+export const getMemberByID = (mongoID) => {
   const requestString = `${BACKEND_BASE_URL}/members/${mongoID}`;
   return axios
     .get(requestString, {
@@ -44,14 +44,14 @@ export const getMemberByID = mongoID => {
         'Content-Type': 'application/JSON',
       },
     })
-    .catch(error => ({
+    .catch((error) => ({
       type: 'GET_MEMBER_BY_ID_FAIL',
       error,
     }));
 };
 
 // Retrieves a member's permissions from their mongo ID
-export const getMemberPermissionsByID = mongoID => {
+export const getMemberPermissionsByID = (mongoID) => {
   const requestString = `${BACKEND_BASE_URL}/members/${mongoID}/permissions`;
   return axios
     .get(requestString, {
@@ -59,7 +59,7 @@ export const getMemberPermissionsByID = mongoID => {
         'Content-Type': 'application/JSON',
       },
     })
-    .catch(error => ({
+    .catch((error) => ({
       type: 'GET_MEMBER_PERMISSIONS_BY_ID_FAIL',
       error,
     }));
@@ -74,7 +74,7 @@ export const getMemberEnumOptions = () => {
         'Content-Type': 'application/JSON',
       },
     })
-    .catch(error => ({
+    .catch((error) => ({
       type: 'GET_MEMBER_ENUM_OPTIONS_FAIL',
       error,
     }));
@@ -89,7 +89,7 @@ export const getMemberSchemaTypes = () => {
         'Content-Type': 'application/JSON',
       },
     })
-    .catch(error => ({
+    .catch((error) => ({
       type: 'GET_MEMBER_SCHEMA_TYPES_FAIL',
       error,
     }));
