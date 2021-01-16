@@ -1,5 +1,10 @@
 const csv = require('csvtojson');
 
+// Regex to capture each part the grad sem year column
+// Ex: "Fall 2020 (Freshman)" captures "Fall", "2020", "Freshman"
+const REGEX_GRAD_SEM_YEAR = /([A-Za-z]+)\s([0-9]+)\s+\(([A-Za-z\s+]+)\)/;
+const REGEX_GENERATION_YEAR = /([A-Za-z]+)\s([0-9]+)/;
+
 // Download the CSV file onto your machine and use abs path
 const csvFilePath='C:\\Users\\mattw\\Downloads\\FA20Membership.csv';
 
@@ -11,33 +16,50 @@ const SPECIAL_COLUMNS_ENUM = {
     BIRTHDATE: "BIRTHDATE",
 }
 
+// These are the columns that are an enum value. Formatting is done to ensure they meet the backend options.
+const ENUM_COLUMNS_ENUM = {
+    LOCATION: "location",
+    ROLE: "role",
+    LEVEL: "level",
+    STATUS: "status",
+}
+
 // The names of the columns in order from left to right. Name each column according to it's DB field name except for special fields
-const columns = [SPECIAL_COLUMNS_ENUM.NAME, 'email', 'phoneNumber', 'netID', 'UIN', 'major', SPECIAL_COLUMNS_ENUM.BIRTHDATE,
+const columns = [SPECIAL_COLUMNS_ENUM.NAME, 'email', 'phone', 'netID', 'UIN', 'major', SPECIAL_COLUMNS_ENUM.BIRTHDATE,
                 'github', 'snapchat', 'instagram', SPECIAL_COLUMNS_ENUM.GRAD_SEM_YEAR, SPECIAL_COLUMNS_ENUM.GENERATION, 
-                'location', 'role', 'level', 'status', 'dues'];
+                ENUM_COLUMNS_ENUM.LOCATION, ENUM_COLUMNS_ENUM.ROLE, ENUM_COLUMNS_ENUM.LEVEL, ENUM_COLUMNS_ENUM.STATUS, 'areDuesPaid'];
 const specialColumns = Object.values(SPECIAL_COLUMNS_ENUM);
+const enumColumns = Object.values(ENUM_COLUMNS_ENUM);
 
 async function main() {
     // Data is array of JSON objects, where each key is field1, field2, ..., field19.
     const sheetData = await csv({ noheader: true }).fromFile(csvFilePath);
+
+    // Remove the header row
+    sheetData.shift();
     sheetData.forEach(memberJSON => saveJSONIntoDB(memberJSON));
 }
 
 function saveJSONIntoDB(memberJSON) {
    const model = createModelFromJSON(memberJSON);
+   console.log(model);
 }
 
 function createModelFromJSON(memberJSON) {
     const memberObj = {};
 
     for (let i = 0; i < columns.length; i++) {
-        const fieldLabel = `field${i}`;
+        const fieldLabel = `field${ i + 1}`;
         if (specialColumns.includes(columns[i])) {
             processSpecialField(memberObj, columns[i], memberJSON[fieldLabel]);
+        } else if (enumColumns.includes(columns[i])) {
+            processEnumField(memberObj, columns[i], memberJSON[fieldLabel]);
         } else {
             processSimpleField(memberObj, columns[i], memberJSON[fieldLabel]);
         }
     }
+
+    return memberObj;
 }
 
 function processSimpleField(memberObj, fieldName, fieldValue) {
@@ -55,6 +77,9 @@ function processSpecialField(memberObj, fieldName, fieldValue) {
         case SPECIAL_COLUMNS_ENUM.GENERATION:
             processGeneration(memberObj, fieldValue);
             break;
+        case SPECIAL_COLUMNS_ENUM.BIRTHDATE:
+            processBirthdate(memberObj, fieldValue);
+            break;
     }
 }
 
@@ -63,23 +88,47 @@ function processSpecialField(memberObj, fieldName, fieldValue) {
  * to split the name so it can be stored in the DB. 
  */
 function processName(memberObj, nameValue) {
-    const nameComponents = nameValue.split("\\s+");
+    const nameComponents = nameValue.split(" ");
     if (nameComponents.length != 2)
         throw `${nameValue}, has an unparsable name. They must be entered manually.`;
 
-    memberObj['firstName'] = nameComponents[0];
-    memberObj['lastName'] = nameComponents[1];
+    [ memberObj['firstName'], memberObj['lastName'] ] = nameComponents;
 }
 
 /**
  * This field contains class standing, grad year, and grad month
  */
-function prcoessGradSemYear(memberObj, nameValue) {
-    
+function prcoessGradSemYear(memberObj, gradSemYearValue) {
+    const match = gradSemYearValue.match(REGEX_GRAD_SEM_YEAR) 
+    if (!match || match.length != 4)
+        throw `Could not parse Grad Semester/Year column (${gradSemYearValue}).`;
+
+    match.shift();
+    [ memberObj['gradSemester'], memberObj['gradYear'], memberObj['classStanding'] ] = match;
 }
 
-function processGeneration(memberObj, nameValue) {
+function processGeneration(memberObj, generationValue) {
+    const match = generationValue.match(REGEX_GENERATION_YEAR);
+    if (!match || match.length != 3)
+        throw `Could not parse Generation Year column (${generationValue}).`;
 
+    match.shift();
+    [ memberObj['generationSemester'], memberObj['generationYear'] ] = match;
+}
+
+function processBirthdate(memberObj, birthdateValue) {
+    memberObj['birthdate'] = Date.parse(birthdateValue);
+}
+
+/**
+ * Formats the enum fields as follows: 
+ *     - Replace spaces and dashes with underscores
+ *     - Captialize entire string
+ */
+function processEnumField(memberObj, fieldName, enumValue) {
+    let underscoredValue = enumValue.replace(/-|\s/ , "_");
+    let formattedValue = underscoredValue.toUpperCase();
+    memberObj[fieldName] = formattedValue;
 }
 
 main();
