@@ -13,7 +13,7 @@ const levelEnum = {
 
 const locationEnum = {
   REMOTE: 'REMOTE',
-  CAMPUS: 'CAMPUS',
+  CAMPUS: 'ON_CAMPUS',
   TBD: 'TBD',
 };
 
@@ -23,10 +23,10 @@ const roleEnum = {
   EXTERNAL_DIRECTOR: 'EXTERNAL_DIRECTOR',
   ACADEMY_LEAD: 'ACADEMY_LEAD',
   TECH_LEAD: 'TECH_LEAD',
-  PR_LEAD: 'PR_LEAD',
+  PR_LEAD: 'PRODUCT_RESEARCH_LEAD',
   PRODUCT_MANAGER: 'PRODUCT_MANAGER',
   PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
-  DEVELOPER: 'DEVELOPER',
+  DEVELOPER: 'SOFTWARE_DEVELOPER',
   ACADEMY_MEMBER: 'ACADEMY_MEMBER',
   TBD: 'TBD',
 };
@@ -58,7 +58,7 @@ const classStandingEnum = {
 const Member = new mongoose.Schema({
   firstName: { type: String, default: null },
   lastName: { type: String, default: null },
-  oauthID: { type: String, default: null, unique: true },
+  oauthID: { type: String, unique: true, sparse: true },
   email: { type: String, default: null, unique: true },
   phone: { type: String, default: null },
   netID: { type: String, default: null },
