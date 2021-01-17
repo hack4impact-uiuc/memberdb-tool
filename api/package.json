@@ -6,7 +6,7 @@
     "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
     "start:prod": "node -r dotenv/config ./bin/www",
     "start:dev": "nodemon -r dotenv/config ./bin/www",
-    "lint": "eslint --fix src -c .eslintrc.json --ext js",
+    "lint": "eslint --fix \"./**/*.{js,jsx}\" -c .eslintrc.json",
     "format": "prettier --write \"./**/*.{js,jsx,json,md}\"",
     "format:check": "prettier --check \"./**/*.{js,jsx,json,md}\"",
     "test": "jest"
@@ -33,8 +33,6 @@
     "babel-eslint": "^10.0.3",
     "dotenv-cli": "^2.0.1",
     "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.1",
     "jest": "^25.1.0",
     "nodemon": "^2.0.6",
     "prettier": "^2.2.1",

@@ -9,7 +9,7 @@ const StringAttribute = ({
   isDisabled = false,
   onChange,
 }) => {
-  const onValueChange = e => {
+  const onValueChange = (e) => {
     onChange(e.target.value, attributeLabel);
   };
 
@@ -18,7 +18,7 @@ const StringAttribute = ({
       <p>{attributeLabel}</p>
       <TextField
         type={type}
-        placeholder={value}
+        value={value}
         onChange={onValueChange}
         disabled={isDisabled}
       />
