@@ -20,7 +20,8 @@ import DateAttribute from '../components/EditableAttribute/DateAttribute';
 const areResponsesSuccessful = (...responses) => {
   let success = true;
   responses.forEach((response) => {
-    if (response == null || response.data == null || !response.data.success) success = false;
+    if (response == null || response.data == null || !response.data.success)
+      success = false;
   });
 
   return success;
