@@ -61,7 +61,6 @@ router.get(
     const auth = passport.authenticate('google', {
       successRedirect,
       failureRedirect,
-      failureFlash: true,
     });
     auth(req, res, next);
   },
