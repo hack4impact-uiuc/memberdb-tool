@@ -26,8 +26,8 @@ const Login = () => {
         {didLoginFail && (
           <Alert variant="error" mb="8px">
             <Icon type="errorAlert" />
-            First time logging in? Your email isn't verified. Please contact an
-            admin.
+            First time logging in? Your email isn&apos;t verified. Please
+            contact an admin.
           </Alert>
         )}
         <a
