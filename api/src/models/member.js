@@ -28,6 +28,7 @@ const roleEnum = {
   PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
   DEVELOPER: 'DEVELOPER',
   ACADEMY_MEMBER: 'ACADEMY_MEMBER',
+  TBD: 'TBD',
 };
 
 const statusEnum = {
@@ -40,6 +41,7 @@ const statusEnum = {
 const semesterEnum = {
   FALL: 'FALL',
   SPRING: 'SPRING',
+  TBD: 'TBD',
 };
 
 const classStandingEnum = {
@@ -50,6 +52,7 @@ const classStandingEnum = {
   FALL_SENIOR: 'FALL_SENIOR',
   MASTERS: 'MASTERS',
   PHD: 'PHD',
+  TBD: 'TBD',
 };
 
 const Member = new mongoose.Schema({
@@ -71,32 +74,32 @@ const Member = new mongoose.Schema({
   gradSemester: {
     type: String,
     enum: Object.values(semesterEnum),
-    default: null,
+    default: semesterEnum.TBD,
   },
 
   classStanding: {
     type: String,
     enum: Object.values(classStandingEnum),
-    default: null,
+    default: classStandingEnum.TBD,
   },
 
   generationYear: { type: Number, default: null },
   generationSemester: {
     type: String,
     enum: Object.values(semesterEnum),
-    default: null,
+    default: semesterEnum.TBD,
   },
 
   location: {
     type: String,
     enum: Object.values(locationEnum),
-    default: null,
+    default: locationEnum.TBD,
   },
 
   role: {
     type: String,
     enum: Object.values(roleEnum),
-    default: null,
+    default: roleEnum.TBD,
   },
 
   level: {
@@ -108,7 +111,7 @@ const Member = new mongoose.Schema({
   status: {
     type: String,
     enum: Object.values(statusEnum),
-    default: null,
+    default: statusEnum.TBD,
   },
 });
 
