@@ -1,24 +1,24 @@
 .nav {
-    display: flex;
+  display: flex;
 }
 
 .nav #nav-title {
-    text-align: left;
-    padding: 1rem 0rem 0rem 3rem;
-    flex-grow: 1;
+  text-align: left;
+  padding: 1rem 0rem 0rem 3rem;
+  flex-grow: 1;
 }
 
 .nav .nav-link {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .nav .profile-item {
-    display: flex;
-    align-items: center;
-    padding: 1rem 3rem 0rem 0rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem 3rem 0rem 0rem;
 }
 
 .nav .profile-item #welcome-text {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }

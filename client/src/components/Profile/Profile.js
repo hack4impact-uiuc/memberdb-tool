@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import '../../css/Profile.css';
 import { Redirect } from 'react-router-dom';
 
@@ -8,8 +9,9 @@ import { endUserSession } from '../../utils/apiWrapper';
 
 /**
  * Displays the Profile icon in the navbar + dropdown components for logout and viewing profile
+ * @param {Object} user the current user of the session
  */
-const Profile = () => {
+const Profile = ({ user }) => {
   const [redirectToMemberPage, setRedirectToMemberPage] = useState(false);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
@@ -33,7 +35,9 @@ const Profile = () => {
   return (
     <div className="dropdown">
       {/** JSX Redirects */}
-      {redirectToMemberPage && <Redirect to={Routes.MEMBER_PAGE} />}
+      {redirectToMemberPage && (
+        <Redirect to={Routes.MEMBER_PAGE.replace(':memberID', user._id)} />
+      )}
       {isLoggedOut && <Redirect to={Routes.LOGIN_PAGE} />}
 
       {/** Rendered JSX */}
@@ -52,6 +56,12 @@ const Profile = () => {
       </div>
     </div>
   );
+};
+
+Profile.propTypes = {
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Profile;

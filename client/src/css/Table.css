@@ -1,10 +1,10 @@
 .table-wrapper {
-    padding-top: 1rem;
-    height: 85vh;
-    width: 95%;
-    margin: auto;
+  padding-top: 1rem;
+  height: 85vh;
+  width: 95%;
+  margin: auto;
 }
 
 .ag-cell-wrapper {
-    line-height: 1.5rem;
+  line-height: 1.5rem;
 }

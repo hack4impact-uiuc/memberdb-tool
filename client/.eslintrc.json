@@ -8,10 +8,15 @@
     "airbnb",
     "plugin:flowtype/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "prettier",
+    "prettier/react",
+    "prettier/flowtype"
   ],
   "plugins": ["flowtype", "import", "react", "react-hooks"],
   "rules": {
+    "react/require-default-props": "off",
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "import/order": [
       "warn",
       {
