@@ -11,12 +11,12 @@ const EnumAttribute = ({
   isDisabled = false,
   onChange,
 }) => {
-  const onValueChange = (option) => {
-    onChange(option, attributeLabel);
+  const onValueChange = (selectedOption) => {
+    onChange(selectedOption.value, attributeLabel);
   };
 
   const getOptionFromValue = (val) => {
-    const dropdownOption = valueOptions.find((option) => option.val === val);
+    const dropdownOption = valueOptions.find((option) => option.value === val);
     if (dropdownOption) return dropdownOption;
     return defaultDropdownOption;
   };
