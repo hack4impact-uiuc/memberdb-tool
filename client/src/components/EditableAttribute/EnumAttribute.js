@@ -13,13 +13,13 @@ const EnumAttribute = ({
     onChange(option, attributeLabel);
   };
 
+  const getOptionFromValue = (val) => valueOptions.find((option) => option.val === val);
+
   return (
     <div>
       <p>{attributeLabel}</p>
       <Select
-        defaultValue={value}
-        value={value}
-        placeholder={value}
+        value={getOptionFromValue(value)}
         isDisabled={isDisabled}
         name={attributeLabel}
         options={valueOptions}
@@ -30,7 +30,7 @@ const EnumAttribute = ({
 };
 
 EnumAttribute.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
   valueOptions: PropTypes.arrayOf(PropTypes.string),
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
