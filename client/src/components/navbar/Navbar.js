@@ -15,7 +15,7 @@ const Navbar = ({ user }) => (
   <nav className="nav">
     <h2 id="nav-title">
       <Link className="nav-link" to={Routes.DEFAULT}>
-        Member Database
+        H4I Member Database
       </Link>
     </h2>
     <div className="profile-item">
