@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert, Icon } from '@hack4impact-uiuc/bridge';
+
 import StringAttribute from '../components/EditableAttribute/StringAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import {
@@ -18,7 +19,7 @@ import DateAttribute from '../components/EditableAttribute/DateAttribute';
  */
 const areResponsesSuccessful = (...responses) => {
   let success = true;
-  responses.forEach(response => {
+  responses.forEach((response) => {
     if (response == null || response.data == null || !response.data.success)
       success = false;
   });
@@ -41,10 +42,10 @@ const Member = () => {
     async function getUserData() {
       if (memberID == null) return;
 
-      let memberDataResponse = await getMemberByID(memberID);
-      let memberPermissionResponse = await getMemberPermissionsByID(memberID);
-      let memberSchemaResponse = await getMemberSchemaTypes();
-      let enumOptionsResponse = await getMemberEnumOptions();
+      const memberDataResponse = await getMemberByID(memberID);
+      const memberPermissionResponse = await getMemberPermissionsByID(memberID);
+      const memberSchemaResponse = await getMemberSchemaTypes();
+      const enumOptionsResponse = await getMemberEnumOptions();
 
       if (
         !areResponsesSuccessful(
@@ -90,7 +91,7 @@ const Member = () => {
           An error occurred
         </Alert>
       ) : (
-        userPermissions.view.map(attribute => {
+        userPermissions.view.map((attribute) => {
           if (isOfType(attribute, 'Number'))
             return (
               <StringAttribute
