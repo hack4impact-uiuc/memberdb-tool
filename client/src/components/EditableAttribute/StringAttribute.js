@@ -9,7 +9,7 @@ const StringAttribute = ({
   isDisabled = false,
   onChange,
 }) => {
-  const onValueChange = (e) => {
+  const onValueChange = e => {
     onChange(e.target.value, attributeLabel);
   };
 

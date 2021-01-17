@@ -9,7 +9,7 @@ const EnumAttribute = ({
   isDisabled = false,
   onChange,
 }) => {
-  const onValueChange = (option) => {
+  const onValueChange = option => {
     onChange(option, attributeLabel);
   };
 
