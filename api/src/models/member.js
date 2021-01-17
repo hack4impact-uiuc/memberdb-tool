@@ -55,7 +55,7 @@ const classStandingEnum = {
 const Member = new mongoose.Schema({
   firstName: { type: String, default: null },
   lastName: { type: String, default: null },
-  oauthID: { type: String, default: null, unique: true },
+  oauthID: { type: String, unique: true, sparse: true },
   email: { type: String, default: null, unique: true },
   phone: { type: String, default: null },
   netID: { type: String, default: null },

@@ -1,11 +1,13 @@
-require('../src/utils/mongo-setup');
-const csv = require('csvtojson');
-const Member = require('../src/models/member');
 const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config({
-    path: path.resolve(__dirname, `../src/.env`),
+    path: path.resolve(__dirname, "../src/.env"),
 });
+
+const csv = require('csvtojson');
+const Member = require('../src/models/member');
+require('../src/utils/mongo-setup');
+
 
 // Regex to capture each part the grad sem year column
 // Ex: "Fall 2020 (Freshman)" captures "Fall", "2020", "Freshman"
@@ -45,7 +47,6 @@ async function main() {
 
     // Remove the header row
     sheetData.shift();
-    sheetData.slice(1, 2)
     sheetData.forEach(memberJSON => saveJSONIntoDB(memberJSON));
 }
 
@@ -77,8 +78,8 @@ function createModelFromJSON(memberJSON) {
 
 async function insertModelIntoDB(model) {
     const duplicateUsers = await Member.find( { email: model.email });
-    if (duplicateUsers.length > 1)
-        console.log(`Member ${user.firstName} ${user.lastName} already in DB!`)
+    if (duplicateUsers.length > 0)
+        console.log(`Member ${model.firstName} ${model.lastName} already in DB!`)
     else
         Member.create(model);
 }
@@ -154,7 +155,7 @@ function processEnumField(memberObj, fieldName, enumValue) {
  *     - Captialize entire string
  */
 function formatEnumField(enumValue) {
-    let underscoredValue = enumValue.replace(/-|\s/ , "_");
+    let underscoredValue = enumValue.replace(/-|\s/g , "_");
     return underscoredValue.toUpperCase();
 }
 
