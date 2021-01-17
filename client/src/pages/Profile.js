@@ -97,6 +97,7 @@ const Profile = () => {
               <StringAttribute
                 type="number"
                 value={user[attribute]}
+                key={attribute}
                 attributeLabel={attribute}
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
@@ -109,6 +110,7 @@ const Profile = () => {
               <EnumAttribute
                 value={user[attribute]}
                 valueOptions={enumOptions[attribute]}
+                key={attribute}
                 attributeLabel={attribute}
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
@@ -120,6 +122,7 @@ const Profile = () => {
             return (
               <BooleanAttribute
                 value={user[attribute]}
+                key={attribute}
                 attributeLabel={attribute}
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
@@ -131,6 +134,7 @@ const Profile = () => {
             return (
               <DateAttribute
                 value={Date.parse(user[attribute])}
+                key={attribute}
                 attributeLabel={attribute}
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
@@ -144,13 +148,14 @@ const Profile = () => {
                 type="text"
                 value={user[attribute]}
                 attributeLabel={attribute}
+                key={attribute}
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
           }
 
-          return <div />;
+          return <div key={attribute} />;
         })
       )}
     </div>
