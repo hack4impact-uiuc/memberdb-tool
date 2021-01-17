@@ -19,7 +19,7 @@ import DateAttribute from '../components/EditableAttribute/DateAttribute';
  */
 const areResponsesSuccessful = (...responses) => {
   let success = true;
-  responses.forEach(response => {
+  responses.forEach((response) => {
     if (response == null || response.data == null || !response.data.success)
       success = false;
   });
@@ -91,7 +91,7 @@ const Profile = () => {
           An error occurred
         </Alert>
       ) : (
-        userPermissions.view.map(attribute => {
+        userPermissions.view.map((attribute) => {
           if (isOfType(attribute, 'Number')) {
             return (
               <StringAttribute
