@@ -1,5 +1,11 @@
+require('../src/utils/mongo-setup');
 const csv = require('csvtojson');
 const Member = require('../src/models/member');
+const dotenv = require('dotenv');
+const path = require('path');
+dotenv.config({
+    path: path.resolve(__dirname, `../src/.env`),
+});
 
 // Regex to capture each part the grad sem year column
 // Ex: "Fall 2020 (Freshman)" captures "Fall", "2020", "Freshman"
@@ -39,13 +45,14 @@ async function main() {
 
     // Remove the header row
     sheetData.shift();
+    sheetData.slice(1, 2)
     sheetData.forEach(memberJSON => saveJSONIntoDB(memberJSON));
 }
 
 function saveJSONIntoDB(memberJSON) {
     try {
         const model = createModelFromJSON(memberJSON);
-        Member.create(model);
+        insertModelIntoDB(model);
     } catch (error) {
         console.log(`Could not add member to database. \n Error: ${error} \n Data: ${memberJSON}`);
     }
@@ -66,6 +73,14 @@ function createModelFromJSON(memberJSON) {
     }
 
     return memberObj;
+}
+
+async function insertModelIntoDB(model) {
+    const duplicateUsers = await Member.find( { email: model.email });
+    if (duplicateUsers.length > 1)
+        console.log(`Member ${user.firstName} ${user.lastName} already in DB!`)
+    else
+        Member.create(model);
 }
 
 function processSimpleField(memberObj, fieldName, fieldValue) {
