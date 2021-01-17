@@ -100,9 +100,7 @@ dist
 .tern-port
 
 # Env files
-*.env
-*.env.test
-*.env.production
+.env
 
 # Vercel
 .vercel
