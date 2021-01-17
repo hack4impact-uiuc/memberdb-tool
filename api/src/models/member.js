@@ -13,7 +13,7 @@ const levelEnum = {
 
 const locationEnum = {
   REMOTE: 'REMOTE',
-  CAMPUS: 'CAMPUS',
+  CAMPUS: 'ON_CAMPUS',
   TBD: 'TBD',
 };
 

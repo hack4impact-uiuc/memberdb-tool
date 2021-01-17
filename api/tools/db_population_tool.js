@@ -1,4 +1,5 @@
 const csv = require('csvtojson');
+const Member = require('../src/models/member');
 
 // Regex to capture each part the grad sem year column
 // Ex: "Fall 2020 (Freshman)" captures "Fall", "2020", "Freshman"
@@ -14,6 +15,7 @@ const SPECIAL_COLUMNS_ENUM = {
     GRAD_SEM_YEAR: "GRAD_SEM_YEAR",
     GENERATION: "GENERATION",
     BIRTHDATE: "BIRTHDATE",
+    DUES: "DUES",
 }
 
 // These are the columns that are an enum value. Formatting is done to ensure they meet the backend options.
@@ -27,7 +29,7 @@ const ENUM_COLUMNS_ENUM = {
 // The names of the columns in order from left to right. Name each column according to it's DB field name except for special fields
 const columns = [SPECIAL_COLUMNS_ENUM.NAME, 'email', 'phone', 'netID', 'UIN', 'major', SPECIAL_COLUMNS_ENUM.BIRTHDATE,
                 'github', 'snapchat', 'instagram', SPECIAL_COLUMNS_ENUM.GRAD_SEM_YEAR, SPECIAL_COLUMNS_ENUM.GENERATION, 
-                ENUM_COLUMNS_ENUM.LOCATION, ENUM_COLUMNS_ENUM.ROLE, ENUM_COLUMNS_ENUM.LEVEL, ENUM_COLUMNS_ENUM.STATUS, 'areDuesPaid'];
+                ENUM_COLUMNS_ENUM.LOCATION, ENUM_COLUMNS_ENUM.ROLE, ENUM_COLUMNS_ENUM.LEVEL, ENUM_COLUMNS_ENUM.STATUS, SPECIAL_COLUMNS_ENUM.DUES];
 const specialColumns = Object.values(SPECIAL_COLUMNS_ENUM);
 const enumColumns = Object.values(ENUM_COLUMNS_ENUM);
 
@@ -41,8 +43,12 @@ async function main() {
 }
 
 function saveJSONIntoDB(memberJSON) {
-   const model = createModelFromJSON(memberJSON);
-   console.log(model);
+    try {
+        const model = createModelFromJSON(memberJSON);
+        Member.create(model);
+    } catch (error) {
+        console.log(`Could not add member to database. \n Error: ${error} \n Data: ${memberJSON}`);
+    }
 }
 
 function createModelFromJSON(memberJSON) {
@@ -80,6 +86,9 @@ function processSpecialField(memberObj, fieldName, fieldValue) {
         case SPECIAL_COLUMNS_ENUM.BIRTHDATE:
             processBirthdate(memberObj, fieldValue);
             break;
+        case SPECIAL_COLUMNS_ENUM.DUES:
+            processDues(memberObj, fieldValue);
+            break;
     }
 }
 
@@ -99,25 +108,29 @@ function processName(memberObj, nameValue) {
  * This field contains class standing, grad year, and grad month
  */
 function prcoessGradSemYear(memberObj, gradSemYearValue) {
-    const match = gradSemYearValue.match(REGEX_GRAD_SEM_YEAR) 
+    let match = gradSemYearValue.match(REGEX_GRAD_SEM_YEAR) 
     if (!match || match.length != 4)
         throw `Could not parse Grad Semester/Year column (${gradSemYearValue}).`;
 
-    match.shift();
-    [ memberObj['gradSemester'], memberObj['gradYear'], memberObj['classStanding'] ] = match;
+    match = match.slice(1, 4);
+    [ memberObj['gradSemester'], memberObj['gradYear'], memberObj['classStanding'] ] = formatEnumFields(match);
 }
 
 function processGeneration(memberObj, generationValue) {
-    const match = generationValue.match(REGEX_GENERATION_YEAR);
+    let match = generationValue.match(REGEX_GENERATION_YEAR);
     if (!match || match.length != 3)
         throw `Could not parse Generation Year column (${generationValue}).`;
 
-    match.shift();
-    [ memberObj['generationSemester'], memberObj['generationYear'] ] = match;
+    match = match.slice(1, 3);
+    [ memberObj['generationSemester'], memberObj['generationYear'] ] = formatEnumFields(match);
 }
 
 function processBirthdate(memberObj, birthdateValue) {
     memberObj['birthdate'] = Date.parse(birthdateValue);
+}
+
+function processEnumField(memberObj, fieldName, enumValue) {
+    memberObj[fieldName] = formatEnumField(enumValue)
 }
 
 /**
@@ -125,10 +138,17 @@ function processBirthdate(memberObj, birthdateValue) {
  *     - Replace spaces and dashes with underscores
  *     - Captialize entire string
  */
-function processEnumField(memberObj, fieldName, enumValue) {
+function formatEnumField(enumValue) {
     let underscoredValue = enumValue.replace(/-|\s/ , "_");
-    let formattedValue = underscoredValue.toUpperCase();
-    memberObj[fieldName] = formattedValue;
+    return underscoredValue.toUpperCase();
+}
+
+function formatEnumFields(enumValues) {
+    return enumValues.map(val => formatEnumField(val));
+}
+
+function processDues(memberObj, duesValue) {
+    memberObj['areDuesPaid'] = ["Y", "YES", "T", "TRUE"].includes(duesValue.toUpperCase());
 }
 
 main();
