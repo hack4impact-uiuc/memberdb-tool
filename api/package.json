@@ -12,12 +12,12 @@
     "test": "jest --setupFiles dotenv/config"
   },
   "dependencies": {
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "express-session": "^1.17.1",
     "helmet": "^3.21.1",
     "http-errors": "~1.6.3",
     "if-env": "^1.0.4",
