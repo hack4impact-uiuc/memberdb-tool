@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DateAttribute.css';
 
 const DateAttribute = ({
-  value = '',
+  value = 0,
   attributeLabel = '',
   isDisabled = false,
   className = '',
@@ -29,7 +29,7 @@ const DateAttribute = ({
 };
 
 DateAttribute.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.number,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,

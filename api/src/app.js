@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 const logger = require('morgan');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const apiRoutes = require('./api');
@@ -24,14 +24,14 @@ app.use(bodyParser.json({ limit: '2.1mb' }));
 app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 
 // Session support, needed for authentication
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    cookie: {},
-    resave: false,
-    saveUninitialized: false,
-  }),
-);
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET,
+};
+if (environment == 'production') {
+  app.set('trust proxy', 1);
+  sessionConfig.secure = true;
+}
+app.use(cookieSession(sessionConfig));
 
 // Mongo setup
 require('./utils/mongo-setup');
