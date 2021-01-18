@@ -7,7 +7,7 @@ const EnumAttribute = ({
   valueOptions = [],
   attributeLabel = '',
   isDisabled = false,
-  style = {},
+  className = '',
   onChange,
 }) => {
   const onValueChange = (option) => {
@@ -15,7 +15,7 @@ const EnumAttribute = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <p>{attributeLabel}</p>
       <Select
         defaultValue={value}
@@ -24,7 +24,6 @@ const EnumAttribute = ({
         isDisabled={isDisabled}
         name={attributeLabel}
         options={valueOptions}
-        style={style}
         onChange={onValueChange}
       />
     </div>
@@ -36,7 +35,7 @@ EnumAttribute.propTypes = {
   valueOptions: PropTypes.arrayOf(PropTypes.string),
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  style: PropTypes.object,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

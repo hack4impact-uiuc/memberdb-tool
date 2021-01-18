@@ -7,7 +7,7 @@ const BooleanAttribute = ({
   value = '',
   attributeLabel = '',
   isDisabled = false,
-  style = {},
+  className = '',
   onChange,
 }) => {
   const VALUE_OPTIONS = [
@@ -21,7 +21,7 @@ const BooleanAttribute = ({
       attributeLabel={attributeLabel}
       valueOptions={VALUE_OPTIONS}
       isDisabled={isDisabled}
-      style={style}
+      className={className}
       onChange={onChange}
     />
   );
@@ -30,8 +30,8 @@ const BooleanAttribute = ({
 BooleanAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
-  style: PropTypes.object,
   isDisabled: PropTypes.bool,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

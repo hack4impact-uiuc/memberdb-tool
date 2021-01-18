@@ -7,7 +7,7 @@ const DateAttribute = ({
   value = '',
   attributeLabel = '',
   isDisabled = false,
-  style = {},
+  className = '',
   onChange,
 }) => {
   const onValueChange = (date) => {
@@ -15,13 +15,12 @@ const DateAttribute = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <p>{attributeLabel}</p>
       <DatePicker
         onChange={onValueChange}
         selected={value}
         disabled={isDisabled}
-        style={style}
       />
     </div>
   );
@@ -31,7 +30,7 @@ DateAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  style: PropTypes.object,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

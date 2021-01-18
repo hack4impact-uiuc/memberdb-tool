@@ -7,7 +7,7 @@ const StringAttribute = ({
   value = '',
   attributeLabel = '',
   isDisabled = false,
-  style = {},
+  className = '',
   onChange,
 }) => {
   const onValueChange = (e) => {
@@ -15,12 +15,11 @@ const StringAttribute = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <p>{attributeLabel}</p>
       <TextField
         type={type}
         value={value}
-        style={style}
         onChange={onValueChange}
         disabled={isDisabled}
       />
@@ -33,7 +32,7 @@ StringAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
-  style: PropTypes.object,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
