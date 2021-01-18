@@ -5,7 +5,7 @@ import Select from 'react-select';
 const defaultDropdownOption = { label: '', value: '' };
 
 const EnumAttribute = ({
-  value = defaultDropdownOption,
+  value = defaultDropdownOption.value,
   valueOptions = [],
   attributeLabel = '',
   isDisabled = false,
