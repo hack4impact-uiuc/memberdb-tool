@@ -15,7 +15,6 @@ const BooleanAttribute = ({
     { label: 'No', value: 'false' },
   ];
 
-  console.log(value);
   return (
     <EnumAttribute
       value={value.toString()}
