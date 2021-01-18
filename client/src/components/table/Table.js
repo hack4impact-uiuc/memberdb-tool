@@ -10,7 +10,9 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 const Table = () => {
   const [members] = useState(mockMemberData);
   const getMembers = async () => {
-    // TODO: replace with getMembers() api call
+    // TODO:
+    // await api call to retrieve all members
+    // set members state variable to returned data
   };
 
   useEffect(() => {
