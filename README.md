@@ -41,7 +41,7 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
     <td align="center"><a href="https://www.linkedin.com/in/matthew-walowski/"><img src="https://media-exp1.licdn.com/dms/image/C5603AQGdnDuAv9d9YQ/profile-displayphoto-shrink_400_400/0/1610475936652?e=1616025600&v=beta&t=Sna8pEfgzUlOGtmuteSswIFvINzF8Bxk1VjMYvVztvw" width="125px;" alt="Matthew Walowski"/><br /><b>Matthew Walowski</b></a><br /><sub>Technical Lead</sub></td>
     <td align="center"><a href="https://www.linkedin.com/in/jeffrey-tang/"><img src="https://raw.githubusercontent.com/hack4impact-uiuc/closegap/master/.github/team_pics/jeffrey.jpg" width="125px;" alt="Jeffrey Tang"/><br /><b>Jeffrey Tang</b></a><br /><sub>Technical Lead</sub></td>
     <td align="center"><a href="https://www.linkedin.com/in/amit-m-sawhney/"><img src="https://media-exp1.licdn.com/dms/image/C4D03AQF6eWCL4Z8_qg/profile-displayphoto-shrink_400_400/0/1595738823858?e=1616025600&v=beta&t=T3w5-H_yOqKLRZqNmfW9tMb7wN939e6CMuXqL1HpF6U" width="125px;" alt="Angry Pusheen"/><br /><b>Amit Sawhney</b></a><br /><sub>Software Developer</sub></td>
-    <td align="center"><a href="https://neeraj.lol"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/637255/android/sticker.png" width="125px;" alt="Chef Pusheen"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
+    <td align="center"><a href="www.linkedin.com/in/ishaan-r-sharma"><img src="https://media-exp1.licdn.com/dms/image/C5603AQFAVxJujLhpZg/profile-displayphoto-shrink_400_400/0/1610957839107?e=1616630400&v=beta&t=CbltImSSzDrs8_90ZnJ1pERoPe1D0mvE47giPB5yPI0" width="125px;" alt="Chef Pusheen"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
   </tr>
 </table>
 
