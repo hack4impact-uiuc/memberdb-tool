@@ -18,7 +18,7 @@ const getViewableFields = (currentUser, memberId) => {
   const viewableFields = difference(allFields, neverViewableFields);
   if (isDirector(currentUser)) {
     return viewableFields;
-  } else if (currentUser._id == memberId) {
+  } else if (currentUser._id.toString() === memberId) {
     return viewableFields;
   } else {
     return difference(viewableFields, nonViewableFields);
@@ -29,7 +29,7 @@ const getEditableFields = (currentUser, memberId) => {
   const editableFields = difference(allFields, neverEditableFields);
   if (isDirector(currentUser)) {
     return editableFields;
-  } else if (currentUser._id == memberId) {
+  } else if (currentUser._id.toString() === memberId) {
     return difference(editableFields, nonEditableFields);
   } else {
     return []; // Non-directors can never edit other users' info

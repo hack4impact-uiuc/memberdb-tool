@@ -94,3 +94,20 @@ export const getMemberSchemaTypes = () => {
       error,
     }));
 };
+
+// Retrieves all members 
+export const getMembers = () => {
+  const requestString = `${BACKEND_BASE_URL}/members`;
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_MEMBERS_FAIL',
+      error,
+    }));
+};
+
+

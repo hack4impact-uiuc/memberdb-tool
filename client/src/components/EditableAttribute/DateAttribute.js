@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const DateAttribute = ({
-  value = '',
+  value = 0,
   attributeLabel = '',
   isDisabled = false,
   onChange,
@@ -26,7 +26,7 @@ const DateAttribute = ({
 };
 
 DateAttribute.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.number,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,

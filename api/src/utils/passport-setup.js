@@ -2,9 +2,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
 const Member = require('../models/member');
 
-// Defines the default level a user gets assigned with upon first sign-in
-const DEFAULT_LEVEL = process.env.DEFAULT_LEVEL || Member.levelEnum.TBD;
-
 passport.serializeUser((user, done) => {
   done(null, user._id);
 });
@@ -33,17 +30,32 @@ passport.use(
 
       if (user) {
         // user exists
-        return cb(null, user);
+        cb(null, user);
       } else {
-        const newUser = await new Member({
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          oauthID: profile.id,
+        // try to find a user with the same email
+        const unlinkedUser = await Member.findOne({
           email: profile.emails[0].value,
-          level: DEFAULT_LEVEL,
-        }).save();
+          oauthID: null,
+        });
 
-        cb(null, newUser);
+        if (!unlinkedUser) {
+          // no unlinked user with matching email found
+          // don't link and reject authentication
+          cb(null, false);
+        } else {
+          // user with matching email found
+          // link user to oauthID and fill in name
+          unlinkedUser.oauthID = profile.id;
+          if (!unlinkedUser.firstName) {
+            unlinkedUser.firstName = profile.name.givenName;
+          }
+          if (!unlinkedUser.lastName) {
+            unlinkedUser.lastName = profile.name.familyName;
+          }
+          unlinkedUser.save();
+
+          cb(null, unlinkedUser);
+        }
       }
     },
   ),
