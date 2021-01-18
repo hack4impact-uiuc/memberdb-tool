@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert, Icon } from '@hack4impact-uiuc/bridge';
 
-import StringAttribute from '../components/EditableAttribute/StringAttribute';
+import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import {
   getMemberByID,
@@ -94,7 +94,7 @@ const Profile = () => {
         userPermissions.view.map((attribute) => {
           if (isOfType(attribute, 'Number')) {
             return (
-              <StringAttribute
+              <TextAttribute
                 type="number"
                 value={user[attribute]}
                 key={attribute}
@@ -144,7 +144,7 @@ const Profile = () => {
 
           if (isOfType(attribute, 'String')) {
             return (
-              <StringAttribute
+              <TextAttribute
                 type="text"
                 value={user[attribute]}
                 attributeLabel={attribute}

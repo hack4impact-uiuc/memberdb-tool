@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@hack4impact-uiuc/bridge';
 
-const StringAttribute = ({
+const TextAttribute = ({
   type = 'text',
   value = '',
   attributeLabel = '',
@@ -26,7 +26,7 @@ const StringAttribute = ({
   );
 };
 
-StringAttribute.propTypes = {
+TextAttribute.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   type: PropTypes.string,
   attributeLabel: PropTypes.string,
@@ -34,4 +34,4 @@ StringAttribute.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default StringAttribute;
+export default TextAttribute;
