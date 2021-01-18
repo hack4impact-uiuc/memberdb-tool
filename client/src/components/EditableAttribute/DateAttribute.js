@@ -7,6 +7,7 @@ const DateAttribute = ({
   value = '',
   attributeLabel = '',
   isDisabled = false,
+  style = {},
   onChange,
 }) => {
   const onValueChange = (date) => {
@@ -20,6 +21,7 @@ const DateAttribute = ({
         onChange={onValueChange}
         selected={value}
         disabled={isDisabled}
+        style={style}
       />
     </div>
   );
@@ -29,6 +31,7 @@ DateAttribute.propTypes = {
   value: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  style: PropTypes.object,
   onChange: PropTypes.func.isRequired,
 };
 
