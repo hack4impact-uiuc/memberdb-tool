@@ -7,6 +7,9 @@ import '../css/Login.css';
 import { FRONTEND_BASE_URL } from '../utils/apiUrls';
 import buildURI from '../utils/apiHelpers';
 
+const LOGIN_FAILURE_TEXT =
+  'First time logging in? Your email isn&apos;t verified. Please contact an admin.';
+
 // A custom hook that builds on useLocation to parse
 // the query string for you.
 function useQuery() {
@@ -26,8 +29,7 @@ const Login = () => {
         {didLoginFail && (
           <Alert variant="error" mb="8px">
             <Icon type="errorAlert" />
-            First time logging in? Your email isn&apos;t verified. Please
-            contact an admin.
+            {LOGIN_FAILURE_TEXT}
           </Alert>
         )}
         <a
