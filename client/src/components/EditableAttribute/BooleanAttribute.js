@@ -15,9 +15,10 @@ const BooleanAttribute = ({
     { label: 'No', value: 'false' },
   ];
 
+  console.log(value);
   return (
     <EnumAttribute
-      value={value}
+      value={value.toString()}
       attributeLabel={attributeLabel}
       valueOptions={VALUE_OPTIONS}
       isDisabled={isDisabled}
@@ -28,7 +29,7 @@ const BooleanAttribute = ({
 };
 
 BooleanAttribute.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.bool,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,

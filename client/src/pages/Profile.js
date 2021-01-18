@@ -64,6 +64,7 @@ const Profile = () => {
       setUserPermissions(memberPermissionResponse.data.result);
       setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
+      console.log(memberDataResponse.data.result);
     }
 
     getUserData();
