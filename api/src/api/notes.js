@@ -1,46 +1,46 @@
 const express = require('express');
 const router = express.Router();
-const Note = require('../models/');
+const Note = require('../models/notes');
 const errorWrap = require('../middleware/errorWrap');
 const {
   requireRegistered,
   requireLead,
   isAdmin,
 } = require('../middleware/auth');
-
-// middleware to validate if user can edit
-const validateEditability = (req, res, next) => {
-  // ADMIN level takes precedence
-  if (isAdmin(req.user)) {
-    next();
-  }
-  // TODO: uncomment line once note Scheme exists
-  // const note = await Note.findById(req.params.notesId)
-  // Check if note was found
-  if (!note) {
-    return res.status(404).json({
-      success: false,
-      message: 'Note not found',
-    });
-  }
-  // Check if current user if allowed to edit
-  if (!note.editableBy.includes(req.user._id.toString())) {
-    return res.status(401).json({
-      success: false,
-      message: 'Unauthorized',
-    });
-  }
-  next();
-};
+const {
+  validateEditability,
+  validateReqParams,
+} = require('../middleware/notes');
 
 router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
-    const notes = Note.find({ viewableBy: { $in: [req.user._id] } });
-    return res.status(200).json({
+    let notes;
+    // Return all notes if Admin
+    if (isAdmin(req.user)) {
+      notes = [...Note.find({})];
+    } else {
+      // TODO: check if viewableBy path must be changed
+      notes = [
+        ...Note.find({ viewableBy: { $in: [req.user._id.toString()] } }),
+      ];
+    }
+    // TODO: test if this loops across all objs or just creates array of 1 obj
+    notes.forEach((note) => {
+      // remove content from notes
+      delete note['content'];
+      // save last member ID who edited and append to notes object
+      const lastEditedBy = note['metadata']['versionHistory']['actionBy'].pop();
+      note['lastEditedBy'] = lastEditedBy;
+      // remove versionHistory from notes
+      delete note['metadata']['versionHistory'];
+      // remove access info from notes
+      delete note['metadata']['access'];
+    });
+    res.status(200).json({
       success: true,
-      result: null,
+      result: notes,
     });
   }),
 );
@@ -48,10 +48,9 @@ router.get(
 router.post(
   '/',
   requireLead,
-  requireRegistered,
   errorWrap(async (req, res) => {
     const note = await Note.create(req.body);
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       result: note,
     });
@@ -62,15 +61,15 @@ router.put(
   '/:notesId',
   requireRegistered,
   validateEditability,
+  validateReqParams,
   errorWrap(async (req, res) => {
     let data = { ...req.body };
-    // TODO: fix this
     await Note.findByIdAndUpdate(
       req.params.notesId,
       { $set: data },
       { new: true },
     );
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: 'Note successfully updated',
     });
@@ -81,9 +80,10 @@ router.delete(
   '/:notesId',
   requireRegistered,
   validateEditability,
+  validateReqParams,
   errorWrap(async (req, res) => {
     await Note.findByIdAndRemove(req.params.notesId);
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: 'Note deleted successfully',
     });
