@@ -37,7 +37,7 @@ const getEditableFields = (currentUser, memberId) => {
 };
 
 const filterViewableFields = (currentUser, member) => {
-  const viewable = getViewableFields(currentUser, member._id);
+  const viewable = getViewableFields(currentUser, member._id.toString());
   const filteredMember = pick(member.toObject(), viewable);
   return filteredMember;
 };

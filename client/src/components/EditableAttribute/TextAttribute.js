@@ -7,6 +7,7 @@ const TextAttribute = ({
   value = '',
   attributeLabel = '',
   isDisabled = false,
+  className = '',
   onChange,
 }) => {
   const onValueChange = (e) => {
@@ -14,7 +15,7 @@ const TextAttribute = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <p>{attributeLabel}</p>
       <TextField
         type={type}
@@ -31,6 +32,7 @@ TextAttribute.propTypes = {
   type: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

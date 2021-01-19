@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import EnumAttribute from './EnumAttribute';
 
 const BooleanAttribute = ({
   value = '',
   attributeLabel = '',
   isDisabled = false,
+  className = '',
   onChange,
 }) => {
   const VALUE_OPTIONS = [
@@ -15,19 +17,21 @@ const BooleanAttribute = ({
 
   return (
     <EnumAttribute
-      value={value}
+      value={value ? value.toString() : 'false'}
       attributeLabel={attributeLabel}
       valueOptions={VALUE_OPTIONS}
       isDisabled={isDisabled}
+      className={className}
       onChange={onChange}
     />
   );
 };
 
 BooleanAttribute.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.bool,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
