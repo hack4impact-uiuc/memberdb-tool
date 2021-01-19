@@ -114,7 +114,7 @@ const Profile = () => {
       setErrorMessage(
         `An error occured${
           result && result.data && result.data.message
-            ? `: ${  result.data.message}`
+            ? `: ${result.data.message}`
             : '.'
         }`,
       );
