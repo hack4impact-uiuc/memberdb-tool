@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import '../../css/Navbar.css';
 
-import ProfileDropdown from '../Profile/Profile';
+import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
 import * as Routes from '../../routes';
 
 /**
