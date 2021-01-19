@@ -7,6 +7,10 @@ import '../css/Login.css';
 import { FRONTEND_BASE_URL } from '../utils/apiUrls';
 import buildURI from '../utils/apiHelpers';
 
+const LOGIN_FAILURE_QUERY_PARAM = 'failure';
+const LOGIN_FAILURE_TEXT =
+  'First time logging in? Your email isn&apos;t verified. Please contact an admin.';
+
 // A custom hook that builds on useLocation to parse
 // the query string for you.
 function useQuery() {
@@ -17,7 +21,7 @@ function useQuery() {
  * Displays the login page over everything else
  */
 const Login = () => {
-  const didLoginFail = useQuery().get('failure');
+  const didLoginFail = useQuery().get(LOGIN_FAILURE_QUERY_PARAM);
 
   return (
     <div className="login-wrapper">
@@ -26,8 +30,7 @@ const Login = () => {
         {didLoginFail && (
           <Alert variant="error" mb="8px">
             <Icon type="errorAlert" />
-            First time logging in? Your email isn&apos;t verified. Please
-            contact an admin.
+            {LOGIN_FAILURE_TEXT}
           </Alert>
         )}
         <a
@@ -35,7 +38,7 @@ const Login = () => {
           href={buildURI(
             'auth/login',
             FRONTEND_BASE_URL,
-            `${FRONTEND_BASE_URL}/login?failure=1`,
+            `${FRONTEND_BASE_URL}/login?${LOGIN_FAILURE_QUERY_PARAM}=1`,
           )}
           className="login-btn"
         >
