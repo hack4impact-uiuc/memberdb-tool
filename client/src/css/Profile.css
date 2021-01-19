@@ -4,3 +4,8 @@
   margin-right: 2.5%;
   display: inline-block;
 }
+
+#submit-button {
+  margin: 50px auto;
+  display: block;
+}

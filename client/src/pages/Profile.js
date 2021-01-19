@@ -179,7 +179,7 @@ const Profile = () => {
         })
       )}
       {userPermissions.edit.length > 0 ? (
-        <Button type="large" onClick={submitChanges}>
+        <Button id="submit-button" type="large" onClick={submitChanges}>
           Update
         </Button>
       ) : (
