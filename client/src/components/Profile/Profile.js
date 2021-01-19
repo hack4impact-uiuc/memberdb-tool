@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import '../../css/ProfileFragment.css';
+import '../../css/ProfileDropdown.css';
 import { Redirect } from 'react-router-dom';
 
 import blankProfilePicture from '../../assets/blank-profile-picture.png';
@@ -11,7 +11,7 @@ import { endUserSession } from '../../utils/apiWrapper';
  * Displays the Profile icon in the navbar + dropdown components for logout and viewing profile
  * @param {Object} user the current user of the session
  */
-const Profile = ({ user }) => {
+const ProfileDropdown = ({ user }) => {
   const [redirectToMemberPage, setRedirectToMemberPage] = useState(false);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
@@ -58,10 +58,10 @@ const Profile = ({ user }) => {
   );
 };
 
-Profile.propTypes = {
+ProfileDropdown.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default Profile;
+export default ProfileDropdown;

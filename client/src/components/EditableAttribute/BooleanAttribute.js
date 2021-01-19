@@ -17,7 +17,7 @@ const BooleanAttribute = ({
 
   return (
     <EnumAttribute
-      value={value.toString()}
+      value={value ? value.toString() : 'false'}
       attributeLabel={attributeLabel}
       valueOptions={VALUE_OPTIONS}
       isDisabled={isDisabled}
