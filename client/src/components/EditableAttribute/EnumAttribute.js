@@ -9,6 +9,7 @@ const EnumAttribute = ({
   valueOptions = [],
   attributeLabel = '',
   isDisabled = false,
+  className = '',
   onChange,
 }) => {
   const onValueChange = (selectedOption) => {
@@ -22,7 +23,7 @@ const EnumAttribute = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <p>{attributeLabel}</p>
       <Select
         value={getOptionFromValue(value)}
@@ -45,6 +46,7 @@ EnumAttribute.propTypes = {
   ),
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

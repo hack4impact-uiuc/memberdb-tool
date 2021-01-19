@@ -4,14 +4,15 @@ import { Alert, Icon } from '@hack4impact-uiuc/bridge';
 
 import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
+import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
+import DateAttribute from '../components/EditableAttribute/DateAttribute';
+import '../css/Profile.css';
 import {
   getMemberByID,
   getMemberEnumOptions,
   getMemberPermissionsByID,
   getMemberSchemaTypes,
 } from '../utils/apiWrapper';
-import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
-import DateAttribute from '../components/EditableAttribute/DateAttribute';
 
 /**
  * Checks if the given API responses were successful
@@ -99,6 +100,7 @@ const Profile = () => {
                 value={user[attribute]}
                 key={attribute}
                 attributeLabel={attribute}
+                className="attribute"
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
@@ -112,6 +114,7 @@ const Profile = () => {
                 valueOptions={enumOptions[attribute]}
                 key={attribute}
                 attributeLabel={attribute}
+                className="attribute"
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
@@ -124,6 +127,7 @@ const Profile = () => {
                 value={user[attribute]}
                 key={attribute}
                 attributeLabel={attribute}
+                className="attribute"
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
@@ -137,6 +141,7 @@ const Profile = () => {
                 key={attribute}
                 attributeLabel={attribute}
                 onChange={onAttributeChange}
+                className="attribute"
                 isDisabled={!userPermissions.edit.includes(attribute)}
               />
             );
@@ -148,6 +153,7 @@ const Profile = () => {
                 type="text"
                 value={user[attribute]}
                 attributeLabel={attribute}
+                className="attribute"
                 key={attribute}
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes(attribute)}
