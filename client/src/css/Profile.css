@@ -5,6 +5,10 @@
   display: inline-block;
 }
 
+.profile-alert {
+  margin-top: 30px;
+}
+
 #submit-button {
   margin: 50px auto;
   display: block;
