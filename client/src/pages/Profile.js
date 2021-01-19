@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Alert, Icon } from '@hack4impact-uiuc/bridge';
+import { Alert, Icon, Button } from '@hack4impact-uiuc/bridge';
 
 import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
@@ -12,6 +12,7 @@ import {
   getMemberEnumOptions,
   getMemberPermissionsByID,
   getMemberSchemaTypes,
+  updateMember,
 } from '../utils/apiWrapper';
 
 /**
@@ -82,6 +83,19 @@ const Profile = () => {
       ...user,
       [attributeLabel]: value,
     });
+  };
+
+  const createUpdatedUser = () => {
+    const updatedUser = {};
+    userPermissions.edit.forEach((field) => {
+      updatedUser[field] = user[field];
+    });
+
+    return updatedUser;
+  };
+
+  const submitChanges = () => {
+    updateMember(createUpdatedUser(), user._id);
   };
 
   return (
@@ -163,6 +177,13 @@ const Profile = () => {
 
           return <div key={attribute} />;
         })
+      )}
+      {userPermissions.edit.length > 0 ? (
+        <Button type="large" onClick={submitChanges}>
+          Update
+        </Button>
+      ) : (
+        <div />
       )}
     </div>
   );
