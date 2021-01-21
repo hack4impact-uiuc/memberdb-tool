@@ -122,6 +122,7 @@ const Profile = () => {
     } else {
       setTemporarySuccessMessage('User updated');
       setErrorMessage(null);
+      setUpstreamUser(result.data.result);
     }
   };
 
