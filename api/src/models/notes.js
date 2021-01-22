@@ -13,10 +13,10 @@ const Notes = new mongoose.Schema({
   content: { type: String, default: null},
   metaData: {
     title: { type: String, default: null }, 
-    labels: { type: [String], default: null },
-    referencedMembers: { type: [String], default: null},
+    labels: { type: [String], default: []},
+    referencedMembers: { type: [String], default: []},
     versionHistory: [{
-        default: null,
+        default: [],
         date: { type: Date, default: null},
         memberID: {type: String, default: null},
         action: {
@@ -26,8 +26,8 @@ const Notes = new mongoose.Schema({
         },
     }],
     access: {
-        viewableBy: {type: [String], default: null},
-        editableBy: {type: [String], default: null},
+        viewableBy: {type: [String], default: []},
+        editableBy: {type: [String], default: []},
     }
   },
 });
