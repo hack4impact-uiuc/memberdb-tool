@@ -14,11 +14,11 @@ const Notes = new mongoose.Schema({
   metaData: {
     title: { type: String, default: null }, 
     labels: { type: [String], default: null },
-    referencedMembers: { type: [MemberID], default: null},
+    referencedMembers: { type: [String], default: null},
     versionHistory: [{
         default: null,
         date: { type: Date, default: null},
-        memberID: {type: MemberID, default: null},
+        memberID: {type: String, default: null},
         action: {
             type: String, 
             enum: Object.values(actions),
@@ -26,8 +26,8 @@ const Notes = new mongoose.Schema({
         },
     }],
     access: {
-        viewableBy: {type: [MemberID], default: null},
-        editableBy: {type: [MemberID], default: null},
+        viewableBy: {type: [String], default: null},
+        editableBy: {type: [String], default: null},
     }
   },
 });
