@@ -11,8 +11,8 @@ const Table = () => {
   const [members, setMembers] = useState([]);
   useEffect(() => {
     const getAllMembers = async () => {
-      const allMembers = await getMembers()
-      setMembers(allMembers)
+      const allMembers = await getMembers();
+      setMembers(allMembers.data.result);
     };
     getAllMembers();
   }, []);
