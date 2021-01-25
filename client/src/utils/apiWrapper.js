@@ -109,3 +109,16 @@ export const getMembers = () => {
       error,
     }));
 };
+
+// Retrieves a member's permissions from their mongo ID
+export const updateMember = (member, memberID) => {
+  const requestString = `${BACKEND_BASE_URL}/members/${memberID}`;
+  return axios
+    .put(requestString, {
+      ...member,
+    })
+    .catch((error) => ({
+      type: 'GET_MEMBER_SCHEMA_TYPES_FAIL',
+      error,
+    }));
+};

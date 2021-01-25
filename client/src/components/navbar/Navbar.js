@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import '../../css/Navbar.css';
 
-import Profile from '../Profile/Profile';
+import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
 import * as Routes from '../../routes';
 
 /**
@@ -19,11 +19,8 @@ const Navbar = ({ user }) => (
       </Link>
     </h2>
     <div className="profile-item">
-      <h2 id="welcome-text">
-        Hello,
-        {user.firstName}!
-      </h2>
-      <Profile user={user} />
+      <h2 id="welcome-text">Hello, {user.firstName}!</h2>
+      <ProfileDropdown user={user} />
     </div>
   </nav>
 );

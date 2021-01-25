@@ -2,24 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
+const defaultDropdownOption = { label: '', value: '' };
+
 const EnumAttribute = ({
-  value = '',
+  value = defaultDropdownOption.value,
   valueOptions = [],
   attributeLabel = '',
   isDisabled = false,
+  className = '',
   onChange,
 }) => {
-  const onValueChange = (option) => {
-    onChange(option, attributeLabel);
+  const onValueChange = (selectedOption) => {
+    onChange(selectedOption.value, attributeLabel);
+  };
+
+  const getOptionFromValue = (val) => {
+    const dropdownOption = valueOptions.find((option) => option.value === val);
+    if (dropdownOption) return dropdownOption;
+    return defaultDropdownOption;
   };
 
   return (
-    <div>
+    <div className={className}>
       <p>{attributeLabel}</p>
       <Select
-        defaultValue={value}
-        value={value}
-        placeholder={value}
+        value={getOptionFromValue(value)}
         isDisabled={isDisabled}
         name={attributeLabel}
         options={valueOptions}
@@ -31,9 +38,15 @@ const EnumAttribute = ({
 
 EnumAttribute.propTypes = {
   value: PropTypes.string,
-  valueOptions: PropTypes.arrayOf(PropTypes.string),
+  valueOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ),
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
