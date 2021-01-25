@@ -18,7 +18,6 @@
 }
 
 .login-btn {
-  background-color: #dd4b39;
   color: white;
   font-weight: 500;
   font-family: inherit;
@@ -40,7 +39,7 @@
   margin: 2px 5px 2px 5px;
 }
 
-.login-btn:hover {
+/* .login-btn:hover {
   cursor: pointer;
   background-color: #ed7465;
-}
+} */
