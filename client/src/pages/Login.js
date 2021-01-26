@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Header, Icon, Image, Message } from 'semantic-ui-react'
+import { Button, Header, Icon, Image, Message } from 'semantic-ui-react';
 
 import googleIcon from '../assets/google-logo.png';
 import '../css/Login.css';
@@ -28,32 +28,29 @@ const Login = () => {
       <div className="login-card">
         <h2>Member Database Login</h2>
         {didLoginFail && (
-          <Message color='red'>
-            <Header as='h4'>
-              <Icon name='warning circle'/>
+          <Message color="red">
+            <Header as="h4">
+              <Icon name="warning circle" />
               <Header.Content>Login Failed!</Header.Content>
             </Header>
-            <Message.Content>
-              {LOGIN_FAILURE_TEXT}
-            </Message.Content>
+            <Message.Content>{LOGIN_FAILURE_TEXT}</Message.Content>
           </Message>
         )}
-        <Button className='login-btn' color="orange">
-        <a
-          href={buildURI(
-            'auth/login',
-            FRONTEND_BASE_URL,
-            `${FRONTEND_BASE_URL}/login?${LOGIN_FAILURE_QUERY_PARAM}=1`,
-          )}
-        >
-          <Header as='h5'>
-            <Image circular src={googleIcon} /> Sign in with Google
-          </Header>
-          {/* <img className="google-icon" src={googleIcon} alt="Google Icon" />
+        <Button className="login-btn" color="orange">
+          <a
+            href={buildURI(
+              'auth/login',
+              FRONTEND_BASE_URL,
+              `${FRONTEND_BASE_URL}/login?${LOGIN_FAILURE_QUERY_PARAM}=1`,
+            )}
+          >
+            <Header as="h5">
+              <Image circular src={googleIcon} /> Sign in with Google
+            </Header>
+            {/* <img className="google-icon" src={googleIcon} alt="Google Icon" />
           Sign in with Google */}
-        </a>
+          </a>
         </Button>
-        
       </div>
     </div>
   );

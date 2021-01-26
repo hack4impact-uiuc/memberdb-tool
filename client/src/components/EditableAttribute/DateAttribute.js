@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import {startCase} from 'lodash'
+import { startCase } from 'lodash';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DateAttribute.css';
 
