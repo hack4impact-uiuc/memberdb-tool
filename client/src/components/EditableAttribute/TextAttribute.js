@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@hack4impact-uiuc/bridge';
+import {startCase} from 'lodash'
+import { Form } from 'semantic-ui-react';
 
 const TextAttribute = ({
   type = 'text',
@@ -16,8 +17,8 @@ const TextAttribute = ({
 
   return (
     <div className={className}>
-      <p>{attributeLabel}</p>
-      <TextField
+      <p>{startCase(attributeLabel)}</p>
+      <Form.Input
         type={type}
         value={value}
         onChange={onValueChange}

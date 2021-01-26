@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Alert, Icon, Button } from '@hack4impact-uiuc/bridge';
+import { Form, Message, Icon, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import TextAttribute from '../components/EditableAttribute/TextAttribute';
@@ -127,7 +127,8 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <>
+    <Form size="big" className="profile-form">
       {
         // Main content
         userPermissions.view.map((attribute) => {
@@ -202,14 +203,21 @@ const Profile = () => {
           return <div key={attribute} />;
         })
       }
+      </Form>
 
       {
         // Message displayed upon successfully updating member
         successMessage ? (
-          <Alert className="profile-alert" variant="success" mb="8px">
-            <Icon type="successAlert" />
+          <div className="profile-alert">
+          <Message icon big positive>
+            <Icon name='thumbs up'/>
+          <Message.Content>
+            <Message.Header>Update Succeeded!</Message.Header>
             {successMessage}
-          </Alert>
+          </Message.Content>
+            
+          </Message>
+          </div>
         ) : (
           <div />
         )
@@ -218,28 +226,37 @@ const Profile = () => {
       {
         // Message displayed upon receiving an error response
         errorMessage ? (
-          <Alert className="profile-alert" variant="error" mb="8px">
-            <Icon type="errorAlert" />
+          <div className="profile-alert">
+          <Message className="profile-alert" icon big negative>
+            <Icon name='warning circle'/>
+          <Message.Content>
+            <Message.Header>Update Failed!</Message.Header>
             {errorMessage}
-          </Alert>
+          </Message.Content>
+          </Message>
+          </div>
         ) : (
           <div />
         )
       }
 
-      {userPermissions.edit.length > 0 ? (
-        <Button
-          id="submit-button"
-          disabled={_.isEqual(upstreamUser, localUser)}
-          type="large"
-          onClick={submitChanges}
-        >
-          Update
-        </Button>
-      ) : (
-        <div />
-      )}
-    </div>
+    {userPermissions.edit.length > 0 ? (
+      <>
+      <Button
+      size="big"
+        id="submit-button"
+        disabled={_.isEqual(upstreamUser, localUser)}
+        type="large"
+        onClick={submitChanges}
+      >
+        Update
+      </Button>
+      <br />
+      </>
+    ) : (
+      <div />
+    )}
+    </>
   );
 };
 

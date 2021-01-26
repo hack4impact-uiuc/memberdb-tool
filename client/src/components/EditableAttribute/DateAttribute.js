@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
+import {startCase} from 'lodash'
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DateAttribute.css';
 
@@ -17,7 +18,7 @@ const DateAttribute = ({
 
   return (
     <div className={className}>
-      <p>{attributeLabel}</p>
+      <p>{startCase(attributeLabel)}</p>
       <DatePicker
         className="datePicker"
         onChange={onValueChange}
