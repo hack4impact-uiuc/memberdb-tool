@@ -8,7 +8,6 @@
     "ag-grid-enterprise": "^25.0.0",
     "ag-grid-react": "^25.0.0",
     "axios": "^0.21.1",
-    "husky": "^4.3.8",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
