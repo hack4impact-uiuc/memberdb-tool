@@ -12,12 +12,12 @@ const Table = () => {
   useEffect(() => {
     const getAllMembers = async () => {
       const allMembers = await getMembers();
-      setMembers(allMembers.data.result);
+      if (allMembers.data) {
+        setMembers(allMembers.data.result);
+      }
     };
     getAllMembers();
   }, []);
-
-
 
   return (
     <div className="ag-theme-alpine table-wrapper">

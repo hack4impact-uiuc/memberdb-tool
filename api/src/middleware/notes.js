@@ -1,13 +1,12 @@
 const { isAdmin } = require('./auth');
 
 // middleware to validate if user can edit
-const validateEditability = (req, res, next) => {
+const validateEditability = async (req, res, next) => {
   // ADMIN level takes precedence
   if (isAdmin(req.user)) {
     next();
   }
-  // TODO: uncomment line once note Scheme exists
-  // const note = await Note.findById(req.params.notesId)
+  const note = await Note.findById(req.params.notesId);
   // Check if note was found
   if (!note) {
     return res.status(404).json({

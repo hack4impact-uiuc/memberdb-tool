@@ -24,6 +24,13 @@ const nonEditableFields = [
   'role',
   'status',
 ];
+// Fields and their regex for validation
+const validationFields = {
+  email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+  phone: /^[0-9]{10}$/,
+  gradYear: /^\d{4}/,
+  generationYear: /^\d{4}/,
+};
 
 const getViewableFields = (currentUser, memberId) => {
   const viewableFields = difference(allFields, neverViewableFields);
@@ -53,9 +60,18 @@ const filterViewableFields = (currentUser, member) => {
   return filteredMember;
 };
 
+const validateField = (field, value, validatingFields) => {
+  if (field in validatingFields) {
+    return validatingFields[field].test(value);
+  }
+  return true;
+};
+
 module.exports = {
   allFields,
   getEditableFields,
   getViewableFields,
   filterViewableFields,
+  validateField,
+  validationFields,
 };

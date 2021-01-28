@@ -1,5 +1,6 @@
 .nav {
   display: flex;
+  margin: 1.5rem;
 }
 
 .nav #nav-title {
@@ -16,9 +17,10 @@
 .nav .profile-item {
   display: flex;
   align-items: center;
-  padding: 1rem 3rem 0rem 0rem;
+  margin-right: 2rem;
 }
 
 .nav .profile-item #welcome-text {
+  margin-top: 1rem;
   margin-right: 1rem;
 }
