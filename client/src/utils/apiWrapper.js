@@ -95,7 +95,7 @@ export const getMemberSchemaTypes = () => {
     }));
 };
 
-// Retrieves all members 
+// Retrieves all members
 export const getMembers = () => {
   const requestString = `${BACKEND_BASE_URL}/members`;
   return axios

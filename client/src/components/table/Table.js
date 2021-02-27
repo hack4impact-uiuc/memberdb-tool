@@ -19,8 +19,6 @@ const Table = () => {
     getAllMembers();
   }, []);
 
-
-
   return (
     <div className="ag-theme-alpine table-wrapper">
       <AgGridReact
