@@ -4,18 +4,20 @@
   "homepage": "https://pineapple.lol/",
   "license": "MIT",
   "dependencies": {
-    "@hack4impact-uiuc/bridge": "^1.1.0",
     "ag-grid-community": "^25.0.0",
     "ag-grid-enterprise": "^25.0.0",
     "ag-grid-react": "^25.0.0",
     "axios": "^0.21.1",
+    "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-datepicker": "^3.4.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-select": "^3.2.0"
+    "react-select": "^3.2.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.2",

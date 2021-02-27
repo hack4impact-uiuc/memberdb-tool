@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Alert, Icon } from '@hack4impact-uiuc/bridge';
+import { Form, Message, Icon, Button } from 'semantic-ui-react';
+import _ from 'lodash';
 
 import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
+import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
+import DateAttribute from '../components/EditableAttribute/DateAttribute';
+import '../css/Profile.css';
 import {
   getMemberByID,
   getMemberEnumOptions,
   getMemberPermissionsByID,
   getMemberSchemaTypes,
+  updateMember,
 } from '../utils/apiWrapper';
-import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
-import DateAttribute from '../components/EditableAttribute/DateAttribute';
+
+const SUCCESS_MESSAGE_POPUP_TIME_MS = 4000;
 
 /**
  * Checks if the given API responses were successful
@@ -29,8 +34,12 @@ const areResponsesSuccessful = (...responses) => {
 
 const Profile = () => {
   const { memberID } = useParams();
-  const [isError, setIsError] = useState(false);
-  const [user, setUser] = useState({});
+
+  // Upstream user is the DB version. Local user captures local changes made to the user.
+  const [upstreamUser, setUpstreamUser] = useState({});
+  const [localUser, setLocalUser] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [enumOptions, setEnumOptions] = useState({});
   const [schemaTypes, setSchemaTypes] = useState({});
   const [userPermissions, setUserPermissions] = useState({
@@ -55,14 +64,16 @@ const Profile = () => {
           enumOptionsResponse,
         )
       ) {
-        setIsError(true);
+        setErrorMessage('An error occurred while retrieving member data.');
         return;
       }
 
-      setUser(memberDataResponse.data.result);
+      setUpstreamUser(memberDataResponse.data.result);
+      setLocalUser(memberDataResponse.data.result);
       setUserPermissions(memberPermissionResponse.data.result);
       setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
+      setErrorMessage(null);
     }
 
     getUserData();
@@ -77,88 +88,174 @@ const Profile = () => {
   };
 
   const onAttributeChange = (value, attributeLabel) => {
-    setUser({
-      ...user,
+    setLocalUser({
+      ...localUser,
       [attributeLabel]: value,
     });
   };
 
+  const createUpdatedUser = () => {
+    const updatedUser = {};
+    userPermissions.edit.forEach((field) => {
+      updatedUser[field] = localUser[field];
+    });
+
+    return updatedUser;
+  };
+
+  const setTemporarySuccessMessage = (contents) => {
+    setSuccessMessage(contents);
+    setTimeout(() => setSuccessMessage(null), SUCCESS_MESSAGE_POPUP_TIME_MS);
+  };
+
+  const submitChanges = async () => {
+    const result = await updateMember(createUpdatedUser(), upstreamUser._id);
+    if (!areResponsesSuccessful(result)) {
+      setErrorMessage(
+        `An error occured${
+          result && result.data && result.data.message
+            ? `: ${result.data.message}`
+            : '.'
+        }`,
+      );
+      setSuccessMessage(null);
+    } else {
+      setTemporarySuccessMessage('User updated');
+      setErrorMessage(null);
+      setUpstreamUser(result.data.result);
+    }
+  };
+
   return (
-    <div>
-      {isError ? (
-        <Alert variant="error" mb="8px">
-          <Icon type="errorAlert" />
-          An error occurred
-        </Alert>
+    <>
+      <Form size="big" className="profile-form">
+        {
+          // Main content
+          userPermissions.view.map((attribute) => {
+            if (isOfType(attribute, 'Number')) {
+              return (
+                <TextAttribute
+                  type="number"
+                  value={localUser[attribute]}
+                  key={attribute}
+                  attributeLabel={attribute}
+                  className="attribute"
+                  onChange={onAttributeChange}
+                  isDisabled={!userPermissions.edit.includes(attribute)}
+                />
+              );
+            }
+
+            if (isOfType(attribute, 'Enum')) {
+              return (
+                <EnumAttribute
+                  value={localUser[attribute]}
+                  valueOptions={enumOptions[attribute]}
+                  key={attribute}
+                  attributeLabel={attribute}
+                  className="attribute"
+                  onChange={onAttributeChange}
+                  isDisabled={!userPermissions.edit.includes(attribute)}
+                />
+              );
+            }
+
+            if (isOfType(attribute, 'Boolean')) {
+              return (
+                <BooleanAttribute
+                  value={localUser[attribute]}
+                  key={attribute}
+                  attributeLabel={attribute}
+                  className="attribute"
+                  onChange={onAttributeChange}
+                  isDisabled={!userPermissions.edit.includes(attribute)}
+                />
+              );
+            }
+
+            if (isOfType(attribute, 'Date')) {
+              return (
+                <DateAttribute
+                  value={Date.parse(localUser[attribute])}
+                  key={attribute}
+                  attributeLabel={attribute}
+                  onChange={onAttributeChange}
+                  className="attribute"
+                  isDisabled={!userPermissions.edit.includes(attribute)}
+                />
+              );
+            }
+
+            if (isOfType(attribute, 'String')) {
+              return (
+                <TextAttribute
+                  type="text"
+                  value={localUser[attribute]}
+                  attributeLabel={attribute}
+                  className="attribute"
+                  key={attribute}
+                  onChange={onAttributeChange}
+                  isDisabled={!userPermissions.edit.includes(attribute)}
+                />
+              );
+            }
+
+            return <div key={attribute} />;
+          })
+        }
+      </Form>
+
+      {
+        // Message displayed upon successfully updating member
+        successMessage ? (
+          <div className="profile-alert">
+            <Message icon big positive>
+              <Icon name="thumbs up" />
+              <Message.Content>
+                <Message.Header>Update Succeeded!</Message.Header>
+                {successMessage}
+              </Message.Content>
+            </Message>
+          </div>
+        ) : (
+          <div />
+        )
+      }
+
+      {
+        // Message displayed upon receiving an error response
+        errorMessage ? (
+          <div className="profile-alert">
+            <Message className="profile-alert" icon big negative>
+              <Icon name="warning circle" />
+              <Message.Content>
+                <Message.Header>Update Failed!</Message.Header>
+                {errorMessage}
+              </Message.Content>
+            </Message>
+          </div>
+        ) : (
+          <div />
+        )
+      }
+
+      {userPermissions.edit.length > 0 ? (
+        <>
+          <Button
+            size="big"
+            id="submit-button"
+            disabled={_.isEqual(upstreamUser, localUser)}
+            type="large"
+            onClick={submitChanges}
+          >
+            Update
+          </Button>
+          <br />
+        </>
       ) : (
-        userPermissions.view.map((attribute) => {
-          if (isOfType(attribute, 'Number')) {
-            return (
-              <TextAttribute
-                type="number"
-                value={user[attribute]}
-                key={attribute}
-                attributeLabel={attribute}
-                onChange={onAttributeChange}
-                isDisabled={!userPermissions.edit.includes(attribute)}
-              />
-            );
-          }
-
-          if (isOfType(attribute, 'Enum')) {
-            return (
-              <EnumAttribute
-                value={user[attribute]}
-                valueOptions={enumOptions[attribute]}
-                key={attribute}
-                attributeLabel={attribute}
-                onChange={onAttributeChange}
-                isDisabled={!userPermissions.edit.includes(attribute)}
-              />
-            );
-          }
-
-          if (isOfType(attribute, 'Boolean')) {
-            return (
-              <BooleanAttribute
-                value={user[attribute]}
-                key={attribute}
-                attributeLabel={attribute}
-                onChange={onAttributeChange}
-                isDisabled={!userPermissions.edit.includes(attribute)}
-              />
-            );
-          }
-
-          if (isOfType(attribute, 'Date')) {
-            return (
-              <DateAttribute
-                value={Date.parse(user[attribute])}
-                key={attribute}
-                attributeLabel={attribute}
-                onChange={onAttributeChange}
-                isDisabled={!userPermissions.edit.includes(attribute)}
-              />
-            );
-          }
-
-          if (isOfType(attribute, 'String')) {
-            return (
-              <TextAttribute
-                type="text"
-                value={user[attribute]}
-                attributeLabel={attribute}
-                key={attribute}
-                onChange={onAttributeChange}
-                isDisabled={!userPermissions.edit.includes(attribute)}
-              />
-            );
-          }
-
-          return <div key={attribute} />;
-        })
+        <div />
       )}
-    </div>
+    </>
   );
 };
 

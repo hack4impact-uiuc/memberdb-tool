@@ -9,10 +9,21 @@ const neverViewableFields = ['oauthID', '__v'];
 // Fields that are never editable
 const neverEditableFields = ['_id', 'oauthID', '__v'];
 // Fields that non-directors cannot view for other users
-// TODO: omit notes fields once they are added to the DB
-const nonViewableFields = ['level', 'areDuesPaid'];
+const nonViewableFields = ['areDuesPaid'];
 // Fields that non-directors cannot edit for themselves
-const nonEditableFields = ['level', 'areDuesPaid'];
+const nonEditableFields = [
+  'email',
+  'level',
+  'areDuesPaid',
+  'gradYear',
+  'gradSemester',
+  'classStanding',
+  'generationYear',
+  'generationSemester',
+  'location',
+  'role',
+  'status',
+];
 
 const getViewableFields = (currentUser, memberId) => {
   const viewableFields = difference(allFields, neverViewableFields);
@@ -37,7 +48,7 @@ const getEditableFields = (currentUser, memberId) => {
 };
 
 const filterViewableFields = (currentUser, member) => {
-  const viewable = getViewableFields(currentUser, member._id);
+  const viewable = getViewableFields(currentUser, member._id.toString());
   const filteredMember = pick(member.toObject(), viewable);
   return filteredMember;
 };

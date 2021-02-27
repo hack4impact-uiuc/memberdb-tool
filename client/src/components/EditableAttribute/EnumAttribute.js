@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import { startCase } from 'lodash';
 
 const defaultDropdownOption = { label: '', value: '' };
 
@@ -9,6 +10,7 @@ const EnumAttribute = ({
   valueOptions = [],
   attributeLabel = '',
   isDisabled = false,
+  className = '',
   onChange,
 }) => {
   const onValueChange = (selectedOption) => {
@@ -22,8 +24,8 @@ const EnumAttribute = ({
   };
 
   return (
-    <div>
-      <p>{attributeLabel}</p>
+    <div className={className}>
+      <p>{startCase(attributeLabel)}</p>
       <Select
         value={getOptionFromValue(value)}
         isDisabled={isDisabled}
@@ -45,6 +47,7 @@ EnumAttribute.propTypes = {
   ),
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
