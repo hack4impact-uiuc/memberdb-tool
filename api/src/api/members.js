@@ -15,10 +15,8 @@ const validateMemberQuery = (req, res, next) => {
   // Middleware that verifies that fields to be inserted/updated actually
   // exist in the Member schema, and that user has permission to update them
   const editableFields = getEditableFields(req.user, req.params.memberId);
-  console.log(req.body);
 
   for (const field in req.body) {
-    console.log(field);
     if (!allFields.includes(field)) {
       return res.status(400).json({
         success: false,
