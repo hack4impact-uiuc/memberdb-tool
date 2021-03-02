@@ -8,14 +8,17 @@ const {
   filterViewableFields,
   getViewableFields,
   getEditableFields,
+  validateField,
 } = require('../utils/user-utils');
 
 const validateMemberQuery = (req, res, next) => {
   // Middleware that verifies that fields to be inserted/updated actually
   // exist in the Member schema, and that user has permission to update them
   const editableFields = getEditableFields(req.user, req.params.memberId);
+  console.log(req.body);
 
   for (const field in req.body) {
+    console.log(field);
     if (!allFields.includes(field)) {
       return res.status(400).json({
         success: false,
@@ -27,6 +30,13 @@ const validateMemberQuery = (req, res, next) => {
       return res.status(401).json({
         success: false,
         message: `Cannot update protected field ${field} in member`,
+      });
+    }
+
+    if (!validateField(field, req.body[field])) {
+      return res.status(400).json({
+        success: false,
+        message: `${field} is formatted incorrectly`,
       });
     }
   }
