@@ -3,10 +3,10 @@
  */
 const mongoose = require('mongoose');
 
-const actions = {
+const actions = Object.freeze({
   CREATED: 'CREATED',
   EDITED: 'EDITED',
-};
+});
 
 const Notes = new mongoose.Schema({
   content: { type: String, default: null },

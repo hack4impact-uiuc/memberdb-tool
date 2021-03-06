@@ -6,8 +6,7 @@ const validateEditability = (req, res, next) => {
   if (isAdmin(req.user)) {
     next();
   }
-  // TODO: uncomment line once note Scheme exists
-  // const note = await Note.findById(req.params.notesId)
+  const note = await Note.findById(req.params.notesId)
   // Check if note was found
   if (!note) {
     return res.status(404).json({
