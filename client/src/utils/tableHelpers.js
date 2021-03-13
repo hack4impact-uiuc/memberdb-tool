@@ -2,6 +2,12 @@ import moment from 'moment';
 
 const birthDateFormat = 'MM/DD/YYYY';
 
+const fieldVals = {
+  fall: 'FALL',
+  spring: 'SPRING',
+  tbd: 'TBD',
+};
+
 // Sort Birth Dates in ascending order (earlier dates first)
 const dateComparator = (value1, value2) => {
   const date1 = moment(value1, birthDateFormat);
@@ -19,19 +25,19 @@ const semesterComparator = (value1, value2) => {
     .map((val) => (parseInt(val, 10) ? Number(val) : val));
   if (year1 < year2) return -1;
   if (year1 > year2) return 1;
-  if (sem1 === 'FALL' && sem2 === 'SPRING') return 1;
-  if (sem1 === 'SPRING' && sem2 === 'FALL') return -1;
+  if (sem1 === fieldVals.fall && sem2 === fieldVals.spring) return 1;
+  if (sem1 === fieldVals.spring && sem2 === fieldVals.fall) return -1;
   return 0;
 };
 
 // Combine both Semester and Year into a single column
 const graduationGetter = ({ data }) => {
-  if (data.gradSemester === 'TBD') return data.gradSemester;
+  if (data.gradSemester === fieldVals.tbd) return data.gradSemester;
   return `${data.gradSemester} ${data.gradYear}`;
 };
 
 const generationGetter = ({ data }) => {
-  if (data.generationSemester === 'TBD') return data.generationSemester;
+  if (data.generationSemester === fieldVals.tbd) return data.generationSemester;
   return `${data.generationSemester} ${data.generationYear}`;
 };
 
