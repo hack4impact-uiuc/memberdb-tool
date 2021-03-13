@@ -58,6 +58,10 @@ export default [
     checkboxSelection: true,
   },
   {
+    headerName: 'Class Standing',
+    field: 'classStanding',
+  },
+  {
     headerName: 'Email',
     field: 'email',
   },
@@ -67,7 +71,7 @@ export default [
   },
   {
     headerName: 'NetID',
-    field: 'netid',
+    field: 'netID',
   },
   {
     headerName: 'UIN',
