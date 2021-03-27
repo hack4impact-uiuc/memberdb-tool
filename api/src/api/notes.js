@@ -21,7 +21,9 @@ router.get(
     if (isAdmin(req.user)) {
       notes = await Note.find({});
     } else {
-      notes = await Note.find({ 'metaData.access.viewableBy': { $in: [req.user._id.toString()] } });
+      notes = await Note.find({
+        'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
+      });
     }
 
     // TODO: test if this loops across all objs or just creates array of 1 obj
