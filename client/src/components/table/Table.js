@@ -7,8 +7,6 @@ import '../../css/Table.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-/** Temp */
-
 const Table = () => {
   const [members, setMembers] = useState([]);
   useEffect(() => {
