@@ -118,7 +118,63 @@ export const updateMember = (member, memberID) => {
       ...member,
     })
     .catch((error) => ({
-      type: 'GET_MEMBER_SCHEMA_TYPES_FAIL',
+      type: 'UPDATE_MEMBER_FAIL',
+      error,
+    }));
+};
+
+// Retrieves all notes
+export const getNotes = () => {
+  const requestString = `${BACKEND_BASE_URL}/notes`;
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_NOTES_FAIL',
+      error,
+    }));
+};
+
+// Updates a note
+export const updateNote = (note, noteID) => {
+  const requestString = `${BACKEND_BASE_URL}/notes/${noteID}`;
+  return axios
+    .put(requestString, {
+      ...note,
+    })
+    .catch((error) => ({
+      type: 'UPDATE_NOTE_FAIL',
+      error,
+    }));
+};
+
+// Creates a new note
+export const createNote = (note) => {
+  const requestString = `${BACKEND_BASE_URL}/notes`;
+  return axios
+    .post(requestString, {
+      ...note,
+    })
+    .catch((error) => ({
+      type: 'CREATE_NOTE_FAIL',
+      error,
+    }));
+};
+
+// Retrieves all note labels
+export const getNoteLabels = () => {
+  const requestString = `${BACKEND_BASE_URL}/notes/labels`;
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_NOTES_LABELS_FAIL',
       error,
     }));
 };

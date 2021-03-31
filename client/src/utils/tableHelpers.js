@@ -1,26 +1,87 @@
+import moment from 'moment';
+
+import { titleCaseFormatter } from './formatters';
+
+/**
+ * @constant
+ * @type {string}
+ */
+const BIRTH_DATE_FORMAT = 'MM/DD/YYYY';
+
+/**
+ * @constant
+ * @type {Object}
+ */
+const FieldVals = Object.freeze({
+  fall: 'FALL',
+  spring: 'SPRING',
+  tbd: 'TBD',
+});
+
 // Sort Birth Dates in ascending order (earlier dates first)
 const dateComparator = (value1, value2) => {
-  const date1 = new Date(value1);
-  const date2 = new Date(value2);
-  return date1 - date2;
+  const date1 = moment(value1, BIRTH_DATE_FORMAT);
+  const date2 = moment(value2, BIRTH_DATE_FORMAT);
+  return date1.diff(date2);
 };
 
 // Sort Grad Year && Generation in ascending order (earlier cohorts first)
 const semesterComparator = (value1, value2) => {
-  const [sem1, year1] = value1.split(' ');
-  const [sem2, year2] = value2.split(' ');
+  // parseInt uses base 10 when changing to an integer
+  const [sem1, year1] = value1
+    .split(' ')
+    .map((val) => (parseInt(val, 10) ? Number(val) : val));
+  const [sem2, year2] = value2
+    .split(' ')
+    .map((val) => (parseInt(val, 10) ? Number(val) : val));
   if (year1 < year2) return -1;
   if (year1 > year2) return 1;
-  if (sem1 === 'Fall' && sem2 === 'Spring') return 1;
-  if (sem1 === 'Spring' && sem2 === 'Fall') return -1;
+  if (sem1 === FieldVals.fall && sem2 === FieldVals.spring) return 1;
+  if (sem1 === FieldVals.spring && sem2 === FieldVals.fall) return -1;
   return 0;
 };
 
-export default [
+// Combine both Semester and Year into a single column
+const graduationGetter = ({ data }) => {
+  if (data.gradSemester === FieldVals.tbd) return data.gradSemester;
+  return `${data.gradSemester} ${data.gradYear}`;
+};
+
+// Get generation label from member data
+const generationGetter = ({ data }) => {
+  if (data.generationSemester === FieldVals.tbd) return data.generationSemester;
+  return `${data.generationSemester} ${data.generationYear}`;
+};
+
+// Gets full name from member data
+const nameGetter = ({ data }) =>
+  `${data.firstName ?? ''} ${data.lastName ?? ''}`;
+
+// Gets birthday in format from member data
+const birthDateGetter = ({ data }) => {
+  if (!data.birthdate) return 'Not Given';
+  const date = moment(data.birthdate).format(BIRTH_DATE_FORMAT);
+  return date;
+};
+
+// Formats table for title case
+const tableTitleCaseFormatter = ({ value }) => titleCaseFormatter(value);
+
+/**
+ * @constant
+ * @type {Array<Object>}
+ */
+export const memberColumnDefs = Object.freeze([
   {
     headerName: 'Name',
     field: 'name',
-    checkboxSelection: true,
+    pinned: 'left',
+    valueGetter: nameGetter,
+  },
+  {
+    headerName: 'Class Standing',
+    field: 'classStanding',
+    valueFormatter: tableTitleCaseFormatter,
   },
   {
     headerName: 'Email',
@@ -32,11 +93,11 @@ export default [
   },
   {
     headerName: 'NetID',
-    field: 'netid',
+    field: 'netID',
   },
   {
     headerName: 'UIN',
-    field: 'uin',
+    field: 'UIN',
   },
   {
     headerName: 'Major',
@@ -44,7 +105,7 @@ export default [
   },
   {
     headerName: 'Birth Date',
-    field: 'birthdate',
+    valueGetter: birthDateGetter,
     comparator: dateComparator,
   },
   {
@@ -61,28 +122,66 @@ export default [
   },
   {
     headerName: 'Grad Sem/Yr',
-    field: 'grad',
+    valueGetter: graduationGetter,
     comparator: semesterComparator,
+    valueFormatter: tableTitleCaseFormatter,
   },
   {
     headerName: 'Generation',
-    field: 'generation',
+    valueGetter: generationGetter,
     comparator: semesterComparator,
+    valueFormatter: tableTitleCaseFormatter,
   },
   {
     headerName: 'Location',
     field: 'location',
+    valueFormatter: tableTitleCaseFormatter,
   },
   {
     headerName: 'Role',
     field: 'role',
+    valueFormatter: tableTitleCaseFormatter,
   },
   {
     headerName: 'Level',
     field: 'level',
+    valueFormatter: tableTitleCaseFormatter,
   },
   {
     headerName: 'Status',
     field: 'status',
+    valueFormatter: tableTitleCaseFormatter,
   },
-];
+]);
+
+const membersFormatter = ({ value }) => value.map((m) => m.name).join(', ');
+
+/**
+ * @constant
+ * @type {Array<Object>}
+ */
+export const notesColumnDefs = Object.freeze([
+  {
+    headerName: 'Title',
+    field: 'metaData.title',
+  },
+  {
+    headerName: 'Labels',
+    field: 'metaData.labels',
+  },
+  {
+    headerName: 'Referenced Members',
+    field: 'metaData.referencedMembers',
+    valueFormatter: membersFormatter,
+  },
+  {
+    headerName: 'Editors',
+    field: 'metaData.access.editableBy',
+    valueFormatter: membersFormatter,
+  },
+  {
+    headerName: 'Viewers',
+    field: 'metaData.access.viewableBy',
+    valueFormatter: membersFormatter,
+  },
+]);

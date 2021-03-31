@@ -5,6 +5,8 @@ import * as Routes from './routes';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
+import Note from './pages/Note';
+import Notes from './pages/Notes';
 import Navbar from './components/navbar/Navbar';
 import { getUserAuth } from './utils/apiWrapper';
 
@@ -28,12 +30,25 @@ function App() {
         <Route exact path={Routes.LOGIN_PAGE}>
           {user ? <Redirect to={Routes.DEFAULT} /> : <Login />}
         </Route>
-        <Route path={Routes.DEFAULT} exact>
-          {user ? <Home user={user} /> : <Redirect to={Routes.LOGIN_PAGE} />}
-        </Route>
         <Route path={Routes.MEMBER_PAGE}>
-          {/* TODO: Replace this with the users ID once we get real data in the DB */}
-          {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
+          <Switch>
+            <Route path={Routes.NOTE_PAGE}>
+              <Note />
+            </Route>
+            <Route DEFAULT>
+              {/* TODO: Replace this with the users ID once we get real data in the DB */}
+              {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
+            </Route>
+          </Switch>
+        </Route>
+        <Route path={Routes.NOTE_PAGE}>
+          <Note />
+        </Route>
+        <Route path={Routes.NOTES}>
+          <Notes />
+        </Route>
+        <Route path={Routes.DEFAULT}>
+          {user ? <Home user={user} /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
       </Switch>
     </div>

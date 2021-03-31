@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Form, Message, Icon, Button } from 'semantic-ui-react';
+import { Link, useParams } from 'react-router-dom';
+import { Form, Message, Icon, Button, Card } from 'semantic-ui-react';
 import _ from 'lodash';
 
+import Page from '../components/layout/Page';
 import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
@@ -16,6 +17,10 @@ import {
   updateMember,
 } from '../utils/apiWrapper';
 
+/**
+ * @constant
+ * @type {number}
+ */
 const SUCCESS_MESSAGE_POPUP_TIME_MS = 4000;
 
 /**
@@ -127,135 +132,147 @@ const Profile = () => {
   };
 
   return (
-    <>
-      <Form size="big" className="profile-form">
-        {
-          // Main content
-          userPermissions.view.map((attribute) => {
-            if (isOfType(attribute, 'Number')) {
-              return (
-                <TextAttribute
-                  type="number"
-                  value={localUser[attribute]}
-                  key={attribute}
-                  attributeLabel={attribute}
-                  className="attribute"
-                  onChange={onAttributeChange}
-                  isDisabled={!userPermissions.edit.includes(attribute)}
-                />
-              );
-            }
-
-            if (isOfType(attribute, 'Enum')) {
-              return (
-                <EnumAttribute
-                  value={localUser[attribute]}
-                  valueOptions={enumOptions[attribute]}
-                  key={attribute}
-                  attributeLabel={attribute}
-                  className="attribute"
-                  onChange={onAttributeChange}
-                  isDisabled={!userPermissions.edit.includes(attribute)}
-                />
-              );
-            }
-
-            if (isOfType(attribute, 'Boolean')) {
-              return (
-                <BooleanAttribute
-                  value={localUser[attribute]}
-                  key={attribute}
-                  attributeLabel={attribute}
-                  className="attribute"
-                  onChange={onAttributeChange}
-                  isDisabled={!userPermissions.edit.includes(attribute)}
-                />
-              );
-            }
-
-            if (isOfType(attribute, 'Date')) {
-              return (
-                <DateAttribute
-                  value={Date.parse(localUser[attribute])}
-                  key={attribute}
-                  attributeLabel={attribute}
-                  onChange={onAttributeChange}
-                  className="attribute"
-                  isDisabled={!userPermissions.edit.includes(attribute)}
-                />
-              );
-            }
-
-            if (isOfType(attribute, 'String')) {
-              return (
-                <TextAttribute
-                  type="text"
-                  value={localUser[attribute]}
-                  attributeLabel={attribute}
-                  className="attribute"
-                  key={attribute}
-                  onChange={onAttributeChange}
-                  isDisabled={!userPermissions.edit.includes(attribute)}
-                />
-              );
-            }
-
-            return <div key={attribute} />;
-          })
-        }
-      </Form>
-
-      {
-        // Message displayed upon successfully updating member
-        successMessage ? (
-          <div className="profile-alert">
-            <Message icon big positive>
-              <Icon name="thumbs up" />
-              <Message.Content>
-                <Message.Header>Update Succeeded!</Message.Header>
-                {successMessage}
-              </Message.Content>
-            </Message>
-          </div>
-        ) : (
-          <div />
-        )
-      }
-
-      {
-        // Message displayed upon receiving an error response
-        errorMessage ? (
-          <div className="profile-alert">
-            <Message className="profile-alert" icon big negative>
-              <Icon name="warning circle" />
-              <Message.Content>
-                <Message.Header>Update Failed!</Message.Header>
-                {errorMessage}
-              </Message.Content>
-            </Message>
-          </div>
-        ) : (
-          <div />
-        )
-      }
-
-      {userPermissions.edit.length > 0 ? (
+    <Page
+      title={
         <>
-          <Button
-            size="big"
-            id="submit-button"
-            disabled={_.isEqual(upstreamUser, localUser)}
-            type="large"
-            onClick={submitChanges}
-          >
-            Update
-          </Button>
-          <br />
+          <Link to="/">Members</Link> / {upstreamUser.firstName}{' '}
+          {upstreamUser.lastName}
         </>
-      ) : (
-        <div />
-      )}
-    </>
+      }
+    >
+      <Card fluid>
+        <Card.Content>
+          <Card.Header>Profile</Card.Header>
+          <Form fluid className="profile-form">
+            <div className="form-grid">
+              {
+                // Main content
+                userPermissions.view.map((attribute) => {
+                  if (isOfType(attribute, 'Number')) {
+                    return (
+                      <TextAttribute
+                        type="number"
+                        value={localUser[attribute]}
+                        key={attribute}
+                        attributeLabel={attribute}
+                        className="attribute"
+                        onChange={onAttributeChange}
+                        isDisabled={!userPermissions.edit.includes(attribute)}
+                      />
+                    );
+                  }
+
+                  if (isOfType(attribute, 'Enum')) {
+                    return (
+                      <EnumAttribute
+                        value={localUser[attribute]}
+                        valueOptions={enumOptions[attribute]}
+                        key={attribute}
+                        attributeLabel={attribute}
+                        className="attribute"
+                        onChange={onAttributeChange}
+                        isDisabled={!userPermissions.edit.includes(attribute)}
+                      />
+                    );
+                  }
+
+                  if (isOfType(attribute, 'Boolean')) {
+                    return (
+                      <BooleanAttribute
+                        value={localUser[attribute]}
+                        key={attribute}
+                        attributeLabel={attribute}
+                        className="attribute"
+                        onChange={onAttributeChange}
+                        isDisabled={!userPermissions.edit.includes(attribute)}
+                      />
+                    );
+                  }
+
+                  if (isOfType(attribute, 'Date')) {
+                    return (
+                      <DateAttribute
+                        value={Date.parse(localUser[attribute])}
+                        key={attribute}
+                        attributeLabel={attribute}
+                        onChange={onAttributeChange}
+                        className="attribute"
+                        isDisabled={!userPermissions.edit.includes(attribute)}
+                      />
+                    );
+                  }
+
+                  if (isOfType(attribute, 'String')) {
+                    return (
+                      <TextAttribute
+                        type="text"
+                        value={localUser[attribute]}
+                        attributeLabel={attribute}
+                        className="attribute"
+                        key={attribute}
+                        onChange={onAttributeChange}
+                        isDisabled={!userPermissions.edit.includes(attribute)}
+                      />
+                    );
+                  }
+
+                  return <div key={attribute} />;
+                })
+              }
+            </div>
+            {
+              // Message displayed upon successfully updating member
+              successMessage ? (
+                <div className="profile-alert">
+                  <Message icon big positive>
+                    <Icon name="thumbs up" />
+                    <Message.Content>
+                      <Message.Header>Update Succeeded!</Message.Header>
+                      {successMessage}
+                    </Message.Content>
+                  </Message>
+                </div>
+              ) : (
+                <div />
+              )
+            }
+
+            {
+              // Message displayed upon receiving an error response
+              errorMessage ? (
+                <div className="profile-alert">
+                  <Message className="profile-alert" icon big negative>
+                    <Icon name="warning circle" />
+                    <Message.Content>
+                      <Message.Header>Update Failed!</Message.Header>
+                      {errorMessage}
+                    </Message.Content>
+                  </Message>
+                </div>
+              ) : (
+                <div />
+              )
+            }
+
+            {userPermissions.edit.length > 0 ? (
+              <>
+                <Button
+                  size="big"
+                  id="submit-button"
+                  disabled={_.isEqual(upstreamUser, localUser)}
+                  type="large"
+                  onClick={submitChanges}
+                >
+                  Update
+                </Button>
+              </>
+            ) : (
+              <div />
+            )}
+          </Form>
+        </Card.Content>
+      </Card>
+    </Page>
   );
 };
 

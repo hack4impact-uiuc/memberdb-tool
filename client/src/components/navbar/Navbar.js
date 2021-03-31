@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import '../../css/Navbar.css';
@@ -12,16 +12,23 @@ import * as Routes from '../../routes';
  * @param {Object} user the current user of the session
  */
 const Navbar = ({ user }) => (
-  <nav className="nav">
+  <nav>
     <h2 id="nav-title">
       <Link className="nav-link" to={Routes.DEFAULT}>
         H4I Member Database
       </Link>
     </h2>
-    <div className="profile-item">
-      <h2 id="welcome-text">Hello, {user.firstName}!</h2>
-      <ProfileDropdown user={user} />
-    </div>
+    <ul>
+      <li>
+        <NavLink to="/">Members</NavLink>
+      </li>
+      <li>
+        <NavLink to="/notes">Notes</NavLink>
+      </li>
+      <li className="profile-item">
+        <ProfileDropdown user={user} />
+      </li>
+    </ul>
   </nav>
 );
 
