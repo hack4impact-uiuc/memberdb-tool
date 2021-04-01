@@ -31,7 +31,6 @@ router.get(
       // save last member ID who edited and append to notes object
       const lastEditedBy = note['metaData']['versionHistory']['id'];
       note['lastEditedBy'] = lastEditedBy;
-
     });
     res.status(200).json({
       success: true,
