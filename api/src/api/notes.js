@@ -28,16 +28,10 @@ router.get(
 
     // TODO: test if this loops across all objs or just creates array of 1 obj
     notes.forEach((note) => {
-      // remove content from notes
-      delete note['content'];
-
       // save last member ID who edited and append to notes object
       const lastEditedBy = note['metaData']['versionHistory']['id'];
       note['lastEditedBy'] = lastEditedBy;
-      // remove versionHistory from notes
-      delete note['metaData']['versionHistory'];
-      // remove access info from notes
-      delete note['metaData']['access'];
+
     });
     res.status(200).json({
       success: true,
