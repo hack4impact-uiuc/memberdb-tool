@@ -17,16 +17,13 @@ router.get(
   requireRegistered,
   errorWrap(async (req, res) => {
     let notes;
-    // Return all notes if Admin
     if (isAdmin(req.user)) {
       notes = [...Note.find({})];
     } else {
-      // TODO: check if viewableBy path must be changed
       notes = [
         ...Note.find({ viewableBy: { $in: [req.user._id.toString()] } }),
       ];
     }
-    // TODO: test if this loops across all objs or just creates array of 1 obj
     notes.forEach((note) => {
       // remove content from notes
       delete note['content'];
@@ -45,13 +42,13 @@ router.get(
   }),
 );
 
-//GET /notes/labels
+// GET /notes/labels
 router.get(
   '/labels',
   requireRegistered,
   errorWrap(async (req, res) => {
     const notes = await Note.find({});
-    let labelList = [];
+    const labelList = [];
 
     for (const note of notes) {
       for (const label of note.metaData.labels) {
@@ -64,6 +61,7 @@ router.get(
     res.status(200).json({
       success: true,
       result: labelList,
+      message: 'Notes retrieved successfully.',
     });
   }),
 );
