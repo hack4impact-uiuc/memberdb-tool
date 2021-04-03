@@ -39,6 +39,29 @@ router.get(
   }),
 );
 
+//GET /notes/labels
+router.get(
+  '/labels',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const notes = await Note.find({});
+    let labelList = [];
+
+    for (const note of notes) {
+      for (const label of note.metaData.labels) {
+        if (!labelList.includes(label)) {
+          labelList.push(label);
+        }
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      result: labelList,
+    });
+  }),
+);
+
 router.post(
   '/',
   requireLead,
