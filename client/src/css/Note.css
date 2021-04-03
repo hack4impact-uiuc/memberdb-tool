@@ -33,12 +33,18 @@ form.ui.form label {
   box-sizing: border-box;
 }
 
-.DraftEditor-root {
+div.DraftEditor-root {
   box-sizing: border-box;
   padding: 14px 14px;
   border: 1px solid rgba(34, 36, 38, 0.15);
   border-radius: 0.28571429rem;
-  height: 300px;
+  height: calc(50vh);
+  width: 100%;
+  font-weight: 500;
   resize: vertical;
   overflow-y: auto;
+}
+div.DraftEditor-editorContainer,
+div.public-DraftEditor-content {
+  height: 100%;
 }

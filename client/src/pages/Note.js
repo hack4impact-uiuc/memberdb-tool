@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
-import { Button, Input, Form, Dropdown } from 'semantic-ui-react';
+import { Button, Input, Form, Dropdown, Grid, Card } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
 import { useParams, Redirect } from 'react-router-dom';
 
@@ -185,91 +185,108 @@ function Note() {
       return (
         <div className="note-wrapper">
           <Form>
-            <Form.Field>
-              <label>
-                Note Title
-                <Input
-                  value={noteTitle ?? ''}
-                  placeholder="Mid-semester 2:1"
-                  onChange={(e) => setNoteTitle(e.target.value ?? '')}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Note Label
-                <Dropdown
-                  id="note-labels"
-                  value={noteLabels}
-                  placeholder="1v1, evaluation, etc"
-                  onChange={(_, { value }) => setNoteLabels(value)}
-                  fluid
-                  multiple
-                  search
-                  selection
-                  options={allNoteLabels}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Referenced Members
-                <Dropdown
-                  value={referencedMembers}
-                  placeholder="Albert Cao, etc"
-                  onChange={(_, { value }) => setReferencedMembers(value)}
-                  fluid
-                  multiple
-                  search
-                  selection
-                  options={members}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Viewable By
-                <Dropdown
-                  value={viewableBy}
-                  placeholder="Albert Cao, etc"
-                  onChange={(_, { value }) => setViewableBy(value)}
-                  fluid
-                  multiple
-                  search
-                  selection
-                  options={members}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Editable By
-                <Dropdown
-                  value={editableBy}
-                  placeholder="Albert Cao, etc"
-                  onChange={(_, { value }) => setEditableBy(value)}
-                  fluid
-                  multiple
-                  search
-                  selection
-                  options={members}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Note Contents
-                <Editor
-                  editorState={editorState}
-                  handleKeyCommand={handleKeyCommand}
-                  onChange={setEditorState}
-                />
-              </label>
-            </Form.Field>
-            <br />
-            <Button primary onClick={submitNote}>
-              {noteState === NOTE_STATE.editing ? 'Update' : 'Create'} Note
-            </Button>
+            <Grid stackable>
+              <Grid.Column width={12}>
+                <Card fluid>
+                  <Card.Content>
+                    <Card.Header>Content</Card.Header>
+                    <Form.Field>
+                      <label>
+                        Note Title
+                        <Input
+                          value={noteTitle ?? ''}
+                          placeholder="Mid-semester 2:1"
+                          onChange={(e) => setNoteTitle(e.target.value ?? '')}
+                        />
+                      </label>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>
+                        Note Contents
+                        <Editor
+                          editorState={editorState}
+                          handleKeyCommand={handleKeyCommand}
+                          onChange={setEditorState}
+                        />
+                      </label>
+                    </Form.Field>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <Card fluid>
+                  <Card.Content>
+                    <Card.Header>Metadata</Card.Header>
+                    <Form.Field>
+                      <label>
+                        Note Label
+                        <Dropdown
+                          id="note-labels"
+                          value={noteLabels}
+                          placeholder="1v1, evaluation, etc"
+                          onChange={(_, { value }) => setNoteLabels(value)}
+                          fluid
+                          multiple
+                          search
+                          selection
+                          options={allNoteLabels}
+                        />
+                      </label>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>
+                        Referenced Members
+                        <Dropdown
+                          value={referencedMembers}
+                          placeholder="Albert Cao, etc"
+                          onChange={(_, { value }) =>
+                            setReferencedMembers(value)
+                          }
+                          fluid
+                          multiple
+                          search
+                          selection
+                          options={members}
+                        />
+                      </label>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>
+                        Viewable By
+                        <Dropdown
+                          value={viewableBy}
+                          placeholder="Albert Cao, etc"
+                          onChange={(_, { value }) => setViewableBy(value)}
+                          fluid
+                          multiple
+                          search
+                          selection
+                          options={members}
+                        />
+                      </label>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>
+                        Editable By
+                        <Dropdown
+                          value={editableBy}
+                          placeholder="Albert Cao, etc"
+                          onChange={(_, { value }) => setEditableBy(value)}
+                          fluid
+                          multiple
+                          search
+                          selection
+                          options={members}
+                        />
+                      </label>
+                    </Form.Field>
+                  </Card.Content>
+                </Card>
+                <Button primary fluid onClick={submitNote}>
+                  {noteState === NOTE_STATE.editing ? 'Update' : 'Create'} Note
+                </Button>
+              </Grid.Column>
+            </Grid>
           </Form>
         </div>
       );
