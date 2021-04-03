@@ -1,0 +1,44 @@
+.note-wrapper {
+  margin: 0 auto;
+  width: 90%;
+}
+
+/* react-jsonform-semanticui Overrides */
+
+form.ui.form {
+  padding-bottom: 1em;
+}
+
+.form-group.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui.form .field > .selection.dropdown {
+  height: 100%;
+}
+
+.ui.active.visible.search.selection.dropdown {
+  overflow: visible;
+}
+
+form.ui.form label {
+  line-height: 2;
+}
+
+/* Draft.js Wrapper */
+
+#note-editor-wrapper {
+  display: block;
+  box-sizing: border-box;
+}
+
+.DraftEditor-root {
+  box-sizing: border-box;
+  padding: 14px 14px;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 0.28571429rem;
+  height: 300px;
+  resize: vertical;
+  overflow-y: auto;
+}
