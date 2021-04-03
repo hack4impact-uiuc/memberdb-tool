@@ -40,6 +40,8 @@ function Note() {
   const [noteTitle, setNoteTitle] = useState(null);
   const [noteLabels, setNoteLabels] = useState([]);
   const [referencedMembers, setReferencedMembers] = useState([]);
+  const [viewableBy, setViewableBy] = useState([]);
+  const [editableBy, setEditableBy] = useState([]);
 
   // TODO: Implement safety guards for leaving an edited form
   // We can use a window.confirm() here or a semantic modal instead
@@ -60,13 +62,25 @@ function Note() {
 
         // see if the URL param ID matches an existing note
         const currentNote = result.find((note) => note._id === noteID);
+        console.log(currentNote);
         if (currentNote) {
           setNoteState(NOTE_STATE.editing);
           const {
-            metaData: { title, labels },
+            metaData: {
+              title,
+              labels,
+              referencedMembers: currentReferencedMembers,
+              access: {
+                editableBy: currentEditableBy,
+                viewableBy: currentViewableBy,
+              },
+            },
           } = currentNote;
           setNoteTitle(title);
           setNoteLabels(labels);
+          setReferencedMembers(currentReferencedMembers);
+          setViewableBy(currentViewableBy);
+          setEditableBy(currentEditableBy);
         } else {
           // otherwise bounce the client back to the previous page
           setNoteState(NOTE_STATE.error);
@@ -150,6 +164,10 @@ function Note() {
           title: noteTitle,
           labels: noteLabels,
           referencedMembers,
+          access: {
+            editableBy,
+            viewableBy,
+          },
         },
       },
       noteID,
@@ -197,8 +215,39 @@ function Note() {
               <label>
                 Referenced Members
                 <Dropdown
+                  value={referencedMembers}
                   placeholder="Albert Cao, etc"
                   onChange={(_, { value }) => setReferencedMembers(value)}
+                  fluid
+                  multiple
+                  search
+                  selection
+                  options={members}
+                />
+              </label>
+            </Form.Field>
+            <Form.Field>
+              <label>
+                Viewable By
+                <Dropdown
+                  value={viewableBy}
+                  placeholder="Albert Cao, etc"
+                  onChange={(_, { value }) => setViewableBy(value)}
+                  fluid
+                  multiple
+                  search
+                  selection
+                  options={members}
+                />
+              </label>
+            </Form.Field>
+            <Form.Field>
+              <label>
+                Editable By
+                <Dropdown
+                  value={editableBy}
+                  placeholder="Albert Cao, etc"
+                  onChange={(_, { value }) => setEditableBy(value)}
                   fluid
                   multiple
                   search
