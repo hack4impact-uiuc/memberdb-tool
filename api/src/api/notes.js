@@ -19,24 +19,18 @@ router.get(
     let notes;
     // Return all notes if Admin
     if (isAdmin(req.user)) {
-      notes = [...Note.find({})];
+      notes = await Note.find({});
     } else {
-      // TODO: check if viewableBy path must be changed
-      notes = [
-        ...Note.find({ viewableBy: { $in: [req.user._id.toString()] } }),
-      ];
+      notes = await Note.find({
+        'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
+      });
     }
+
     // TODO: test if this loops across all objs or just creates array of 1 obj
     notes.forEach((note) => {
-      // remove content from notes
-      delete note['content'];
       // save last member ID who edited and append to notes object
-      const lastEditedBy = note['metadata']['versionHistory']['actionBy'].pop();
+      const lastEditedBy = note['metaData']['versionHistory']['id'];
       note['lastEditedBy'] = lastEditedBy;
-      // remove versionHistory from notes
-      delete note['metadata']['versionHistory'];
-      // remove access info from notes
-      delete note['metadata']['access'];
     });
     res.status(200).json({
       success: true,
