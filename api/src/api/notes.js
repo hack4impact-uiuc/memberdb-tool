@@ -18,13 +18,12 @@ const replaceIdWithMember = async (ids) => {
   for (let memberId of ids) {
     const member = await Member.findById(memberId);
     memberArray.push({
-      "memberId": memberId, 
-      "name": member.firstName + " " + member.lastName,
+      memberId: memberId,
+      name: member.firstName + ' ' + member.lastName,
     });
   }
   return memberArray;
-}
-
+};
 
 router.get(
   '/',
@@ -40,16 +39,24 @@ router.get(
         'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
       }).lean();
     }
-    
 
-    for(let note of notes) {
+    for (let note of notes) {
       // save last member ID who edited and append to notes object
-      note.metaData.lastEditedBy = note['metaData']['versionHistory'][note['metaData']['versionHistory'].length - 1]['memberID']
-      
+      note.metaData.lastEditedBy =
+        note['metaData']['versionHistory'][
+          note['metaData']['versionHistory'].length - 1
+        ]['memberID'];
+
       // Replace all members ids with object that has id and name
-      note['metaData']['access']['viewableBy'] = await replaceIdWithMember(note['metaData']['access']['viewableBy']);
-      note['metaData']['access']['editableBy'] = await replaceIdWithMember(note['metaData']['access']['editableBy']);
-      note['metaData']['referencedMembers'] = await replaceIdWithMember(note['metaData']['referencedMembers']);
+      note['metaData']['access']['viewableBy'] = await replaceIdWithMember(
+        note['metaData']['access']['viewableBy'],
+      );
+      note['metaData']['access']['editableBy'] = await replaceIdWithMember(
+        note['metaData']['access']['editableBy'],
+      );
+      note['metaData']['referencedMembers'] = await replaceIdWithMember(
+        note['metaData']['referencedMembers'],
+      );
 
       output_notes.push(note);
     }
