@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/notes');
+const Member = require('../models/member');
 const errorWrap = require('../middleware/errorWrap');
 const {
   requireRegistered,
@@ -12,29 +13,57 @@ const {
   validateReqParams,
 } = require('../middleware/notes');
 
+const replaceIdWithMember = async (ids) => {
+  let memberArray = [];
+  for (let memberId of ids) {
+    const member = await Member.findById(memberId);
+    memberArray.push({
+      memberId: memberId,
+      name: member.firstName + ' ' + member.lastName,
+    });
+  }
+  return memberArray;
+};
+
 router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
     let notes;
+    let output_notes = [];
     // Return all notes if Admin
     if (isAdmin(req.user)) {
-      notes = await Note.find({});
+      notes = await Note.find({}).lean();
     } else {
       notes = await Note.find({
         'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
-      });
+      }).lean();
     }
 
-    // TODO: test if this loops across all objs or just creates array of 1 obj
-    notes.forEach((note) => {
+    for (let note of notes) {
       // save last member ID who edited and append to notes object
-      const lastEditedBy = note['metaData']['versionHistory']['id'];
-      note['lastEditedBy'] = lastEditedBy;
-    });
+      note.metaData.lastEditedBy =
+        note['metaData']['versionHistory'][
+          note['metaData']['versionHistory'].length - 1
+        ]['memberID'];
+
+      // Replace all members ids with object that has id and name
+      note['metaData']['access']['viewableBy'] = await replaceIdWithMember(
+        note['metaData']['access']['viewableBy'],
+      );
+      note['metaData']['access']['editableBy'] = await replaceIdWithMember(
+        note['metaData']['access']['editableBy'],
+      );
+      note['metaData']['referencedMembers'] = await replaceIdWithMember(
+        note['metaData']['referencedMembers'],
+      );
+
+      output_notes.push(note);
+    }
+
     res.status(200).json({
       success: true,
-      result: notes,
+      result: output_notes,
     });
   }),
 );
