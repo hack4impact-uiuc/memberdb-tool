@@ -13,16 +13,17 @@ const {
   validateReqParams,
 } = require('../middleware/notes');
 
-const replaceIdWithMember = async (ids) => {
-  let memberArray = [];
-  for (let memberId of ids) {
-    const member = await Member.findById(memberId);
-    memberArray.push({
-      memberId: memberId,
-      name: member.firstName + ' ' + member.lastName,
-    });
-  }
-  return memberArray;
+const memberFromId = async (ids) => {
+  const memberPromises = ids.map((memberId) => {
+    return Member.findById(memberId);
+  });
+
+  const members = await Promise.all(memberPromises);
+
+  return members.map((member) => ({
+    memberId: member._id,
+    name: `${member.firstName} ${member.lastName}`,
+  }));
 };
 
 router.get(
@@ -30,7 +31,8 @@ router.get(
   requireRegistered,
   errorWrap(async (req, res) => {
     let notes;
-    let output_notes = [];
+    const output_notes = [];
+
     // Return all notes if Admin
     if (isAdmin(req.user)) {
       notes = await Note.find({}).lean();
@@ -48,13 +50,13 @@ router.get(
         ]['memberID'];
 
       // Replace all members ids with object that has id and name
-      note['metaData']['access']['viewableBy'] = await replaceIdWithMember(
+      note['metaData']['access']['viewableBy'] = await memberFromId(
         note['metaData']['access']['viewableBy'],
       );
-      note['metaData']['access']['editableBy'] = await replaceIdWithMember(
+      note['metaData']['access']['editableBy'] = await memberFromId(
         note['metaData']['access']['editableBy'],
       );
-      note['metaData']['referencedMembers'] = await replaceIdWithMember(
+      note['metaData']['referencedMembers'] = await memberFromId(
         note['metaData']['referencedMembers'],
       );
 
