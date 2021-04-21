@@ -72,6 +72,12 @@ router.post(
   '/',
   requireLead,
   errorWrap(async (req, res) => {
+    req.body.metaData.versionHistory.push({
+      date: Date.now(),
+      action: Note.actions.CREATED,
+      memberID: req.user._id,
+    });
+
     const note = await Note.create(req.body);
     res.status(200).json({
       success: true,
@@ -89,7 +95,7 @@ router.put(
     let data = { ...req.body };
     const updatedNote = await Note.findByIdAndUpdate(
       req.params.notesId,
-      { $set: data },
+      { $set: req.body },
       { new: true },
     );
     res.status(200).json({
