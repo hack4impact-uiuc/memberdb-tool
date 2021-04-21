@@ -44,7 +44,6 @@ router.post(
   requireLead,
   errorWrap(async (req, res) => {
     req.body.metaData.versionHistory.push({
-      default: [],
       date: Date.now(),
       action: Note.actions.CREATED,
       memberID: req.user._id,
@@ -65,7 +64,6 @@ router.put(
   validateReqParams,
   errorWrap(async (req, res) => {
     req.body.metaData.versionHistory.push({
-      default: [],
       date: Date.now(),
       action: Note.actions.EDITED,
       memberID: req.user._id,
