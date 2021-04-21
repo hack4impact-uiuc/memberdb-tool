@@ -87,7 +87,7 @@ router.put(
   validateReqParams,
   errorWrap(async (req, res) => {
     let data = { ...req.body };
-    await Note.findByIdAndUpdate(
+    const updatedNote = await Note.findByIdAndUpdate(
       req.params.notesId,
       { $set: data },
       { new: true },
@@ -95,6 +95,7 @@ router.put(
     res.status(200).json({
       success: true,
       message: 'Note successfully updated',
+      data: updatedNote,
     });
   }),
 );
