@@ -41,7 +41,6 @@ router.get(
     }
 
     for (let note of notes) {
-
       // Replace all members ids with object that has id and name
       note['metaData']['access']['viewableBy'] = await memberFromId(
         note['metaData']['access']['viewableBy'],
