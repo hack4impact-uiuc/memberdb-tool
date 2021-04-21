@@ -41,12 +41,6 @@ router.get(
     }
 
     for (let note of notes) {
-      // save last member ID who edited and append to notes object
-      note.metaData.lastEditedBy =
-        note['metaData']['versionHistory'][
-          note['metaData']['versionHistory'].length - 1
-        ]['memberID'];
-
       // Replace all members ids with object that has id and name
       note['metaData']['access']['viewableBy'] = await memberFromId(
         note['metaData']['access']['viewableBy'],
