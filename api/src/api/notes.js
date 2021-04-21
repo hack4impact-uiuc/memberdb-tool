@@ -14,9 +14,7 @@ const {
 } = require('../middleware/notes');
 
 const memberFromId = async (ids) => {
-  const memberPromises = ids.map((memberId) => {
-    return Member.findById(memberId);
-  });
+  const memberPromises = ids.map((memberId) => Member.findById(memberId));
 
   const members = await Promise.all(memberPromises);
 
