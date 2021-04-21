@@ -46,31 +46,36 @@ const Profile = () => {
     view: [],
     edit: [],
   });
+  const [newUser, setNewUser] = useState(false);
 
   useEffect(() => {
     async function getUserData() {
       if (memberID == null) return;
+      if (memberID == 'new') setNewUser(true);
 
-      const memberDataResponse = await getMemberByID(memberID);
-      const memberPermissionResponse = await getMemberPermissionsByID(memberID);
+      let responses = [];
+
+      let memberDataResponse;
+      let memberPermissionResponse;
+      if (memberID !== 'new') {
+        memberDataResponse = await getMemberByID(memberID);
+        memberPermissionResponse = await getMemberPermissionsByID(memberID);
+        responses.push(memberDataResponse, memberPermissionResponse);
+      }
       const memberSchemaResponse = await getMemberSchemaTypes();
       const enumOptionsResponse = await getMemberEnumOptions();
+      responses.push(enumOptionsResponse, memberSchemaResponse);
 
-      if (
-        !areResponsesSuccessful(
-          memberDataResponse,
-          memberPermissionResponse,
-          memberSchemaResponse,
-          enumOptionsResponse,
-        )
-      ) {
+      if (!areResponsesSuccessful(...responses)) {
         setErrorMessage('An error occurred while retrieving member data.');
         return;
       }
 
-      setUpstreamUser(memberDataResponse.data.result);
-      setLocalUser(memberDataResponse.data.result);
-      setUserPermissions(memberPermissionResponse.data.result);
+      if (memberID !== 'new') {
+        setUpstreamUser(memberDataResponse.data.result);
+        setLocalUser(memberDataResponse.data.result);
+        setUserPermissions(memberPermissionResponse.data.result);
+      }
       setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
       setErrorMessage(null);

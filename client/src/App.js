@@ -17,6 +17,7 @@ function App() {
     const userAuth = async () => {
       const resp = await getUserAuth();
       if (!resp.error) setUser(resp.data.result);
+      console.log(resp.data.result);
     };
     userAuth();
   }, [location]);
