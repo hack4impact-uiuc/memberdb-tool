@@ -95,31 +95,32 @@ router.put(
 
     // Get current version history and append latest edit
     const currentVersionHistory = await getVersionHistory(req.params.notesId);
-    currentVersionHistory.push({
-      date: Date.now(),
-      action: Note.actions.EDITED,
-      memberID: req.user._id,
-    });
+    if (currentVersionHistory) {
+      currentVersionHistory.push({
+        date: Date.now(),
+        action: Note.actions.EDITED,
+        memberID: req.user._id,
+      });
 
-    data.metaData.versionHistory = currentVersionHistory;
+      data.metaData.versionHistory = currentVersionHistory;
 
-    const updatedNote = await Note.findByIdAndUpdate(
-      req.params.notesId,
-      { $set: data },
-      { new: true },
-    );
+      const updatedNote = await Note.findByIdAndUpdate(
+        req.params.notesId,
+        { $set: data },
+        { new: true },
+      );
 
-    if (!updatedNote) {
+      res.status(200).json({
+        success: true,
+        message: 'Note successfully updated',
+        data: updatedNote,
+      });
+    } else {
       return res.status(404).json({
         success: false,
         message: 'No note with that id',
       });
     }
-    res.status(200).json({
-      success: true,
-      message: 'Note successfully updated',
-      data: updatedNote,
-    });
   }),
 );
 
