@@ -80,6 +80,11 @@ router.post(
   }),
 );
 
+const getVersionHistory = async (id) => {
+  const note = await Note.findById(id);
+  return note.metaData.versionHistory;
+};
+
 router.put(
   '/:notesId',
   requireRegistered,
@@ -87,11 +92,29 @@ router.put(
   validateReqParams,
   errorWrap(async (req, res) => {
     let data = { ...req.body };
+
+    // Get current version history and append latest edit
+    const currentVersionHistory = await getVersionHistory(req.params.notesId);
+    currentVersionHistory.push({
+      date: Date.now(),
+      action: Note.actions.EDITED,
+      memberID: req.user._id,
+    });
+
+    data.metaData.versionHistory = currentVersionHistory;
+
     const updatedNote = await Note.findByIdAndUpdate(
       req.params.notesId,
-      { $set: req.body },
+      { $set: data },
       { new: true },
     );
+
+    if (!updatedNote) {
+      return res.status(404).json({
+        success: false,
+        message: 'No note with that id',
+      });
+    }
     res.status(200).json({
       success: true,
       message: 'Note successfully updated',
