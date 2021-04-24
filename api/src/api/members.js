@@ -8,6 +8,8 @@ const {
   filterViewableFields,
   getViewableFields,
   getEditableFields,
+  validateField,
+  validationFields,
 } = require('../utils/user-utils');
 
 const validateMemberQuery = (req, res, next) => {
@@ -27,6 +29,13 @@ const validateMemberQuery = (req, res, next) => {
       return res.status(401).json({
         success: false,
         message: `Cannot update protected field ${field} in member`,
+      });
+    }
+
+    if (!validateField(field, req.body[field], validationFields)) {
+      return res.status(400).json({
+        success: false,
+        message: `${field} is formatted incorrectly`,
       });
     }
   }

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/notes');
+const Member = require('../models/member');
 const errorWrap = require('../middleware/errorWrap');
 const {
   requireRegistered,
@@ -12,32 +13,52 @@ const {
   validateReqParams,
 } = require('../middleware/notes');
 
+const memberFromId = async (ids) => {
+  const memberPromises = ids.map((memberId) => Member.findById(memberId));
+
+  const members = await Promise.all(memberPromises);
+
+  return members.map((member) => ({
+    memberId: member._id,
+    name: `${member.firstName} ${member.lastName}`,
+  }));
+};
+
 router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
     let notes;
+    const output_notes = [];
+
+    // Return all notes if Admin
     if (isAdmin(req.user)) {
-      notes = [...Note.find({})];
+      notes = await Note.find({}).lean();
     } else {
-      notes = [
-        ...Note.find({ viewableBy: { $in: [req.user._id.toString()] } }),
-      ];
+
+      notes = await Note.find({
+        'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
+      }).lean();
     }
-    notes.forEach((note) => {
-      // remove content from notes
-      delete note['content'];
-      // save last member ID who edited and append to notes object
-      const lastEditedBy = note['metadata']['versionHistory']['actionBy'].pop();
-      note['lastEditedBy'] = lastEditedBy;
-      // remove versionHistory from notes
-      delete note['metadata']['versionHistory'];
-      // remove access info from notes
-      delete note['metadata']['access'];
-    });
+
+    for (let note of notes) {
+      // Replace all members ids with object that has id and name
+      note['metaData']['access']['viewableBy'] = await memberFromId(
+        note['metaData']['access']['viewableBy'],
+      );
+      note['metaData']['access']['editableBy'] = await memberFromId(
+        note['metaData']['access']['editableBy'],
+      );
+      note['metaData']['referencedMembers'] = await memberFromId(
+        note['metaData']['referencedMembers'],
+      );
+
+      output_notes.push(note);
+    }
+
     res.status(200).json({
       success: true,
-      result: notes,
+      result: output_notes,
     });
   }),
 );
@@ -70,6 +91,12 @@ router.post(
   '/',
   requireLead,
   errorWrap(async (req, res) => {
+    req.body.metaData.versionHistory.push({
+      date: Date.now(),
+      action: Note.actions.CREATED,
+      memberID: req.user._id,
+    });
+
     const note = await Note.create(req.body);
     res.status(200).json({
       success: true,
@@ -85,14 +112,15 @@ router.put(
   validateReqParams,
   errorWrap(async (req, res) => {
     let data = { ...req.body };
-    await Note.findByIdAndUpdate(
+    const updatedNote = await Note.findByIdAndUpdate(
       req.params.notesId,
-      { $set: data },
+      { $set: req.body },
       { new: true },
     );
     res.status(200).json({
       success: true,
       message: 'Note successfully updated',
+      data: updatedNote,
     });
   }),
 );
