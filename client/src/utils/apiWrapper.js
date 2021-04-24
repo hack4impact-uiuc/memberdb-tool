@@ -122,3 +122,16 @@ export const updateMember = (member, memberID) => {
       error,
     }));
 };
+
+// Creates a new member
+export const createMember = (member) => {
+  const requestString = `${BACKEND_BASE_URL}/members/`;
+  return axios
+    .post(requestString, {
+      ...member,
+    })
+    .catch((error) => ({
+      type: 'GET_MEMBER_SCHEMA_TYPES_FAIL',
+      error,
+    }));
+};

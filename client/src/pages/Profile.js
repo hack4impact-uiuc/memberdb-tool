@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { Form, Message, Icon, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 
@@ -7,6 +7,7 @@ import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
+import * as Routes from '../routes';
 import '../css/Profile.css';
 import {
   getMemberByID,
@@ -14,6 +15,7 @@ import {
   getMemberPermissionsByID,
   getMemberSchemaTypes,
   updateMember,
+  createMember,
 } from '../utils/apiWrapper';
 
 const SUCCESS_MESSAGE_POPUP_TIME_MS = 4000;
@@ -47,6 +49,7 @@ const Profile = () => {
     edit: [],
   });
   const [newUser, setNewUser] = useState(false);
+  const [createdUser, setCreatedUser] = useState(false);
 
   useEffect(() => {
     async function getUserData() {
@@ -56,15 +59,19 @@ const Profile = () => {
       let responses = [];
 
       let memberDataResponse;
-      let memberPermissionResponse;
       if (memberID !== 'new') {
         memberDataResponse = await getMemberByID(memberID);
-        memberPermissionResponse = await getMemberPermissionsByID(memberID);
-        responses.push(memberDataResponse, memberPermissionResponse);
+        responses.push(memberDataResponse);
       }
+
+      const memberPermissionResponse = await getMemberPermissionsByID(memberID);
       const memberSchemaResponse = await getMemberSchemaTypes();
       const enumOptionsResponse = await getMemberEnumOptions();
-      responses.push(enumOptionsResponse, memberSchemaResponse);
+      responses.push(
+        enumOptionsResponse,
+        memberSchemaResponse,
+        memberPermissionResponse,
+      );
 
       if (!areResponsesSuccessful(...responses)) {
         setErrorMessage('An error occurred while retrieving member data.');
@@ -74,8 +81,8 @@ const Profile = () => {
       if (memberID !== 'new') {
         setUpstreamUser(memberDataResponse.data.result);
         setLocalUser(memberDataResponse.data.result);
-        setUserPermissions(memberPermissionResponse.data.result);
       }
+      setUserPermissions(memberPermissionResponse.data.result);
       setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
       setErrorMessage(null);
@@ -114,7 +121,9 @@ const Profile = () => {
   };
 
   const submitChanges = async () => {
-    const result = await updateMember(createUpdatedUser(), upstreamUser._id);
+    const result = newUser
+      ? await createMember(createUpdatedUser())
+      : await updateMember(createUpdatedUser(), upstreamUser._id);
     if (!areResponsesSuccessful(result)) {
       setErrorMessage(
         `An error occured${
@@ -125,14 +134,16 @@ const Profile = () => {
       );
       setSuccessMessage(null);
     } else {
-      setTemporarySuccessMessage('User updated');
+      setTemporarySuccessMessage(newUser ? 'User Created' : 'User updated');
       setErrorMessage(null);
       setUpstreamUser(result.data.result);
+      if (newUser) setCreatedUser(true);
     }
   };
 
   return (
     <>
+      {createdUser && <Redirect to={Routes.DEFAULT} />}
       <Form size="big" className="profile-form">
         {
           // Main content
@@ -253,7 +264,7 @@ const Profile = () => {
             type="large"
             onClick={submitChanges}
           >
-            Update
+            {newUser ? 'Create User' : 'Update'}
           </Button>
           <br />
         </>
