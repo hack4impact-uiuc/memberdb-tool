@@ -54,7 +54,7 @@ const Profile = () => {
   useEffect(() => {
     async function getUserData() {
       if (memberID == null) return;
-      if (memberID == 'new') setNewUser(true);
+      if (memberID === 'new') setNewUser(true);
 
       let responses = [];
 
