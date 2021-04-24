@@ -92,7 +92,6 @@ router.put(
   validateReqParams,
   errorWrap(async (req, res) => {
     let data = { ...req.body };
-
     // Get current version history and append latest edit
     const currentVersionHistory = await getVersionHistory(req.params.notesId);
     if (currentVersionHistory) {
@@ -107,7 +106,7 @@ router.put(
       const updatedNote = await Note.findByIdAndUpdate(
         req.params.notesId,
         { $set: data },
-        { new: true },
+        { new: true, upsert: true },
       );
 
       res.status(200).json({
