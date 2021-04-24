@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 
 import '../../css/Navbar.css';
-
 import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
 import { levelEnum } from '../../utils/consts';
 import * as Routes from '../../routes';
-import { Button } from 'semantic-ui-react';
 
 /**
  * Navbar display to view user sesion and React-route-dom navigation

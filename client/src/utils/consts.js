@@ -1,4 +1,4 @@
-const levelEnum = {
+export const levelEnum = {
   ADMIN: 4,
   DIRECTOR: 3,
   LEAD: 2,
@@ -6,4 +6,4 @@ const levelEnum = {
   TBD: 0,
 };
 
-export { levelEnum };
+export default { levelEnum };

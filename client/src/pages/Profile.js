@@ -56,7 +56,7 @@ const Profile = () => {
       if (memberID == null) return;
       if (memberID === 'new') setNewUser(true);
 
-      let responses = [];
+      const responses = [];
 
       let memberDataResponse;
       if (memberID !== 'new') {
