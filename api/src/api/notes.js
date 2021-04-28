@@ -35,7 +35,6 @@ router.get(
     if (isAdmin(req.user)) {
       notes = await Note.find({}).lean();
     } else {
-
       notes = await Note.find({
         'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
       }).lean();
