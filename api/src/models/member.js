@@ -70,6 +70,11 @@ const Member = new mongoose.Schema({
   instagram: { type: String, default: null },
   areDuesPaid: { type: Boolean, default: null },
 
+  profileImage: {
+    url: { type: String, default: null },
+    hashKey: { type: String, default: null },
+  },
+
   gradYear: { type: Number, default: null },
   gradSemester: {
     type: String,

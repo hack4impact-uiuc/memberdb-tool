@@ -10,6 +10,7 @@ const {
   getEditableFields,
   validateField,
   validationFields,
+  imgur,
 } = require('../utils/user-utils');
 
 const validateMemberQuery = (req, res, next) => {
@@ -165,6 +166,32 @@ router.get(
 
 router.put(
   '/:memberId',
+  requireRegistered,
+  validateMemberQuery,
+  errorWrap(async (req, res) => {
+    const updatedMember = await Member.findByIdAndUpdate(
+      req.params.memberId,
+      req.body,
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedMember) {
+      return res.status(404).json({
+        success: false,
+        message: 'Member not found with id',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Member updated',
+      result: filterViewableFields(req.user, updatedMember),
+    });
+  }),
+);
+
+router.put(
+  '/image/:memberId',
   requireRegistered,
   validateMemberQuery,
   errorWrap(async (req, res) => {

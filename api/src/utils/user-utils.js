@@ -1,6 +1,10 @@
 const { difference, pick } = require('lodash');
+const imgur = require('imgur');
 const Member = require('./../models/member');
 const { isDirector } = require('../middleware/auth');
+
+// Setup imgur client key
+imgur.setClientId(process.env.IMGUR_CLIENT);
 
 // All fields in Member
 const allFields = Object.keys(Member.schema.paths);
@@ -74,4 +78,5 @@ module.exports = {
   filterViewableFields,
   validateField,
   validationFields,
+  imgur,
 };
