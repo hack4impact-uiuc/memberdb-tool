@@ -62,13 +62,13 @@ router.get(
   }),
 );
 
-//GET /notes/labels
+// GET /notes/labels
 router.get(
   '/labels',
   requireRegistered,
   errorWrap(async (req, res) => {
     const notes = await Note.find({});
-    let labelList = [];
+    const labelList = [];
 
     for (const note of notes) {
       for (const label of note.metaData.labels) {
@@ -81,6 +81,7 @@ router.get(
     res.status(200).json({
       success: true,
       result: labelList,
+      message: 'Notes retrieved successfully.',
     });
   }),
 );
