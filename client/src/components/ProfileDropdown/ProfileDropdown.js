@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import '../../css/ProfileDropdown.css';
 import { Redirect } from 'react-router-dom';
 
-import blankProfilePicture from '../../assets/blank-profile-picture.png';
 import * as Routes from '../../routes';
 import { endUserSession } from '../../utils/apiWrapper';
 
@@ -41,7 +40,10 @@ const ProfileDropdown = ({ user }) => {
       {isLoggedOut && <Redirect to={Routes.LOGIN_PAGE} />}
 
       {/** Rendered JSX */}
-      <img alt="Blank Profile" src={blankProfilePicture} className="avatar" />
+      <p>
+        Hello, {user.firstName}!
+        <div className="avatar">{user.firstName?.[0] ?? '?'}</div>
+      </p>
       <div className="dropdown-content">
         <button
           onClick={handleProfileRedirect}
@@ -61,6 +63,7 @@ const ProfileDropdown = ({ user }) => {
 ProfileDropdown.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
   }).isRequired,
 };
 

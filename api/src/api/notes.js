@@ -13,11 +13,23 @@ const {
   validateReqParams,
 } = require('../middleware/notes');
 
+/**
+ * returns member names and ids from valid received ids
+ *
+ * @param {Array<String>} ids
+ * @returns {Array<Object>}
+ */
 const memberFromId = async (ids) => {
-  const memberPromises = ids.map((memberId) => Member.findById(memberId));
+  const memberPromises = ids
+    // filters out invalid ids
+    .filter((id) => !!id)
+    // creates promises for each valid id
+    .map((memberId) => Member.findById(memberId));
 
+  // get member data
   const members = await Promise.all(memberPromises);
 
+  // return derived full name and id from meber
   return members.map((member) => ({
     memberId: member._id,
     name: `${member.firstName} ${member.lastName}`,
@@ -90,11 +102,16 @@ router.post(
   '/',
   requireLead,
   errorWrap(async (req, res) => {
-    req.body.metaData.versionHistory.push({
+    const currentVersion = {
       date: Date.now(),
       action: Note.actions.CREATED,
       memberID: req.user._id,
-    });
+    };
+    if (req.body.metaData.versionHistory) {
+      req.body.metaData.versionHistory.push(currentVersion);
+    } else {
+      req.body.metaData.versionHistory = [currentVersion];
+    }
 
     const note = await Note.create(req.body);
     res.status(200).json({
@@ -133,7 +150,7 @@ router.put(
         { new: true, upsert: true },
       );
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: 'Note successfully updated',
         data: updatedNote,

@@ -1,26 +1,75 @@
-.nav {
+nav {
   display: flex;
-  margin: 1.5rem;
+  margin: 0 auto;
+  align-items: stretch;
+  position: relative;
+  height: 70px;
+  --font-size: 16px;
 }
 
-.nav #nav-title {
+nav::after {
+  content: '';
+  border-bottom: 1px solid #d3d3d3;
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: min(calc((100vw - 1200px) / -2), -2.5%);
+}
+
+nav #nav-title {
   text-align: left;
-  padding: 1rem 0rem 0rem 3rem;
+  margin: 0;
+  font-size: 18px;
+  /* padding: 1rem 0rem 0rem; */
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
 }
 
-.nav .nav-link {
+nav .nav-link {
   text-decoration: none;
   color: black;
 }
 
-.nav .profile-item {
+nav .profile-item p {
+  margin: 0;
   display: flex;
   align-items: center;
-  margin-right: 2rem;
 }
 
-.nav .profile-item #welcome-text {
-  margin-top: 1rem;
-  margin-right: 1rem;
+nav .profile-item .dropdown > p > *:last-child {
+  margin-left: 1em;
+}
+
+nav > ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: stretch;
+  font-size: var(--font-size);
+}
+
+nav > ul > li {
+  display: flex;
+}
+
+nav > ul > li > * {
+  padding: 0 1.5em;
+  display: flex;
+  align-items: center;
+}
+
+nav > ul > li > a,
+nav > ul > li > a:hover {
+  color: black;
+}
+
+nav > ul > li {
+  border-right: 1px solid #d3d3d3;
+}
+
+nav > ul > li > a:hover {
+  background-color: navy;
+  color: white;
 }
