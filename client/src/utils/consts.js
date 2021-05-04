@@ -1,3 +1,5 @@
+// Useful for waterfall permissions where directors have all permissions
+// Except for Admin permissions
 export const levelEnum = {
   ADMIN: 4,
   DIRECTOR: 3,
