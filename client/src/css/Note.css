@@ -1,9 +1,4 @@
-.note-wrapper {
-  margin: 0 auto;
-  width: 90%;
-}
-
-/* react-jsonform-semanticui Overrides */
+/* Semantic UI Overrides */
 
 form.ui.form {
   padding-bottom: 1em;
@@ -47,4 +42,14 @@ div.DraftEditor-root {
 div.DraftEditor-editorContainer,
 div.public-DraftEditor-content {
   height: 100%;
+}
+
+/* Editor toolbar */
+
+div.editor-toolbar {
+  margin-bottom: 0.5em;
+}
+
+div.editor-toolbar > *:not(:first-child) {
+  margin-left: 8px !important;
 }

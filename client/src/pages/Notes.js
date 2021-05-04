@@ -1,51 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { Button, Icon } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
 
 import { getNotes } from '../utils/apiWrapper';
+import { notesColumnDefs } from '../utils/tableHelpers';
+import Loading from '../components/ui/Loading';
+import Page from '../components/layout/Page';
+import Table from '../components/table/Table';
 
 function Notes() {
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
       const {
         data: { result },
       } = await getNotes();
+
       setNotes(result ?? []);
+
       setIsLoading(false);
     })();
   }, []);
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <Loading height={600} />;
   }
 
   return (
-    <div className="note-wrapper">
+    <Page
+      title="Notes"
+      menuItems={
+        <Link to="/notes/new">
+          <Button primary>
+            <Icon name="plus" /> New Note
+          </Button>
+        </Link>
+      }
+    >
       {notes.length ? (
-        <>
-          {notes.map((note) => {
-            const {
-              _id,
-              metaData: { title, labels },
-            } = note;
-            return (
-              <li key={_id}>
-                <Link to={`/notes/${_id}`}>
-                  {title}, {labels}
-                </Link>
-              </li>
-            );
-          })}
-        </>
+        <Table
+          data={notes}
+          columns={notesColumnDefs}
+          onRowClick={(e) => history.push(`/notes/${e.data._id}`)}
+        />
       ) : (
-        <>
-          No notes here! <Link to="/note/new">Create one!</Link>
-        </>
+        <>No notes here!</>
       )}
-    </div>
+    </Page>
   );
 }
 export default Notes;
