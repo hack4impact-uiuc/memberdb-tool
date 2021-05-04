@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
 
-import columnDefs from '../../utils/tableHelpers';
-import { getMembers } from '../../utils/apiWrapper';
 import '../../css/Table.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-const Table = () => {
-  const [members, setMembers] = useState([]);
+const Table = ({ data, columns, onRowClick }) => {
+  const [entries, setEntries] = useState([]);
   useEffect(() => {
-    const getAllMembers = async () => {
-      const allMembers = await getMembers();
-      if (allMembers.data) {
-        setMembers(allMembers.data.result);
-      }
-    };
-    getAllMembers();
-  }, []);
+    setEntries(data);
+  }, [data]);
 
   return (
     <div className="ag-theme-alpine table-wrapper">
       <AgGridReact
-        rowData={members}
+        rowData={entries}
         defaultColDef={{
           filter: true,
           sortable: true,
@@ -31,7 +24,8 @@ const Table = () => {
           enableCellTextSelection: true,
           ensureDomOrder: true,
         }}
-        columnDefs={columnDefs}
+        onRowClicked={(e) => onRowClick?.(e)}
+        columnDefs={columns}
         floatingFilter
         enableCellTextSelection
         rowSelection="multiple"
@@ -39,6 +33,12 @@ const Table = () => {
       />
     </div>
   );
+};
+
+Table.propTypes = {
+  data: PropTypes.array,
+  columns: PropTypes.array,
+  onRowClick: PropTypes.func,
 };
 
 export default Table;
