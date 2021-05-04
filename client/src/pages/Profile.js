@@ -92,7 +92,7 @@ const Profile = () => {
     }
 
     getUserData();
-  }, [memberID]);
+  }, [memberID, newUser]);
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
