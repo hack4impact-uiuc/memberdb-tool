@@ -13,13 +13,23 @@ const {
   validateReqParams,
 } = require('../middleware/notes');
 
+/**
+ * returns member names and ids from valid received ids
+ *
+ * @param {Array<String>} ids
+ * @returns {Array<Object>}
+ */
 const memberFromId = async (ids) => {
   const memberPromises = ids
+    // filters out invalid ids
     .filter((id) => !!id)
+    // creates promises for each valid id
     .map((memberId) => Member.findById(memberId));
 
+  // get member data
   const members = await Promise.all(memberPromises);
 
+  // return derived full name and id from meber
   return members.map((member) => ({
     memberId: member._id,
     name: `${member.firstName} ${member.lastName}`,

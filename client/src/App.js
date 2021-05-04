@@ -36,7 +36,6 @@ function App() {
               <Note />
             </Route>
             <Route DEFAULT>
-              {/* TODO: Replace this with the users ID once we get real data in the DB */}
               {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
             </Route>
           </Switch>

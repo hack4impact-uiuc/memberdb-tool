@@ -42,8 +42,7 @@ const ProfileDropdown = ({ user }) => {
       {/** Rendered JSX */}
       <p>
         Hello, {user.firstName}!
-        {/* <img alt="Blank Profile" src={blankProfilePicture} className="avatar" /> */}
-        <div className="avatar">{user.firstName?.[0] ?? '!'}</div>
+        <div className="avatar">{user.firstName?.[0] ?? '?'}</div>
       </p>
       <div className="dropdown-content">
         <button
