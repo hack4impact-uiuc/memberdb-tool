@@ -41,6 +41,8 @@ const areResponsesSuccessful = (...responses) => {
 
 const Profile = () => {
   const { memberID } = useParams();
+  const newUser = memberID === 'new';
+  const [newUserID, setNewUserID] = useState(false);
 
   // Upstream user is the DB version. Local user captures local changes made to the user.
   const [upstreamUser, setUpstreamUser] = useState({});
@@ -53,18 +55,15 @@ const Profile = () => {
     view: [],
     edit: [],
   });
-  const [newUser, setNewUser] = useState(false);
-  const [createdUser, setCreatedUser] = useState(false);
 
   useEffect(() => {
     async function getUserData() {
       if (memberID == null) return;
-      if (memberID === 'new') setNewUser(true);
 
       const responses = [];
 
       let memberDataResponse;
-      if (memberID !== 'new') {
+      if (!newUser) {
         memberDataResponse = await getMemberByID(memberID);
         responses.push(memberDataResponse);
       }
@@ -83,7 +82,7 @@ const Profile = () => {
         return;
       }
 
-      if (memberID !== 'new') {
+      if (!newUser) {
         setUpstreamUser(memberDataResponse.data.result);
         setLocalUser(memberDataResponse.data.result);
       }
@@ -142,7 +141,7 @@ const Profile = () => {
       setTemporarySuccessMessage(newUser ? 'User Created' : 'User updated');
       setErrorMessage(null);
       setUpstreamUser(result.data.result);
-      if (newUser) setCreatedUser(true);
+      if (newUser) setNewUserID(result.data.result._id);
     }
   };
 
@@ -155,6 +154,7 @@ const Profile = () => {
         </>
       }
     >
+      {newUserID && <Redirect to={`/member/${newUserID}`} />}
       <Card fluid>
         <Card.Content>
           <Card.Header>Profile</Card.Header>
@@ -242,7 +242,9 @@ const Profile = () => {
                   <Message icon big positive>
                     <Icon name="thumbs up" />
                     <Message.Content>
-                      <Message.Header>Update Succeeded!</Message.Header>
+                      <Message.Header>
+                        {newUser ? 'Create User' : 'Update'} Succeeded!
+                      </Message.Header>
                       {successMessage}
                     </Message.Content>
                   </Message>
@@ -259,7 +261,9 @@ const Profile = () => {
                   <Message className="profile-alert" icon big negative>
                     <Icon name="warning circle" />
                     <Message.Content>
-                      <Message.Header>Update Failed!</Message.Header>
+                      <Message.Header>
+                        {newUser ? 'Create User' : 'Update'} Failed!
+                      </Message.Header>
                       {errorMessage}
                     </Message.Content>
                   </Message>
@@ -278,7 +282,7 @@ const Profile = () => {
                   type="large"
                   onClick={submitChanges}
                 >
-                  Update
+                  {newUser ? 'Create User' : 'Update'}
                 </Button>
               </>
             ) : (
