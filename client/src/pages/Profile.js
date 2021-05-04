@@ -8,7 +8,6 @@ import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
-import * as Routes from '../routes';
 import '../css/Profile.css';
 import {
   getMemberByID,
