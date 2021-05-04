@@ -14,7 +14,9 @@ const {
 } = require('../middleware/notes');
 
 const memberFromId = async (ids) => {
-  const memberPromises = ids.map((memberId) => Member.findById(memberId));
+  const memberPromises = ids
+    .filter((id) => !!id)
+    .map((memberId) => Member.findById(memberId));
 
   const members = await Promise.all(memberPromises);
 
@@ -90,11 +92,16 @@ router.post(
   '/',
   requireLead,
   errorWrap(async (req, res) => {
-    req.body.metaData.versionHistory.push({
+    const currentVersion = {
       date: Date.now(),
       action: Note.actions.CREATED,
       memberID: req.user._id,
-    });
+    };
+    if (req.body.metaData.versionHistory) {
+      req.body.metaData.versionHistory.push(currentVersion);
+    } else {
+      req.body.metaData.versionHistory = [currentVersion];
+    }
 
     const note = await Note.create(req.body);
     res.status(200).json({
@@ -133,7 +140,7 @@ router.put(
         { new: true, upsert: true },
       );
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: 'Note successfully updated',
         data: updatedNote,
