@@ -153,6 +153,7 @@ const Profile = () => {
         </>
       }
     >
+      {/* Redirects to the new member page immediately after creating and getting a success response */}
       {newUserID && <Redirect to={`/member/${newUserID}`} />}
       <Card fluid>
         <Card.Content>
