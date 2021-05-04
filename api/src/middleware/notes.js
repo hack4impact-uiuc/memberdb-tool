@@ -15,7 +15,7 @@ const validateEditability = async (req, res, next) => {
       message: 'Note not found',
     });
   }
-  console.log(note);
+
   // Check if current user if allowed to edit
   if (!note.metaData.access.editableBy.includes(req.user._id.toString())) {
     return res.status(401).json({
