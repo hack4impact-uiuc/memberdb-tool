@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Page from '../components/layout/Page';
@@ -9,11 +9,11 @@ import { getMembers } from '../utils/apiWrapper';
 import '../css/Home.css';
 
 const Home = () => {
-  const [members, setMembers] = React.useState([]);
+  const [members, setMembers] = useState([]);
 
   const history = useHistory();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getAllMembers = async () => {
       const allMembers = await getMembers();
       if (allMembers.data) {

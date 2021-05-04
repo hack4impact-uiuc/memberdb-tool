@@ -16,7 +16,7 @@ function Notes() {
   const history = useHistory();
 
   useEffect(() => {
-    (async () => {
+    async function getNoteData() {
       const {
         data: { result },
       } = await getNotes();
@@ -24,7 +24,8 @@ function Notes() {
       setNotes(result ?? []);
 
       setIsLoading(false);
-    })();
+    }
+    getNoteData();
   }, []);
 
   if (isLoading) {
@@ -49,7 +50,7 @@ function Notes() {
           onRowClick={(e) => history.push(`/notes/${e.data._id}`)}
         />
       ) : (
-        <>No notes here!</>
+        'No notes here!'
       )}
     </Page>
   );
