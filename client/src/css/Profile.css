@@ -1,8 +1,4 @@
 .attribute {
-  width: 40% !important;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  display: inline-block;
   margin-bottom: 1rem;
 }
 
@@ -11,10 +7,6 @@
 }
 
 #submit-button {
-  margin: 3rem auto 3rem auto;
+  margin: 2rem auto 0;
   display: block;
-}
-
-.profile-form {
-  margin-left: 10%;
 }

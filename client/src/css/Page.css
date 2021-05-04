@@ -1,0 +1,22 @@
+.page-wrapper,
+nav {
+  max-width: 1200px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.page-wrapper > header {
+  margin: 2em 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-wrapper > header > h1 {
+  margin: 0;
+}
+
+.page-wrapper > header > .menu {
+  display: flex;
+  justify-content: flex-end;
+}

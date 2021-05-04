@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/notes');
+const Member = require('../models/member');
 const errorWrap = require('../middleware/errorWrap');
 const {
   requireRegistered,
@@ -12,29 +13,87 @@ const {
   validateReqParams,
 } = require('../middleware/notes');
 
+/**
+ * returns member names and ids from valid received ids
+ *
+ * @param {Array<String>} ids
+ * @returns {Array<Object>}
+ */
+const memberFromId = async (ids) => {
+  const memberPromises = ids
+    // filters out invalid ids
+    .filter((id) => !!id)
+    // creates promises for each valid id
+    .map((memberId) => Member.findById(memberId));
+
+  // get member data
+  const members = await Promise.all(memberPromises);
+
+  // return derived full name and id from meber
+  return members.map((member) => ({
+    memberId: member._id,
+    name: `${member.firstName} ${member.lastName}`,
+  }));
+};
+
 router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
     let notes;
+    const output_notes = [];
+
     // Return all notes if Admin
     if (isAdmin(req.user)) {
-      notes = await Note.find({});
+      notes = await Note.find({}).lean();
     } else {
       notes = await Note.find({
         'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
-      });
+      }).lean();
     }
 
-    // TODO: test if this loops across all objs or just creates array of 1 obj
-    notes.forEach((note) => {
-      // save last member ID who edited and append to notes object
-      const lastEditedBy = note['metaData']['versionHistory']['id'];
-      note['lastEditedBy'] = lastEditedBy;
-    });
+    for (let note of notes) {
+      // Replace all members ids with object that has id and name
+      note['metaData']['access']['viewableBy'] = await memberFromId(
+        note['metaData']['access']['viewableBy'],
+      );
+      note['metaData']['access']['editableBy'] = await memberFromId(
+        note['metaData']['access']['editableBy'],
+      );
+      note['metaData']['referencedMembers'] = await memberFromId(
+        note['metaData']['referencedMembers'],
+      );
+
+      output_notes.push(note);
+    }
+
     res.status(200).json({
       success: true,
-      result: notes,
+      result: output_notes,
+    });
+  }),
+);
+
+// GET /notes/labels
+router.get(
+  '/labels',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const notes = await Note.find({});
+    const labelList = [];
+
+    for (const note of notes) {
+      for (const label of note.metaData.labels) {
+        if (!labelList.includes(label)) {
+          labelList.push(label);
+        }
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      result: labelList,
+      message: 'Notes retrieved successfully.',
     });
   }),
 );
@@ -43,6 +102,17 @@ router.post(
   '/',
   requireLead,
   errorWrap(async (req, res) => {
+    const currentVersion = {
+      date: Date.now(),
+      action: Note.actions.CREATED,
+      memberID: req.user._id,
+    };
+    if (req.body.metaData.versionHistory) {
+      req.body.metaData.versionHistory.push(currentVersion);
+    } else {
+      req.body.metaData.versionHistory = [currentVersion];
+    }
+
     const note = await Note.create(req.body);
     res.status(200).json({
       success: true,
@@ -51,6 +121,11 @@ router.post(
   }),
 );
 
+const getVersionHistory = async (id) => {
+  const note = await Note.findById(id);
+  return note.metaData.versionHistory;
+};
+
 router.put(
   '/:notesId',
   requireRegistered,
@@ -58,15 +133,34 @@ router.put(
   validateReqParams,
   errorWrap(async (req, res) => {
     let data = { ...req.body };
-    await Note.findByIdAndUpdate(
-      req.params.notesId,
-      { $set: data },
-      { new: true },
-    );
-    res.status(200).json({
-      success: true,
-      message: 'Note successfully updated',
-    });
+    // Get current version history and append latest edit
+    const currentVersionHistory = await getVersionHistory(req.params.notesId);
+    if (currentVersionHistory) {
+      currentVersionHistory.push({
+        date: Date.now(),
+        action: Note.actions.EDITED,
+        memberID: req.user._id,
+      });
+
+      data.metaData.versionHistory = currentVersionHistory;
+
+      const updatedNote = await Note.findByIdAndUpdate(
+        req.params.notesId,
+        { $set: data },
+        { new: true, upsert: true },
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: 'Note successfully updated',
+        data: updatedNote,
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: 'No note with that id',
+      });
+    }
   }),
 );
 

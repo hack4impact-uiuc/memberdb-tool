@@ -32,6 +32,16 @@
         "newlines-between": "always"
       }
     ],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", "jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", "jsx"] }],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "labelComponents": ["label"],
+        "labelAttributes": [],
+        "controlComponents": ["Editor", "Input", "Dropdown"],
+        "assert": "either",
+        "depth": 25
+      }
+    ]
   }
 }
