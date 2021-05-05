@@ -10,6 +10,7 @@ const TextAttribute = ({
   isDisabled = false,
   className = '',
   onChange,
+  isRequired = false,
 }) => {
   const onValueChange = (e) => {
     onChange(e.target.value, attributeLabel);
@@ -23,6 +24,7 @@ const TextAttribute = ({
         value={value}
         onChange={onValueChange}
         disabled={isDisabled}
+        required={isRequired}
       />
     </div>
   );
@@ -33,6 +35,7 @@ TextAttribute.propTypes = {
   type: PropTypes.string,
   attributeLabel: PropTypes.string,
   isDisabled: PropTypes.bool,
+  isRequired: PropTypes.bool,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };

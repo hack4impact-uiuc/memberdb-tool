@@ -3,8 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import '../../css/Navbar.css';
-
 import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
+import { levelEnum } from '../../utils/consts';
 import * as Routes from '../../routes';
 
 /**
@@ -19,6 +19,11 @@ const Navbar = ({ user }) => (
       </Link>
     </h2>
     <ul>
+      {levelEnum[user.level] >= levelEnum.DIRECTOR && (
+        <li>
+          <NavLink to="/member/new">Add Member</NavLink>
+        </li>
+      )}
       <li>
         <NavLink to="/">Members</NavLink>
       </li>

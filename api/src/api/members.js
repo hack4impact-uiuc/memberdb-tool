@@ -68,6 +68,8 @@ router.get(
   }),
 );
 
+// Create a new member
+// Requires Director Level
 router.post(
   '/',
   requireDirector,

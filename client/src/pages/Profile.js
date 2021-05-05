@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Redirect } from 'react-router-dom';
 import { Form, Message, Icon, Button, Card } from 'semantic-ui-react';
 import _ from 'lodash';
 
@@ -15,7 +15,9 @@ import {
   getMemberPermissionsByID,
   getMemberSchemaTypes,
   updateMember,
+  createMember,
 } from '../utils/apiWrapper';
+import { requiredFields } from '../utils/consts';
 
 /**
  * @constant
@@ -39,6 +41,8 @@ const areResponsesSuccessful = (...responses) => {
 
 const Profile = () => {
   const { memberID } = useParams();
+  const newUser = memberID === 'new';
+  const [newUserID, setNewUserID] = useState(false);
 
   // Upstream user is the DB version. Local user captures local changes made to the user.
   const [upstreamUser, setUpstreamUser] = useState({});
@@ -56,25 +60,32 @@ const Profile = () => {
     async function getUserData() {
       if (memberID == null) return;
 
-      const memberDataResponse = await getMemberByID(memberID);
+      const responses = [];
+
+      let memberDataResponse;
+      if (!newUser) {
+        memberDataResponse = await getMemberByID(memberID);
+        responses.push(memberDataResponse);
+      }
+
       const memberPermissionResponse = await getMemberPermissionsByID(memberID);
       const memberSchemaResponse = await getMemberSchemaTypes();
       const enumOptionsResponse = await getMemberEnumOptions();
+      responses.push(
+        enumOptionsResponse,
+        memberSchemaResponse,
+        memberPermissionResponse,
+      );
 
-      if (
-        !areResponsesSuccessful(
-          memberDataResponse,
-          memberPermissionResponse,
-          memberSchemaResponse,
-          enumOptionsResponse,
-        )
-      ) {
+      if (!areResponsesSuccessful(...responses)) {
         setErrorMessage('An error occurred while retrieving member data.');
         return;
       }
 
-      setUpstreamUser(memberDataResponse.data.result);
-      setLocalUser(memberDataResponse.data.result);
+      if (!newUser) {
+        setUpstreamUser(memberDataResponse.data.result);
+        setLocalUser(memberDataResponse.data.result);
+      }
       setUserPermissions(memberPermissionResponse.data.result);
       setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
@@ -82,7 +93,7 @@ const Profile = () => {
     }
 
     getUserData();
-  }, [memberID]);
+  }, [memberID, newUser]);
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
@@ -114,20 +125,34 @@ const Profile = () => {
   };
 
   const submitChanges = async () => {
-    const result = await updateMember(createUpdatedUser(), upstreamUser._id);
+    let missingFields = false;
+    requiredFields.forEach((field) => {
+      if (!localUser[field]) {
+        missingFields = true;
+      }
+    });
+    if (missingFields) return;
+
+    const result = newUser
+      ? await createMember(createUpdatedUser())
+      : await updateMember(createUpdatedUser(), upstreamUser._id);
     if (!areResponsesSuccessful(result)) {
       setErrorMessage(
         `An error occured${
-          result && result.data && result.data.message
-            ? `: ${result.data.message}`
+          result &&
+          result.error &&
+          result.error.response &&
+          result.error.response.data
+            ? `: ${result.error.response.data.message}`
             : '.'
         }`,
       );
       setSuccessMessage(null);
     } else {
-      setTemporarySuccessMessage('User updated');
+      setTemporarySuccessMessage(newUser ? 'User Created' : 'User updated');
       setErrorMessage(null);
       setUpstreamUser(result.data.result);
+      if (newUser) setNewUserID(result.data.result._id);
     }
   };
 
@@ -140,10 +165,12 @@ const Profile = () => {
         </>
       }
     >
+      {/* Redirects to the new member page immediately after creating and getting a success response */}
+      {newUserID && <Redirect to={`/member/${newUserID}`} />}
       <Card fluid>
         <Card.Content>
           <Card.Header>Profile</Card.Header>
-          <Form fluid className="profile-form">
+          <Form fluid className="profile-form" onSubmit={submitChanges}>
             <div className="form-grid">
               {
                 // Main content
@@ -158,6 +185,7 @@ const Profile = () => {
                         className="attribute"
                         onChange={onAttributeChange}
                         isDisabled={!userPermissions.edit.includes(attribute)}
+                        isRequired={requiredFields.includes(attribute)}
                       />
                     );
                   }
@@ -198,6 +226,7 @@ const Profile = () => {
                         onChange={onAttributeChange}
                         className="attribute"
                         isDisabled={!userPermissions.edit.includes(attribute)}
+                        isRequired={requiredFields.includes(attribute)}
                       />
                     );
                   }
@@ -212,6 +241,7 @@ const Profile = () => {
                         key={attribute}
                         onChange={onAttributeChange}
                         isDisabled={!userPermissions.edit.includes(attribute)}
+                        isRequired={requiredFields.includes(attribute)}
                       />
                     );
                   }
@@ -227,7 +257,9 @@ const Profile = () => {
                   <Message icon big positive>
                     <Icon name="thumbs up" />
                     <Message.Content>
-                      <Message.Header>Update Succeeded!</Message.Header>
+                      <Message.Header>
+                        {newUser ? 'Create User' : 'Update'} Succeeded!
+                      </Message.Header>
                       {successMessage}
                     </Message.Content>
                   </Message>
@@ -244,7 +276,9 @@ const Profile = () => {
                   <Message className="profile-alert" icon big negative>
                     <Icon name="warning circle" />
                     <Message.Content>
-                      <Message.Header>Update Failed!</Message.Header>
+                      <Message.Header>
+                        {newUser ? 'Create User' : 'Update'} Failed!
+                      </Message.Header>
                       {errorMessage}
                     </Message.Content>
                   </Message>
@@ -263,7 +297,7 @@ const Profile = () => {
                   type="large"
                   onClick={submitChanges}
                 >
-                  Update
+                  {newUser ? 'Create User' : 'Update'}
                 </Button>
               </>
             ) : (

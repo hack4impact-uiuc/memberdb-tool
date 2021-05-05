@@ -6,8 +6,11 @@ import '../../css/Table.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-const Table = ({ data, columns, onRowClick }) => {
+const Table = ({ data, columns, onRowClick, sizeToFit }) => {
   const [entries, setEntries] = useState([]);
+
+  const onGridReady = (params) => sizeToFit && params.api.sizeColumnsToFit();
+
   useEffect(() => {
     setEntries(data);
   }, [data]);
@@ -15,6 +18,7 @@ const Table = ({ data, columns, onRowClick }) => {
   return (
     <div className="ag-theme-alpine table-wrapper">
       <AgGridReact
+        onGridReady={onGridReady}
         rowData={entries}
         defaultColDef={{
           filter: true,
@@ -39,6 +43,7 @@ Table.propTypes = {
   data: PropTypes.array,
   columns: PropTypes.array,
   onRowClick: PropTypes.func,
+  sizeToFit: PropTypes.bool,
 };
 
 export default Table;
