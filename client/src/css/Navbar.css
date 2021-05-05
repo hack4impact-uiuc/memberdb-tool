@@ -74,10 +74,3 @@ nav > ul > li > a:hover {
   background-color: navy;
   color: white;
 }
-
-.nav #add-user {
-  margin-right: auto;
-  margin-left: 1em;
-  height: fit-content;
-  align-self: center;
-}
