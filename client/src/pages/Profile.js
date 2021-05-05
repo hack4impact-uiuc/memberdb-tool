@@ -125,11 +125,13 @@ const Profile = () => {
   };
 
   const submitChanges = async () => {
-    for (const field of requiredFields) {
+    let missingFields = false;
+    requiredFields.forEach((field) => {
       if (!localUser[field]) {
-        return;
+        missingFields = true;
       }
-    }
+    });
+    if (missingFields) return;
 
     const result = newUser
       ? await createMember(createUpdatedUser())
