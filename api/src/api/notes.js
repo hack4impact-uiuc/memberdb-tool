@@ -48,7 +48,10 @@ router.get(
       notes = await Note.find({}).lean();
     } else {
       notes = await Note.find({
-        'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
+        $or: [
+          {'metaData.access.viewableBy': { $in: [req.user._id.toString()] }}, 
+          {'metaData.access.editableBy': { $in: [req.user._id.toString()] }},
+        ]
       }).lean();
     }
 
