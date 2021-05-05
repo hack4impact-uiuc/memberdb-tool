@@ -11,6 +11,7 @@ const DateAttribute = ({
   isDisabled = false,
   className = '',
   onChange,
+  isRequired = false,
 }) => {
   const onValueChange = (date) => {
     onChange(date, attributeLabel);
@@ -24,6 +25,7 @@ const DateAttribute = ({
         onChange={onValueChange}
         selected={value}
         disabled={isDisabled}
+        required={isRequired}
       />
     </div>
   );
@@ -35,6 +37,7 @@ DateAttribute.propTypes = {
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  isRequired: PropTypes.bool,
 };
 
 export default DateAttribute;

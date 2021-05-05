@@ -8,4 +8,13 @@ export const levelEnum = {
   TBD: 0,
 };
 
-export default { levelEnum };
+export const requiredFields = [
+  'email',
+  'firstName',
+  'lastName',
+  'gradYear',
+  'generationYear',
+  'phone',
+];
+
+export default { levelEnum, requiredFields };

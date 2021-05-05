@@ -17,6 +17,7 @@ import {
   updateMember,
   createMember,
 } from '../utils/apiWrapper';
+import { requiredFields } from '../utils/consts';
 
 /**
  * @constant
@@ -124,14 +125,23 @@ const Profile = () => {
   };
 
   const submitChanges = async () => {
+    for (const field of requiredFields) {
+      if (!localUser[field]) {
+        return;
+      }
+    }
+
     const result = newUser
       ? await createMember(createUpdatedUser())
       : await updateMember(createUpdatedUser(), upstreamUser._id);
     if (!areResponsesSuccessful(result)) {
       setErrorMessage(
         `An error occured${
-          result && result.data && result.data.message
-            ? `: ${result.data.message}`
+          result &&
+          result.error &&
+          result.error.response &&
+          result.error.response.data
+            ? `: ${result.error.response.data.message}`
             : '.'
         }`,
       );
@@ -158,7 +168,7 @@ const Profile = () => {
       <Card fluid>
         <Card.Content>
           <Card.Header>Profile</Card.Header>
-          <Form fluid className="profile-form">
+          <Form fluid className="profile-form" onSubmit={submitChanges}>
             <div className="form-grid">
               {
                 // Main content
@@ -173,6 +183,7 @@ const Profile = () => {
                         className="attribute"
                         onChange={onAttributeChange}
                         isDisabled={!userPermissions.edit.includes(attribute)}
+                        isRequired={requiredFields.includes(attribute)}
                       />
                     );
                   }
@@ -213,6 +224,7 @@ const Profile = () => {
                         onChange={onAttributeChange}
                         className="attribute"
                         isDisabled={!userPermissions.edit.includes(attribute)}
+                        isRequired={requiredFields.includes(attribute)}
                       />
                     );
                   }
@@ -227,6 +239,7 @@ const Profile = () => {
                         key={attribute}
                         onChange={onAttributeChange}
                         isDisabled={!userPermissions.edit.includes(attribute)}
+                        isRequired={requiredFields.includes(attribute)}
                       />
                     );
                   }
