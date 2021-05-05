@@ -35,6 +35,7 @@ nav .nav-link {
 nav .profile-item p {
   margin: 0;
   display: flex;
+  margin-left: auto;
   align-items: center;
 }
 

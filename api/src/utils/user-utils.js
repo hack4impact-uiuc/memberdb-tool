@@ -28,8 +28,8 @@ const nonEditableFields = [
 const validationFields = {
   email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   phone: /^[0-9]{10}$/,
-  gradYear: /^\d{4}/,
-  generationYear: /^\d{4}/,
+  gradYear: /^\d{4}$/,
+  generationYear: /^\d{4}$/,
 };
 
 const getViewableFields = (currentUser, memberId) => {
