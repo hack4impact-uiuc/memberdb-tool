@@ -29,15 +29,14 @@ const ProfileImageAttribute = ({
     <div className={className}>
       <p>{startCase('Image')}</p>
       {value ? (
-        <>
+        <div>
           <Image
             src={value}
             circular
             size="small"
             style={{ paddingBottom: '1em' }}
-          />{' '}
-          <br />
-        </>
+          />
+        </div>
       ) : (
         <p>No Image Uploaded</p>
       )}
