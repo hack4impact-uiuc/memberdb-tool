@@ -18,7 +18,7 @@ import {
   Message,
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
-import { useParams, Redirect } from 'react-router-dom';
+import { useHistory, useParams, Redirect } from 'react-router-dom';
 
 import EditorToolbar from '../components/notes/EditorToolbar';
 import Page from '../components/layout/Page';
@@ -111,6 +111,8 @@ function Note({ user }) {
   const [members, setMembers] = useState([]);
   const [allNoteLabels, setAllNoteLabels] = useState([]);
 
+  const history = useHistory();
+
   useEffect(() => {
     const init = async () => {
       // if note is not new request template
@@ -184,7 +186,7 @@ function Note({ user }) {
       setAllNoteLabels(cleanedNoteLabels);
     };
     init();
-  }, [noteID]);
+  }, [noteID, user]);
 
   /**
    * handles shortcuts to format rich text
@@ -253,7 +255,15 @@ function Note({ user }) {
       },
       noteID,
     )
-      .then(() => setSubmitState(SUBMIT_STATE.success))
+      .then((res) => {
+        setSubmitState(SUBMIT_STATE.success);
+        return res;
+      })
+      .then(
+        (res) =>
+          res?.data?.result?._id &&
+          history.push(`/notes/${res.data.result._id}`),
+      )
       .catch(() => setSubmitState(SUBMIT_STATE.error));
   };
 
