@@ -43,7 +43,7 @@ const ProfileDropdown = ({ user }) => {
       {/** Rendered JSX */}
       <p>
         Hello, {user.firstName}!
-        {user ? (
+        {user.image ? (
           <Image src={user.image} avatar />
         ) : (
           <div className="avatar">{user.firstName?.[0] ?? '?'}</div>

@@ -69,6 +69,7 @@ const Member = new mongoose.Schema({
   snapchat: { type: String, default: null },
   instagram: { type: String, default: null },
   areDuesPaid: { type: Boolean, default: null },
+  image: { type: String, default: null },
 
   gradYear: { type: Number, default: null },
   gradSemester: {
