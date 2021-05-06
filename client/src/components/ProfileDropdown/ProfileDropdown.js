@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../../css/ProfileDropdown.css';
 import { Redirect } from 'react-router-dom';
+import { Image } from 'semantic-ui-react';
 
 import * as Routes from '../../routes';
 import { endUserSession } from '../../utils/apiWrapper';
@@ -42,7 +43,11 @@ const ProfileDropdown = ({ user }) => {
       {/** Rendered JSX */}
       <p>
         Hello, {user.firstName}!
-        <div className="avatar">{user.firstName?.[0] ?? '?'}</div>
+        {user ? (
+          <Image src={user.image} avatar />
+        ) : (
+          <div className="avatar">{user.firstName?.[0] ?? '?'}</div>
+        )}
       </p>
       <div className="dropdown-content">
         <button

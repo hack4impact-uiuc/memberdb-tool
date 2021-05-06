@@ -8,6 +8,7 @@ import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
 import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
 import DateAttribute from '../components/EditableAttribute/DateAttribute';
+import ProfileImageAttribute from '../components/EditableAttribute/ProfileImageAttribute';
 import '../css/Profile.css';
 import {
   getMemberByID,
@@ -172,9 +173,18 @@ const Profile = () => {
           <Card.Header>Profile</Card.Header>
           <Form fluid className="profile-form" onSubmit={submitChanges}>
             <div className="form-grid">
+              <ProfileImageAttribute
+                value={localUser['image']}
+                className="attribute"
+                onChange={onAttributeChange}
+                isDisabled={!userPermissions.edit.includes('image')}
+                isRequired={requiredFields.includes('image')}
+              />
               {
                 // Main content
                 userPermissions.view.map((attribute) => {
+                  if (attribute === 'image') return null;
+
                   if (isOfType(attribute, 'Number')) {
                     return (
                       <TextAttribute
