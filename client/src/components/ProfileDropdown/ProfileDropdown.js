@@ -69,6 +69,7 @@ ProfileDropdown.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     firstName: PropTypes.string,
+    image: PropTypes.string,
   }).isRequired,
 };
 

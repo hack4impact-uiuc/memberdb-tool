@@ -174,7 +174,7 @@ const Profile = () => {
           <Form fluid className="profile-form" onSubmit={submitChanges}>
             <div className="form-grid">
               <ProfileImageAttribute
-                value={localUser['image']}
+                value={localUser.image}
                 className="attribute"
                 onChange={onAttributeChange}
                 isDisabled={!userPermissions.edit.includes('image')}
