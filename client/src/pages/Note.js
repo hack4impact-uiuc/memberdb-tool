@@ -55,10 +55,40 @@ const SUBMIT_STATE = Object.freeze({
   success: 'success',
 });
 
+/**
+ * Helper component to render a comma separated list
+ * with the interface as the dropdown menu for view-only
+ * enums
+ *
+ * @param {*} props
+ * @returns
+ */
+const DisplayList = ({ subList, parentList }) => (
+  <p style={{ color: 'grey', fontWeight: 'normal' }}>
+    {
+      // TODO: Remove inline styles in favor of external CSS
+    }{' '}
+    {subList
+      .map((id) => {
+        const idx = parentList.findIndex((m) => m.value === id);
+        return parentList?.[idx]?.text;
+      })
+      .join(', ')}
+  </p>
+);
+
+DisplayList.propTypes = {
+  subList: PropTypes.array,
+  parentList: PropTypes.array,
+};
+
 function Note({ user }) {
   // note state
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
   const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
+
+  // TODO! Merge view/edit mode into noteState enum
+  const [isEditable, setIsEditable] = useState(false);
 
   // routing
   const { noteID } = useParams();
@@ -113,6 +143,14 @@ function Note({ user }) {
           setReferencedMembers(currentReferencedMembers.map((m) => m.memberId));
           setViewableBy(currentViewableBy.map((m) => m.memberId));
           setEditableBy(currentEditableBy.map((m) => m.memberId));
+
+          // check if current user is in editor list
+          if (
+            currentEditableBy.findIndex((m) => m.memberId === user?._id) > -1
+          ) {
+            setIsEditable(true);
+          }
+
           setEditorState(
             EditorState.createWithContent(convertFromRaw(JSON.parse(content))),
           );
@@ -121,6 +159,7 @@ function Note({ user }) {
           setNoteState(NOTE_STATE.error);
         }
       } else {
+        setIsEditable(true);
         setNoteState(NOTE_STATE.creating);
       }
 
@@ -181,6 +220,10 @@ function Note({ user }) {
    * @returns {undefined}
    */
   const submitNote = () => {
+    if (!isEditable) {
+      return;
+    }
+
     // check if this note has a valid title, at least one referenced member,
     // and a valid editor state
     if (
@@ -204,7 +247,7 @@ function Note({ user }) {
           access: {
             // remove duplicate of current user id's on existing notes
             editableBy: [...new Set([...editableBy, user._id])],
-            viewableBy,
+            viewableBy: [...new Set([...viewableBy, user._id])],
           },
         },
       },
@@ -249,21 +292,28 @@ function Note({ user }) {
                     <Form.Field>
                       <label>
                         Note Title
-                        <Input
-                          value={noteTitle ?? ''}
-                          placeholder="Mid-semester 2:1"
-                          onChange={(e) => setNoteTitle(e.target.value ?? '')}
-                        />
+                        {!isEditable ? (
+                          <h2>{noteTitle}</h2>
+                        ) : (
+                          <Input
+                            value={noteTitle ?? ''}
+                            placeholder="Mid-semester 2:1"
+                            onChange={(e) => setNoteTitle(e.target.value ?? '')}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                       <label>Note Contents</label>
-                      <EditorToolbar
-                        handleRichStyle={handleRichStyle}
-                        handleBlockType={handleBlockType}
-                      />
+                      {isEditable && (
+                        <EditorToolbar
+                          handleRichStyle={handleRichStyle}
+                          handleBlockType={handleBlockType}
+                        />
+                      )}
                       <Editor
+                        readOnly={!isEditable}
                         editorState={editorState}
                         handleKeyCommand={handleKeyCommand}
                         onChange={setEditorState}
@@ -278,72 +328,103 @@ function Note({ user }) {
                     <Card.Header>Metadata</Card.Header>
                     <Form.Field>
                       <label>
-                        Note Label
-                        <Dropdown
-                          id="note-labels"
-                          value={noteLabels}
-                          placeholder="1v1, evaluation, etc"
-                          onChange={(_, { value }) => setNoteLabels(value)}
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={allNoteLabels}
-                        />
+                        Note Labels
+                        {isEditable ? (
+                          <Dropdown
+                            id="note-labels"
+                            value={noteLabels}
+                            placeholder="1v1, evaluation, etc"
+                            onChange={(_, { value }) => setNoteLabels(value)}
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={allNoteLabels}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={noteLabels}
+                            parentList={allNoteLabels}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       <label>
                         Referenced Members
-                        <Dropdown
-                          value={referencedMembers}
-                          placeholder="Albert Cao, etc"
-                          onChange={(_, { value }) =>
-                            setReferencedMembers(value)
-                          }
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={members}
-                        />
+                        {isEditable ? (
+                          <Dropdown
+                            value={referencedMembers}
+                            placeholder="Albert Cao, etc"
+                            onChange={(_, { value }) =>
+                              setReferencedMembers(value)
+                            }
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={members}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={referencedMembers}
+                            parentList={members}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       <label>
                         Viewable By
-                        <Dropdown
-                          value={viewableBy}
-                          placeholder="Albert Cao, etc"
-                          onChange={(_, { value }) => setViewableBy(value)}
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={members}
-                        />
+                        {isEditable ? (
+                          <Dropdown
+                            value={viewableBy}
+                            placeholder="Albert Cao, etc"
+                            onChange={(_, { value }) => setViewableBy(value)}
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={members}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={viewableBy}
+                            parentList={members}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       <label>
                         Editable By
-                        <Dropdown
-                          value={editableBy}
-                          placeholder="Albert Cao, etc"
-                          onChange={(_, { value }) => setEditableBy(value)}
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={members}
-                        />
+                        {isEditable ? (
+                          <Dropdown
+                            value={editableBy}
+                            placeholder="Albert Cao, etc"
+                            onChange={(_, { value }) => setEditableBy(value)}
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={members}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={editableBy}
+                            parentList={members}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                   </Card.Content>
                 </Card>
-                <Button primary fluid onClick={submitNote}>
-                  {noteState === NOTE_STATE.editing ? 'Update' : 'Create'} Note
-                </Button>
+                {isEditable && (
+                  <Button primary fluid onClick={submitNote}>
+                    {noteState === NOTE_STATE.editing ? 'Update' : 'Create'}{' '}
+                    Note
+                  </Button>
+                )}
                 {submitState === SUBMIT_STATE.error && (
                   <Message negative>
                     {
@@ -364,7 +445,7 @@ function Note({ user }) {
 }
 
 Note.propTypes = {
-  user: PropTypes.any,
+  user: PropTypes.object,
 };
 
 export default Note;
