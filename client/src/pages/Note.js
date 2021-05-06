@@ -7,6 +7,7 @@ import {
   convertToRaw,
   convertFromRaw,
 } from 'draft-js';
+import PropTypes from 'prop-types';
 import {
   Button,
   Input,
@@ -44,10 +45,20 @@ const NOTE_STATE = Object.freeze({
   error: 'error',
 });
 
-function Note() {
+/**
+ * @constant
+ * @type {Object}
+ */
+const SUBMIT_STATE = Object.freeze({
+  error: 'error',
+  start: 'start',
+  success: 'success',
+});
+
+function Note({ user }) {
   // note state
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
-  const [submitError, setSubmitError] = useState(false);
+  const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
 
   // routing
   const { noteID } = useParams();
@@ -177,9 +188,11 @@ function Note() {
       !noteTitle ||
       !referencedMembers
     ) {
-      setSubmitError(true);
+      setSubmitState(SUBMIT_STATE.error);
       return;
     }
+
+    setSubmitState(SUBMIT_STATE.start);
 
     (noteState === NOTE_STATE.editing ? updateNote : createNote)(
       {
@@ -189,15 +202,16 @@ function Note() {
           labels: noteLabels,
           referencedMembers,
           access: {
-            editableBy,
+            // remove duplicate of current user id's on existing notes
+            editableBy: [...new Set([...editableBy, user._id])],
             viewableBy,
           },
         },
       },
       noteID,
     )
-      .then(() => setSubmitError(false))
-      .catch(() => setSubmitError(true));
+      .then(() => setSubmitState(SUBMIT_STATE.success))
+      .catch(() => setSubmitState(SUBMIT_STATE.error));
   };
 
   /**
@@ -330,13 +344,16 @@ function Note() {
                 <Button primary fluid onClick={submitNote}>
                   {noteState === NOTE_STATE.editing ? 'Update' : 'Create'} Note
                 </Button>
-                {submitError && (
+                {submitState === SUBMIT_STATE.error && (
                   <Message negative>
                     {
                       // TODO: Add specific error messages
                     }
                     <p>Error with submission.</p>
                   </Message>
+                )}
+                {submitState === SUBMIT_STATE.success && (
+                  <Message color="green" content="Successfully submitted!" />
                 )}
               </Grid.Column>
             </Grid>
@@ -345,5 +362,9 @@ function Note() {
       );
   }
 }
+
+Note.propTypes = {
+  user: PropTypes.any,
+};
 
 export default Note;
