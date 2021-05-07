@@ -18,10 +18,12 @@ function App() {
   useEffect(() => {
     const userAuth = async () => {
       const resp = await getUserAuth();
-      if (!resp.error) setUser(resp.data.result);
+      if (!resp.error) setUser(resp?.data?.result);
     };
     userAuth();
   }, [location]);
+
+  // TODO: Create user context and remove prop drilling
 
   return (
     <div>
@@ -33,7 +35,7 @@ function App() {
         <Route path={Routes.MEMBER_PAGE}>
           <Switch>
             <Route path={Routes.NOTE_PAGE}>
-              <Note />
+              <Note user={user} />
             </Route>
             <Route DEFAULT>
               {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
@@ -41,7 +43,7 @@ function App() {
           </Switch>
         </Route>
         <Route path={Routes.NOTE_PAGE}>
-          <Note />
+          <Note user={user} />
         </Route>
         <Route path={Routes.NOTES}>
           <Notes />
