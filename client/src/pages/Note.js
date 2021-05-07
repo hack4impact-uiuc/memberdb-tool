@@ -250,7 +250,6 @@ function Note({ user }) {
           labels: noteLabels,
           referencedMembers,
           access: {
-            // remove duplicate of current user id's on existing notes
             editableBy,
             viewableBy,
           },
