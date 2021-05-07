@@ -48,6 +48,7 @@ function Notes() {
           data={notes}
           columns={notesColumnDefs}
           onRowClick={(e) => history.push(`/notes/${e.data._id}`)}
+          sizeToFit
         />
       ) : (
         'No notes here!'
