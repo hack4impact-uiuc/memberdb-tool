@@ -18,7 +18,7 @@ import {
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
 import PropTypes from 'prop-types';
-import { useParams, Redirect } from 'react-router-dom';
+import { useHistory, useParams, Redirect } from 'react-router-dom';
 
 import EditorToolbar from '../components/notes/EditorToolbar';
 import Page from '../components/layout/Page';
@@ -45,10 +45,50 @@ const NOTE_STATE = Object.freeze({
   error: 'error',
 });
 
-const Note = ({ user }) => {
+/**
+ * @constant
+ * @type {Object}
+ */
+const SUBMIT_STATE = Object.freeze({
+  error: 'error',
+  start: 'start',
+  success: 'success',
+});
+
+/**
+ * Helper component to render a comma separated list
+ * with the interface as the dropdown menu for view-only
+ * enums
+ *
+ * @param {*} props
+ * @returns
+ */
+const DisplayList = ({ subList, parentList }) => (
+  <p style={{ color: 'grey', fontWeight: 'normal' }}>
+    {
+      // TODO: Remove inline styles in favor of external CSS
+    }{' '}
+    {subList
+      .map((id) => {
+        const idx = parentList.findIndex((m) => m.value === id);
+        return parentList?.[idx]?.text;
+      })
+      .join(', ')}
+  </p>
+);
+
+DisplayList.propTypes = {
+  subList: PropTypes.array,
+  parentList: PropTypes.array,
+};
+
+function Note({ user }) {
   // note state
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
-  const [submitError, setSubmitError] = useState(false);
+  const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
+
+  // TODO! Merge view/edit mode into noteState enum
+  const [isEditable, setIsEditable] = useState(false);
 
   // routing
   const { noteID } = useParams();
@@ -70,6 +110,8 @@ const Note = ({ user }) => {
   // referenced data
   const [members, setMembers] = useState([]);
   const [allNoteLabels, setAllNoteLabels] = useState([]);
+
+  const history = useHistory();
 
   useEffect(() => {
     const init = async () => {
@@ -103,6 +145,14 @@ const Note = ({ user }) => {
           setReferencedMembers(currentReferencedMembers.map((m) => m.memberId));
           setViewableBy(currentViewableBy.map((m) => m.memberId));
           setEditableBy(currentEditableBy.map((m) => m.memberId));
+
+          // check if current user is in editor list
+          if (
+            currentEditableBy.findIndex((m) => m.memberId === user?._id) > -1
+          ) {
+            setIsEditable(true);
+          }
+
           setEditorState(
             EditorState.createWithContent(convertFromRaw(JSON.parse(content))),
           );
@@ -111,6 +161,7 @@ const Note = ({ user }) => {
           setNoteState(NOTE_STATE.error);
         }
       } else {
+        setIsEditable(true);
         setNoteState(NOTE_STATE.creating);
       }
 
@@ -138,7 +189,7 @@ const Note = ({ user }) => {
       setAllNoteLabels(cleanedNoteLabels);
     };
     init();
-  }, [noteID]);
+  }, [noteID, user]);
 
   /**
    * handles shortcuts to format rich text
@@ -174,6 +225,10 @@ const Note = ({ user }) => {
    * @returns {undefined}
    */
   const submitNote = () => {
+    if (!isEditable) {
+      return;
+    }
+
     // check if this note has a valid title, at least one referenced member,
     // and a valid editor state
     if (
@@ -181,9 +236,11 @@ const Note = ({ user }) => {
       !noteTitle ||
       !referencedMembers
     ) {
-      setSubmitError(true);
+      setSubmitState(SUBMIT_STATE.error);
       return;
     }
+
+    setSubmitState(SUBMIT_STATE.start);
 
     (noteState === NOTE_STATE.editing ? updateNote : createNote)(
       {
@@ -193,6 +250,7 @@ const Note = ({ user }) => {
           labels: noteLabels,
           referencedMembers,
           access: {
+            // remove duplicate of current user id's on existing notes
             editableBy,
             viewableBy,
           },
@@ -200,8 +258,16 @@ const Note = ({ user }) => {
       },
       noteID,
     )
-      .then(() => setSubmitError(false))
-      .catch(() => setSubmitError(true));
+      .then((res) => {
+        setSubmitState(SUBMIT_STATE.success);
+        return res;
+      })
+      .then(
+        (res) =>
+          res?.data?.result?._id &&
+          history.push(`/notes/${res.data.result._id}`),
+      )
+      .catch(() => setSubmitState(SUBMIT_STATE.error));
   };
 
   /**
@@ -239,21 +305,28 @@ const Note = ({ user }) => {
                     <Form.Field>
                       <label>
                         Note Title
-                        <Input
-                          value={noteTitle ?? ''}
-                          placeholder="Mid-semester 2:1"
-                          onChange={(e) => setNoteTitle(e.target.value ?? '')}
-                        />
+                        {!isEditable ? (
+                          <h2>{noteTitle}</h2>
+                        ) : (
+                          <Input
+                            value={noteTitle ?? ''}
+                            placeholder="Mid-semester 2:1"
+                            onChange={(e) => setNoteTitle(e.target.value ?? '')}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                       <label>Note Contents</label>
-                      <EditorToolbar
-                        handleRichStyle={handleRichStyle}
-                        handleBlockType={handleBlockType}
-                      />
+                      {isEditable && (
+                        <EditorToolbar
+                          handleRichStyle={handleRichStyle}
+                          handleBlockType={handleBlockType}
+                        />
+                      )}
                       <Editor
+                        readOnly={!isEditable}
                         editorState={editorState}
                         handleKeyCommand={handleKeyCommand}
                         onChange={setEditorState}
@@ -268,73 +341,104 @@ const Note = ({ user }) => {
                     <Card.Header>Metadata</Card.Header>
                     <Form.Field>
                       <label>
-                        Note Label
-                        <Dropdown
-                          id="note-labels"
-                          value={noteLabels}
-                          placeholder="1v1, evaluation, etc"
-                          onChange={(_, { value }) => setNoteLabels(value)}
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={allNoteLabels}
-                        />
+                        Note Labels
+                        {isEditable ? (
+                          <Dropdown
+                            id="note-labels"
+                            value={noteLabels}
+                            placeholder="1v1, evaluation, etc"
+                            onChange={(_, { value }) => setNoteLabels(value)}
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={allNoteLabels}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={noteLabels}
+                            parentList={allNoteLabels}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       <label>
                         Referenced Members
-                        <Dropdown
-                          value={referencedMembers}
-                          placeholder="Albert Cao, etc"
-                          onChange={(_, { value }) =>
-                            setReferencedMembers(value)
-                          }
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={members}
-                        />
+                        {isEditable ? (
+                          <Dropdown
+                            value={referencedMembers}
+                            placeholder="Albert Cao, etc"
+                            onChange={(_, { value }) =>
+                              setReferencedMembers(value)
+                            }
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={members}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={referencedMembers}
+                            parentList={members}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       <label>
                         Viewable By
-                        <Dropdown
-                          value={viewableBy}
-                          placeholder="Albert Cao, etc"
-                          onChange={(_, { value }) => setViewableBy(value)}
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={members}
-                        />
+                        {isEditable ? (
+                          <Dropdown
+                            value={viewableBy}
+                            placeholder="Albert Cao, etc"
+                            onChange={(_, { value }) => setViewableBy(value)}
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={members}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={viewableBy}
+                            parentList={members}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                     <Form.Field>
                       <label>
                         Editable By
-                        <Dropdown
-                          value={editableBy}
-                          placeholder="Albert Cao, etc"
-                          onChange={(_, { value }) => setEditableBy(value)}
-                          fluid
-                          multiple
-                          search
-                          selection
-                          options={members}
-                        />
+                        {isEditable ? (
+                          <Dropdown
+                            value={editableBy}
+                            placeholder="Albert Cao, etc"
+                            onChange={(_, { value }) => setEditableBy(value)}
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={members}
+                          />
+                        ) : (
+                          <DisplayList
+                            subList={editableBy}
+                            parentList={members}
+                          />
+                        )}
                       </label>
                     </Form.Field>
                   </Card.Content>
                 </Card>
-                <Button primary fluid onClick={submitNote}>
-                  {noteState === NOTE_STATE.editing ? 'Update' : 'Create'} Note
-                </Button>
-                {submitError && (
+                {isEditable && (
+                  <Button primary fluid onClick={submitNote}>
+                    {noteState === NOTE_STATE.editing ? 'Update' : 'Create'}{' '}
+                    Note
+                  </Button>
+                )}
+                {submitState === SUBMIT_STATE.error && (
                   <Message negative>
                     {
                       // TODO: Add specific error messages
@@ -342,13 +446,16 @@ const Note = ({ user }) => {
                     <p>Error with submission.</p>
                   </Message>
                 )}
+                {submitState === SUBMIT_STATE.success && (
+                  <Message color="green" content="Successfully submitted!" />
+                )}
               </Grid.Column>
             </Grid>
           </Form>
         </Page>
       );
   }
-};
+}
 
 Note.propTypes = {
   user: PropTypes.shape({

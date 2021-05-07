@@ -18,10 +18,12 @@ function App() {
   useEffect(() => {
     const userAuth = async () => {
       const resp = await getUserAuth();
-      if (!resp.error) setUser(resp.data.result);
+      if (!resp.error) setUser(resp?.data?.result);
     };
     userAuth();
   }, [location]);
+
+  // TODO: Create user context and remove prop drilling
 
   return (
     <div>
