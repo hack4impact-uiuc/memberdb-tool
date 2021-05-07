@@ -7,7 +7,6 @@ import {
   convertToRaw,
   convertFromRaw,
 } from 'draft-js';
-import PropTypes from 'prop-types';
 import {
   Button,
   Input,
@@ -18,6 +17,7 @@ import {
   Message,
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
+import PropTypes from 'prop-types';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 
 import EditorToolbar from '../components/notes/EditorToolbar';
@@ -167,12 +167,15 @@ function Note({ user }) {
 
       // get member data for dropdown reference
       const allMembers = await getMembers();
-      // map allMembers into a dropdown-friendly interface
-      const cleanedMembers = (allMembers?.data?.result ?? []).map((m) => ({
-        key: m._id,
-        text: `${m.firstName} ${m.lastName}`,
-        value: m._id,
-      }));
+
+      // map allMembers into a dropdown-friendly interface and remove the current user from the list
+      const cleanedMembers = (allMembers?.data?.result ?? [])
+        .filter((m) => m._id !== user._id)
+        .map((m) => ({
+          key: m._id,
+          text: `${m.firstName} ${m.lastName}`,
+          value: m._id,
+        }));
       setMembers(cleanedMembers);
 
       const resNoteLabels = await getNoteLabels();
@@ -247,9 +250,8 @@ function Note({ user }) {
           labels: noteLabels,
           referencedMembers,
           access: {
-            // remove duplicate of current user id's on existing notes
-            editableBy: [...new Set([...editableBy, user._id])],
-            viewableBy: [...new Set([...viewableBy, user._id])],
+            editableBy,
+            viewableBy,
           },
         },
       },
@@ -455,7 +457,10 @@ function Note({ user }) {
 }
 
 Note.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+  }).isRequired,
 };
 
 export default Note;
