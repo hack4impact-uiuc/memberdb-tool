@@ -17,6 +17,7 @@ import {
   Message,
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
+import PropTypes from 'prop-types';
 import { useParams, Redirect } from 'react-router-dom';
 
 import EditorToolbar from '../components/notes/EditorToolbar';
@@ -44,7 +45,7 @@ const NOTE_STATE = Object.freeze({
   error: 'error',
 });
 
-function Note() {
+const Note = ({ user }) => {
   // note state
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
   const [submitError, setSubmitError] = useState(false);
@@ -115,12 +116,15 @@ function Note() {
 
       // get member data for dropdown reference
       const allMembers = await getMembers();
-      // map allMembers into a dropdown-friendly interface
-      const cleanedMembers = (allMembers?.data?.result ?? []).map((m) => ({
-        key: m._id,
-        text: `${m.firstName} ${m.lastName}`,
-        value: m._id,
-      }));
+
+      // map allMembers into a dropdown-friendly interface and remove the current user from the list
+      const cleanedMembers = (allMembers?.data?.result ?? [])
+        .filter((m) => m._id !== user._id)
+        .map((m) => ({
+          key: m._id,
+          text: `${m.firstName} ${m.lastName}`,
+          value: m._id,
+        }));
       setMembers(cleanedMembers);
 
       const resNoteLabels = await getNoteLabels();
@@ -344,6 +348,13 @@ function Note() {
         </Page>
       );
   }
-}
+};
+
+Note.propTypes = {
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+  }).isRequired,
+};
 
 export default Note;
