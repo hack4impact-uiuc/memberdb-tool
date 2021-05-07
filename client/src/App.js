@@ -35,16 +35,14 @@ function App() {
         <Route path={Routes.MEMBER_PAGE}>
           <Switch>
             <Route path={Routes.NOTE_PAGE}>
-              <Note user={user} />
+              {user && <Note user={user} />}
             </Route>
             <Route DEFAULT>
               {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
             </Route>
           </Switch>
         </Route>
-        <Route path={Routes.NOTE_PAGE}>
-          <Note user={user} />
-        </Route>
+        <Route path={Routes.NOTE_PAGE}>{user && <Note user={user} />}</Route>
         <Route path={Routes.NOTES}>
           <Notes />
         </Route>

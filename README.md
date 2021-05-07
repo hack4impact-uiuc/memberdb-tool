@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://uiuc.hack4impact.org"><img src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/colored-logo.svg" alt="YMCA logo" width="150"></a>
+  <a href="https://uiuc.hack4impact.org"><img src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/colored-logo.svg" alt="H4I Logo" width="150"></a>
   <br/>
   Member Database Tool
   </br>
@@ -7,9 +7,11 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
+    <img src="https://github.com/hack4impact-uiuc/memberdb-tool/actions/workflows/api.yaml/badge.svg">
+    <img src="https://github.com/hack4impact-uiuc/memberdb-tool/actions/workflows/client.yaml/badge.svg">
 </p>
 
-<h4 align="center">A project by <a href="https://uiuc.hack4impact.org/" target="_blank">Hack4Impact UIUC</a> for Spring 2021 Tech Lead Training.</a></h4>
+<h4 align="center">A project by <a href="https://uiuc.hack4impact.org/" target="_blank">Hack4Impact UIUC</a>.</a></h4>
 
 <p align="center">
   <a href="#background">Background</a> •
@@ -36,13 +38,18 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
 ## Team
 
 <table align="center">
-  <tr>
-    <td align="center"><a href="https://www.linkedin.com/in/alicesf2/"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQFT2hqGjVdINA/profile-displayphoto-shrink_200_200/0/1594157771622?e=1616025600&v=beta&t=NX191E0URDPlV6uXPuGROxDJI-UGKYAZmLb8oJyhwyo" width="125px;" alt="Pusheen"/><br /><b>Alice Fang</b></a><br /><sub>Technical Lead</sub></td>
-    <td align="center"><a href="https://www.linkedin.com/in/matthew-walowski/"><img src="https://media-exp1.licdn.com/dms/image/C5603AQGdnDuAv9d9YQ/profile-displayphoto-shrink_400_400/0/1610475936652?e=1616025600&v=beta&t=Sna8pEfgzUlOGtmuteSswIFvINzF8Bxk1VjMYvVztvw" width="125px;" alt="Matthew Walowski"/><br /><b>Matthew Walowski</b></a><br /><sub>Technical Lead</sub></td>
-    <td align="center"><a href="https://www.linkedin.com/in/jeffrey-tang/"><img src="https://raw.githubusercontent.com/hack4impact-uiuc/closegap/master/.github/team_pics/jeffrey.jpg" width="125px;" alt="Jeffrey Tang"/><br /><b>Jeffrey Tang</b></a><br /><sub>Technical Lead</sub></td>
-    <td align="center"><a href="https://www.linkedin.com/in/amit-m-sawhney/"><img src="https://media-exp1.licdn.com/dms/image/C4D03AQF6eWCL4Z8_qg/profile-displayphoto-shrink_400_400/0/1595738823858?e=1616025600&v=beta&t=T3w5-H_yOqKLRZqNmfW9tMb7wN939e6CMuXqL1HpF6U" width="125px;" alt="Angry Pusheen"/><br /><b>Amit Sawhney</b></a><br /><sub>Software Developer</sub></td>
-    <td align="center"><a href="www.linkedin.com/in/ishaan-r-sharma"><img src="https://media-exp1.licdn.com/dms/image/C5603AQFAVxJujLhpZg/profile-displayphoto-shrink_400_400/0/1610957839107?e=1616630400&v=beta&t=CbltImSSzDrs8_90ZnJ1pERoPe1D0mvE47giPB5yPI0" width="125px;" alt="Chef Pusheen"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
-  </tr>
+    <tr>
+        <td align="center"><a href="https://www.linkedin.com/in/sirajchokshi/"><img src="https://images.ctfassets.net/xig6hkxlux4q/1N7hNkpNNdSrzFWwWtqy4M/4763811ee8d14d0c1219a15b07294e97/siraj_chokshi.jpg?h=500" width="125px;" alt="Siraj's Picture"/><br /><b>Siraj Chokshi</b></a><br /><sub>Software Developer</sub></td>
+        <td align="center"><a href="https://www.linkedin.com/in/daniel-moon1/"><img src="https://images.ctfassets.net/xig6hkxlux4q/1ICw2Nu5UoD7kqg9CHVKsY/99f0d50c5734e9af08e1c540e42bab17/daniel_moon.jpg?h=500" width="125px;" alt="Daniel's Picture"/><br /><b>Daniel Moon</b></a><br /><sub>Software Developer</sub></td>
+        <td align="center"><a href="https://www.linkedin.com/in/leogalindo/"><img src="https://images.ctfassets.net/xig6hkxlux4q/3PvLLGxks8SwEHUYVGB8cM/8a376dd7c7a53cd224da88d4684189f9/leonardo_galindo.jpg?h=500" width="125px;" alt="Leo's Picture"/><br /><b>Leonardo Galindo</b></a><br /><sub>Software Developer</sub></td>
+        <td align="center"><a href="https://www.linkedin.com/in/alicesf2/"><img src="https://images.ctfassets.net/xig6hkxlux4q/sSyWI6JQ5mcOHWTGXu9de/d5b82e70af4e0155a1bf4daf9572470c/alice_fang.jpg?h=500" width="125px;" alt="Alice's Picture"/><br /><b>Alice Fang</b></a><br /><sub>Technical Lead</sub></td>
+        <td align="center"><a href="https://www.linkedin.com/in/matthew-walowski/"><img src="https://images.ctfassets.net/xig6hkxlux4q/4p6LeyaGISibB1BsoV3PnW/1b2bb45c6387536fef6eeb4f04239148/matthew_walowski.jpg?h=500" width="125px;" alt="Matthew's Picture"/><br /><b>Matthew Walowski</b></a><br /><sub>Technical Lead</sub></td>
+        <td align="center"><a href="https://www.linkedin.com/in/jeffrey-tang/"><img src="https://images.ctfassets.net/xig6hkxlux4q/4gL2EIwPsS1eBq6N0OY3OU/f78d7206df31d7285c9e0cab429cdafa/jeffrey_tang.jpg?h=500" width="125px;" alt="Jeffrey's Picture"/><br /><b>Jeffrey Tang</b></a><br /><sub>Technical Lead</sub></td>
+    </tr>
+    <tr>
+        <td align="center"><a href="https://www.linkedin.com/in/amit-m-sawhney/"><img src="https://images.ctfassets.net/xig6hkxlux4q/3tdBQH6lJJpDT9T7eJEy89/a7e68775c6f06c484dae9536a1bae1f0/amit_sawhney.jpg?h=500" width="125px;" alt="Amit's Picture"/><br /><b>Amit Sawhney</b></a><br /><sub>Software Developer</sub></td>
+        <td align="center"><a href="www.linkedin.com/in/ishaan-r-sharma"><img src="https://images.ctfassets.net/xig6hkxlux4q/bbwQAF9WPPYBkaB1DYmsX/2bb2c7886e8e5ce1e9a69f01dcb3a560/ishaan_sharma.jpg?h=500" width="125px;" alt="Ishaan's Picture"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
+    </tr>
 </table>
 
 ## License

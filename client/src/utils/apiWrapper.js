@@ -151,6 +151,15 @@ export const updateNote = (note, noteID) => {
     }));
 };
 
+// Deletes a note
+export const deleteNote = (noteID) => {
+  const requestString = `${BACKEND_BASE_URL}/notes/${noteID}`;
+  return axios.delete(requestString).catch((error) => ({
+    type: 'UPDATE_NOTE_FAIL',
+    error,
+  }));
+};
+
 // Creates a new note
 export const createNote = (note) => {
   const requestString = `${BACKEND_BASE_URL}/notes`;

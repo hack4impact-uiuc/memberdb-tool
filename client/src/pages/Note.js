@@ -7,10 +7,10 @@ import {
   convertToRaw,
   convertFromRaw,
 } from 'draft-js';
-import PropTypes from 'prop-types';
 import {
   Button,
   Input,
+  Icon,
   Form,
   Dropdown,
   Grid,
@@ -18,6 +18,7 @@ import {
   Message,
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
+import PropTypes from 'prop-types';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 
 import EditorToolbar from '../components/notes/EditorToolbar';
@@ -27,6 +28,7 @@ import {
   getNotes,
   createNote,
   updateNote,
+  deleteNote,
   getMembers,
   getNoteLabels,
 } from '../utils/apiWrapper';
@@ -167,7 +169,8 @@ function Note({ user }) {
 
       // get member data for dropdown reference
       const allMembers = await getMembers();
-      // map allMembers into a dropdown-friendly interface
+
+      // map allMembers into a dropdown-friendly interface and remove the current user from the list
       const cleanedMembers = (allMembers?.data?.result ?? []).map((m) => ({
         key: m._id,
         text: `${m.firstName} ${m.lastName}`,
@@ -247,9 +250,8 @@ function Note({ user }) {
           labels: noteLabels,
           referencedMembers,
           access: {
-            // remove duplicate of current user id's on existing notes
-            editableBy: [...new Set([...editableBy, user._id])],
-            viewableBy: [...new Set([...viewableBy, user._id])],
+            editableBy,
+            viewableBy,
           },
         },
       },
@@ -285,6 +287,12 @@ function Note({ user }) {
     if (newState) setEditorState(newState);
   }
 
+  const handleDeleteNote = async () => {
+    const resp = await deleteNote(noteID);
+    if (resp.error) setSubmitState(SUBMIT_STATE.error);
+    else history.push('/notes');
+  };
+
   switch (noteState) {
     case NOTE_STATE.loading:
       return <Loading height={500} />;
@@ -292,7 +300,16 @@ function Note({ user }) {
       return <Redirect to="/notes" />;
     default:
       return (
-        <Page title={`${titleCaseFormatter(NOTE_STATE[noteState])} a Note`}>
+        <Page
+          title={`${titleCaseFormatter(NOTE_STATE[noteState])} a Note`}
+          menuItems={
+            isEditable && (
+              <Button negative onClick={handleDeleteNote}>
+                <Icon name="x" /> Delete
+              </Button>
+            )
+          }
+        >
           <Form>
             <Grid stackable>
               <Grid.Column width={12}>
@@ -395,7 +412,7 @@ function Note({ user }) {
                             multiple
                             search
                             selection
-                            options={members}
+                            options={members.filter((m) => m.key !== user._id)}
                           />
                         ) : (
                           <DisplayList
@@ -417,7 +434,7 @@ function Note({ user }) {
                             multiple
                             search
                             selection
-                            options={members}
+                            options={members.filter((m) => m.key !== user._id)}
                           />
                         ) : (
                           <DisplayList
@@ -455,7 +472,10 @@ function Note({ user }) {
 }
 
 Note.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+  }).isRequired,
 };
 
 export default Note;
