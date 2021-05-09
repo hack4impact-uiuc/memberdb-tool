@@ -49,6 +49,7 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
     <tr>
         <td align="center"><a href="https://www.linkedin.com/in/amit-m-sawhney/"><img src="https://images.ctfassets.net/xig6hkxlux4q/3tdBQH6lJJpDT9T7eJEy89/a7e68775c6f06c484dae9536a1bae1f0/amit_sawhney.jpg?h=500" width="125px;" alt="Amit's Picture"/><br /><b>Amit Sawhney</b></a><br /><sub>Software Developer</sub></td>
         <td align="center"><a href="www.linkedin.com/in/ishaan-r-sharma"><img src="https://images.ctfassets.net/xig6hkxlux4q/bbwQAF9WPPYBkaB1DYmsX/2bb2c7886e8e5ce1e9a69f01dcb3a560/ishaan_sharma.jpg?h=500" width="125px;" alt="Ishaan's Picture"/><br /><b>Ishaan Sharma</b></a><br /><sub>Software Developer</sub></td>
+        <td align="center"><a href="www.linkedin.com/in/yousef-a"><img src="https://images.ctfassets.net/xig6hkxlux4q/3FN1QNT86tNU6Oa2HUz6RY/1edaa09b2bd30071501de55839ada743/yousef_ahmed.jpg?h=500" width="125px;" alt="Yousef's Picture"/><br /><b>Yousef Ahmed</b></a><br /><sub>Software Developer</sub></td>
     </tr>
 </table>
 
