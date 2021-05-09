@@ -31,7 +31,6 @@ const decryptNote = async (encryptedNote, encryptionPassword) => {
     message: encryptedMessage,
     passwords: [encryptionPassword], // decrypt with password
   });
-  console.log(decrypted);
   return decrypted;
 };
 

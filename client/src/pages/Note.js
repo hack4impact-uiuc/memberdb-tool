@@ -105,7 +105,7 @@ function Note({ user }) {
   const [referencedMembers, setReferencedMembers] = useState([]);
   const [viewableBy, setViewableBy] = useState([]);
   const [editableBy, setEditableBy] = useState([]);
-  const [encryptNote, setEncryptNote] = useState(false);
+  const [encryptNote, setEncryptNote] = useState(true);
 
   // TODO: Implement safety guards for leaving an edited form
   // We can use a window.confirm() here or a semantic modal instead
@@ -146,7 +146,6 @@ function Note({ user }) {
           setReferencedMembers(currentReferencedMembers.map((m) => m.memberId));
           setViewableBy(currentViewableBy.map((m) => m.memberId));
           setEditableBy(currentEditableBy.map((m) => m.memberId));
-          console.log(encrypt);
           setEncryptNote(encrypt);
 
           // check if current user is in editor list
