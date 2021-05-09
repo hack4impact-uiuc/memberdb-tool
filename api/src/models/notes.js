@@ -8,11 +8,22 @@ const actions = Object.freeze({
   EDITED: 'EDITED',
 });
 
+const labelsEnum = [
+  '1v1',
+  '2v1',
+  '2v2',
+  'Lead Interview',
+  'Director Interview',
+  'Meeting',
+  'Other',
+];
+
 const Notes = new mongoose.Schema({
+  encrypt: { type: Boolean, default: false },
   content: { type: String, default: null },
   metaData: {
     title: { type: String, default: null },
-    labels: { type: [String], default: [] },
+    labels: [{ type: String, enum: labelsEnum }],
     referencedMembers: { type: [String], default: [] },
     versionHistory: [
       {
@@ -35,3 +46,4 @@ const Notes = new mongoose.Schema({
 
 module.exports = mongoose.model('Notes', Notes);
 module.exports.actions = actions;
+module.exports.labelsEnum = labelsEnum;

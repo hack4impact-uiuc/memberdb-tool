@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Member = require('./../models/member');
+const Member = require('../models/members');
 const errorWrap = require('../middleware/errorWrap');
 const { requireRegistered, requireDirector } = require('../middleware/auth');
 const {
@@ -10,7 +10,8 @@ const {
   getEditableFields,
   validateField,
   validationFields,
-} = require('../utils/user-utils');
+  errorMessages,
+} = require('../utils/members');
 
 const validateMemberQuery = (req, res, next) => {
   // Middleware that verifies that fields to be inserted/updated actually

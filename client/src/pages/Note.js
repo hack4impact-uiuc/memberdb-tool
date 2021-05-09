@@ -16,6 +16,7 @@ import {
   Grid,
   Card,
   Message,
+  Checkbox,
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
 import PropTypes from 'prop-types';
@@ -25,7 +26,7 @@ import EditorToolbar from '../components/notes/EditorToolbar';
 import Page from '../components/layout/Page';
 import Loading from '../components/ui/Loading';
 import {
-  getNotes,
+  getNote,
   createNote,
   updateNote,
   deleteNote,
@@ -104,6 +105,7 @@ function Note({ user }) {
   const [referencedMembers, setReferencedMembers] = useState([]);
   const [viewableBy, setViewableBy] = useState([]);
   const [editableBy, setEditableBy] = useState([]);
+  const [encryptNote, setEncryptNote] = useState(true);
 
   // TODO: Implement safety guards for leaving an edited form
   // We can use a window.confirm() here or a semantic modal instead
@@ -120,12 +122,8 @@ function Note({ user }) {
       // if note is not new request template
       // data for editing an existing note
       if (noteID !== 'new') {
-        const {
-          data: { result },
-        } = await getNotes();
-
-        // see if the URL param ID matches an existing note
-        const currentNote = result.find((note) => note._id === noteID);
+        const resp = await getNote(noteID);
+        const currentNote = resp.data.result;
         if (currentNote) {
           setNoteState(NOTE_STATE.editing);
           const {
@@ -139,6 +137,7 @@ function Note({ user }) {
               },
             },
             content,
+            encrypt,
           } = currentNote;
 
           // TODO! Migrate to Form library for validation + modeling
@@ -147,6 +146,7 @@ function Note({ user }) {
           setReferencedMembers(currentReferencedMembers.map((m) => m.memberId));
           setViewableBy(currentViewableBy.map((m) => m.memberId));
           setEditableBy(currentEditableBy.map((m) => m.memberId));
+          setEncryptNote(encrypt);
 
           // check if current user is in editor list
           if (
@@ -241,10 +241,10 @@ function Note({ user }) {
     }
 
     setSubmitState(SUBMIT_STATE.start);
-
     (noteState === NOTE_STATE.editing ? updateNote : createNote)(
       {
         content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+        encrypt: encryptNote,
         metaData: {
           title: noteTitle,
           labels: noteLabels,
@@ -428,7 +428,6 @@ function Note({ user }) {
                         {isEditable ? (
                           <Dropdown
                             value={editableBy}
-                            placeholder="Albert Cao, etc"
                             onChange={(_, { value }) => setEditableBy(value)}
                             fluid
                             multiple
@@ -441,6 +440,19 @@ function Note({ user }) {
                             subList={editableBy}
                             parentList={members}
                           />
+                        )}
+                      </label>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>
+                        Encrypt Note
+                        {isEditable ? (
+                          <Checkbox
+                            checked={encryptNote}
+                            onClick={(_, data) => setEncryptNote(data.checked)}
+                          />
+                        ) : (
+                          <Checkbox checked={encryptNote} readOnly />
                         )}
                       </label>
                     </Form.Field>

@@ -1,5 +1,5 @@
-const { isAdmin } = require('./auth');
 const Note = require('../models/notes');
+const { isAdmin } = require('./auth');
 
 // middleware to validate if user can edit
 const validateEditability = async (req, res, next) => {
