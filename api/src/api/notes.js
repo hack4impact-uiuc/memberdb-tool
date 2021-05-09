@@ -12,6 +12,7 @@ const {
   validateEditability,
   validateReqParams,
 } = require('../middleware/notes');
+const { encryptNote, decryptNote } = require('../utils/notes');
 
 /**
  * returns member names and ids from valid received ids
@@ -37,23 +38,78 @@ const memberFromId = async (ids) => {
 };
 
 router.get(
+  '/labels',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    res.status(200).json({
+      success: true,
+      result: Note.labelsEnum,
+      message: 'Note labels retrieved successfully.',
+    });
+  }),
+);
+
+router.get(
+  '/:notesId',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    const note = await Note.findOne({
+      _id: req.params.notesId,
+      $or: [
+        { 'metaData.access.viewableBy': { $in: [req.user._id.toString()] } },
+        { 'metaData.access.editableBy': { $in: [req.user._id.toString()] } },
+      ],
+    }).lean();
+
+    // Replace all members ids with object that has id and name
+    note['metaData']['access']['viewableBy'] = await memberFromId(
+      note['metaData']['access']['viewableBy'],
+    );
+    note['metaData']['access']['editableBy'] = await memberFromId(
+      note['metaData']['access']['editableBy'],
+    );
+    note['metaData']['referencedMembers'] = await memberFromId(
+      note['metaData']['referencedMembers'],
+    );
+
+    if (note.encrypt) {
+      const encryptionKey = req.user.oauthID + req.user.UIN;
+      note.content = await decryptNote(note.content, encryptionKey);
+    }
+
+    res.status(200).json({
+      success: true,
+      result: note,
+    });
+  }),
+);
+
+router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
-    let notes;
     const output_notes = [];
+    const filter = {
+      'metaData.title': 1,
+      'metaData.labels': 1,
+      'metaData.referencedMembers': 1,
+      'metaData.access.viewableBy': 1,
+      'metaData.access.editableBy': 1,
+    };
 
-    // Return all notes if Admin
-    if (isAdmin(req.user)) {
-      notes = await Note.find({}).lean();
-    } else {
-      notes = await Note.find({
+    const notes = await Note.find(
+      {
         $or: [
-          { 'metaData.access.viewableBy': { $in: [req.user._id.toString()] } },
-          { 'metaData.access.editableBy': { $in: [req.user._id.toString()] } },
+          {
+            'metaData.access.viewableBy': { $in: [req.user._id.toString()] },
+          },
+          {
+            'metaData.access.editableBy': { $in: [req.user._id.toString()] },
+          },
         ],
-      }).lean();
-    }
+      },
+      filter,
+    ).lean();
 
     for (let note of notes) {
       // Replace all members ids with object that has id and name
@@ -77,30 +133,6 @@ router.get(
   }),
 );
 
-// GET /notes/labels
-router.get(
-  '/labels',
-  requireRegistered,
-  errorWrap(async (req, res) => {
-    const notes = await Note.find({});
-    const labelList = [];
-
-    for (const note of notes) {
-      for (const label of note.metaData.labels) {
-        if (!labelList.includes(label)) {
-          labelList.push(label);
-        }
-      }
-    }
-
-    res.status(200).json({
-      success: true,
-      result: labelList,
-      message: 'Notes retrieved successfully.',
-    });
-  }),
-);
-
 router.post(
   '/',
   requireLead,
@@ -119,6 +151,10 @@ router.post(
 
     // Automatically include the note creator as an editor
     req.body.metaData.access.editableBy.push(memberID.toString());
+
+    if (req.body.encrypt) {
+      req.body.content = await encryptNote(req.body);
+    }
 
     const note = await Note.create(req.body);
     res.status(200).json({
@@ -150,6 +186,9 @@ router.put(
       });
 
       data.metaData.versionHistory = currentVersionHistory;
+      if (req.body.encrypt) {
+        data.content = await encryptNote(req.body);
+      }
 
       const updatedNote = await Note.findByIdAndUpdate(
         req.params.notesId,

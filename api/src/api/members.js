@@ -10,7 +10,7 @@ const {
   getEditableFields,
   validateField,
   validationFields,
-} = require('../utils/user-utils');
+} = require('../utils/users');
 
 const validateMemberQuery = (req, res, next) => {
   // Middleware that verifies that fields to be inserted/updated actually

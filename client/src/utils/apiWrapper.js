@@ -123,7 +123,22 @@ export const updateMember = (member, memberID) => {
     }));
 };
 
-// Retrieves all notes
+// Retrieves a note by ID
+export const getNote = (noteID) => {
+  const requestString = `${BACKEND_BASE_URL}/notes/${noteID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_NOTE_FAIL',
+      error,
+    }));
+};
+
+// Retrieves notes info
 export const getNotes = () => {
   const requestString = `${BACKEND_BASE_URL}/notes`;
   return axios
