@@ -21,6 +21,14 @@ form.ui.form label {
   line-height: 2;
 }
 
+.ui.checkbox {
+  float: right;
+}
+
+.ui.checkbox label {
+  line-height: 1 !important;
+}
+
 /* Draft.js Wrapper */
 
 #note-editor-wrapper {
