@@ -14,6 +14,8 @@ const labelsEnum = [
   '2v2',
   'Lead Interview',
   'Director Interview',
+  'Meeting',
+  'Other',
 ];
 
 const Notes = new mongoose.Schema({
