@@ -1,5 +1,5 @@
 const { difference, pick } = require('lodash');
-const Member = require('../models/member');
+const Member = require('../models/members');
 const { isDirector } = require('../middleware/auth');
 
 // All fields in Member
@@ -27,9 +27,16 @@ const nonEditableFields = [
 // Fields and their regex for validation
 const validationFields = {
   email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-  phone: /^[0-9]{10}$/,
+  phone: /^[1-9]\d{2}-\d{3}-\d{4}$/,
   gradYear: /^\d{4}$/,
   generationYear: /^\d{4}$/,
+};
+
+const errorMessages = {
+  email: 'Please use a valid email',
+  phone: 'Please format phone numbers as XXX-XXX-XXXX',
+  gradYear: 'Please use a four digit graduation year',
+  generationYear: 'Please use a four digit generation year',
 };
 
 const getViewableFields = (currentUser, memberId) => {
@@ -84,4 +91,5 @@ module.exports = {
   validateField,
   validationFields,
   generateEncryptionPasswords,
+  errorMessages,
 };

@@ -1,5 +1,5 @@
 const openpgp = require('openpgp');
-const { generateEncryptionPasswords } = require('./users');
+const { generateEncryptionPasswords } = require('./members');
 
 // encrypt a note with AES 256 encryption
 const encryptNote = async (data) => {

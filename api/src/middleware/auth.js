@@ -1,4 +1,4 @@
-const { levelEnum } = require('../models/member');
+const { levelEnum } = require('../models/members');
 
 // In this auth scheme, all "higher" levels will have permissions of
 // lower levels when using isXXX or requireXXX. Thus by default, a

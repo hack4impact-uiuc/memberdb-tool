@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/notes');
-const Member = require('../models/member');
+const Member = require('../models/members');
 const errorWrap = require('../middleware/errorWrap');
 const {
   requireRegistered,
@@ -74,7 +74,15 @@ router.get(
 
     if (note.encrypt) {
       const encryptionKey = req.user.oauthID + req.user.UIN;
-      note.content = await decryptNote(note.content, encryptionKey);
+
+      try {
+        note.content = await decryptNote(note.content, encryptionKey);
+      } catch (err) {
+        return res.status(403).json({
+          success: false,
+          message: 'Unauthorized',
+        });
+      }
     }
 
     res.status(200).json({
