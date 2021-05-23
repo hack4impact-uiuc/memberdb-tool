@@ -6,9 +6,8 @@
 </h1>
 
 <p align="center">
+    <img src="https://img.shields.io/github/checks-status/hack4impact-uiuc/memberdb-tool/main?style=flat-square">
     <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
-    <img src="https://github.com/hack4impact-uiuc/memberdb-tool/actions/workflows/api.yaml/badge.svg">
-    <img src="https://github.com/hack4impact-uiuc/memberdb-tool/actions/workflows/client.yaml/badge.svg">
 </p>
 
 <h4 align="center">A project by <a href="https://uiuc.hack4impact.org/" target="_blank">Hack4Impact UIUC</a>.</a></h4>

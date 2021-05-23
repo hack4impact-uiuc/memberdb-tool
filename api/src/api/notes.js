@@ -133,17 +133,7 @@ router.get(
 
       output_notes.push(note);
     }
-    notes.forEach((note) => {
-      // remove content from notes
-      delete note['content'];
-      // save last member ID who edited and append to notes object
-      const lastEditedBy = note['metadata']['versionHistory']['actionBy'].pop();
-      note['lastEditedBy'] = lastEditedBy;
-      // remove versionHistory from notes
-      delete note['metadata']['versionHistory'];
-      // remove access info from notes
-      delete note['metadata']['access'];
-    });
+
     res.status(200).json({
       success: true,
       result: output_notes,
@@ -214,7 +204,7 @@ router.put(
         { new: true, upsert: true },
       );
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: 'Note successfully updated',
         data: updatedNote,

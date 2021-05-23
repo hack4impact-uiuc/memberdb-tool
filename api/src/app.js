@@ -3,14 +3,23 @@ const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 const logger = require('morgan');
+const RateLimit = require('express-rate-limit');
 const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const csrf = require('csurf');
 const apiRoutes = require('./api');
 const { errorHandler } = require('./middleware');
-
 const environment = process.env.NODE_ENV || 'dev';
 const app = express();
+
+const limiter = new RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 15,
+});
+
+app.use('/auth/', limiter);
 
 // HTTPS, CORS, bodyParser
 app.use(helmet());
@@ -27,11 +36,15 @@ app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 const sessionConfig = {
   secret: process.env.SESSION_SECRET,
 };
+
 if (environment == 'production') {
   app.set('trust proxy', 1);
   sessionConfig.secure = true;
 }
+
 app.use(cookieSession(sessionConfig));
+app.use(cookieParser());
+app.use(csrf({ cookie: true }));
 
 // Mongo setup
 require('./utils/mongo-setup');
