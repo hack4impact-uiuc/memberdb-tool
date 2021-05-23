@@ -42,7 +42,6 @@ if (environment == 'production') {
 }
 
 app.use(cookieSession(sessionConfig));
-app.use(csrf({ cookie: true }));
 
 // Mongo setup
 require('./utils/mongo-setup');
@@ -61,6 +60,7 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+app.use(csrf({ cookie: true }));
 app.use(errorHandler);
 
 module.exports = app;
