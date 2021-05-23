@@ -18,7 +18,7 @@ const limiter = new RateLimit({
   max: 5,
 });
 
-app.use('/auth/', apiLimiter);
+app.use('/auth/', limiter);
 
 // HTTPS, CORS, bodyParser
 app.use(helmet());
