@@ -41,8 +41,8 @@ if (environment == 'production') {
   sessionConfig.secure = true;
 }
 
-app.use(csrf({ cookie: true }));
 app.use(cookieSession(sessionConfig));
+app.use(csrf({ cookie: true }));
 
 // Mongo setup
 require('./utils/mongo-setup');
