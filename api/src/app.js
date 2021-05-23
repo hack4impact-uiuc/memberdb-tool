@@ -7,9 +7,9 @@ const RateLimit = require('express-rate-limit');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const csrf = require("csurf");
 const apiRoutes = require('./api');
 const { errorHandler } = require('./middleware');
-
 const environment = process.env.NODE_ENV || 'dev';
 const app = express();
 
@@ -39,6 +39,8 @@ if (environment == 'production') {
   app.set('trust proxy', 1);
   sessionConfig.secure = true;
 }
+
+app.use(csrf({ cookie: true }));
 app.use(cookieSession(sessionConfig));
 
 // Mongo setup
