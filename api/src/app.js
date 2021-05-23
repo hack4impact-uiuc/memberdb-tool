@@ -18,7 +18,7 @@ const limiter = new RateLimit({
   max: 5,
 });
 
-app.use('/auth/', limiter);
+app.use('/auth/', apiLimiter);
 
 // HTTPS, CORS, bodyParser
 app.use(helmet());
@@ -35,6 +35,7 @@ app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 const sessionConfig = {
   secret: process.env.SESSION_SECRET,
 };
+
 if (environment == 'production') {
   app.set('trust proxy', 1);
   sessionConfig.secure = true;
