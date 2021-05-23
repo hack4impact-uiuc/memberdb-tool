@@ -19,6 +19,7 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "express-rate-limit": "^5.2.6",
     "helmet": "^3.21.1",
     "http-errors": "~1.6.3",
     "if-env": "^1.0.4",
@@ -35,12 +36,12 @@
     "babel-eslint": "^10.0.3",
     "dotenv-cli": "^2.0.1",
     "eslint": "^6.5.1",
+    "husky": "^4.3.8",
     "jest": "^25.1.0",
+    "lint-staged": "^10.5.3",
     "nodemon": "^2.0.6",
     "prettier": "^2.2.1",
-    "supertest": "^4.0.2",
-    "husky": "^4.3.8",
-    "lint-staged": "^10.5.3"
+    "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node",

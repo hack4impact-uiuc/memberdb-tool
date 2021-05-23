@@ -3,6 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 const logger = require('morgan');
+const RateLimit = require('express-rate-limit');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -11,6 +12,13 @@ const { errorHandler } = require('./middleware');
 
 const environment = process.env.NODE_ENV || 'dev';
 const app = express();
+
+const limiter = new RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5
+});
+
+app.use("/auth/", apiLimiter);
 
 // HTTPS, CORS, bodyParser
 app.use(helmet());
