@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const logger = require('morgan');
 const RateLimit = require('express-rate-limit');
 const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const csrf = require('csurf');
@@ -42,6 +43,8 @@ if (environment == 'production') {
 }
 
 app.use(cookieSession(sessionConfig));
+app.use(cookieParser());
+app.use(csrf({ cookie: true }));
 
 // Mongo setup
 require('./utils/mongo-setup');
@@ -60,7 +63,6 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(csrf({ cookie: true }));
 app.use(errorHandler);
 
 module.exports = app;
