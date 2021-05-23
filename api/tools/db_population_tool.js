@@ -158,10 +158,8 @@ function processGeneration(memberObj, generationValue) {
     throw `Could not parse Generation Year column (${generationValue}).`;
 
   match = match.slice(1, 3);
-  [
-    memberObj['generationSemester'],
-    memberObj['generationYear'],
-  ] = formatEnumFields(match);
+  [memberObj['generationSemester'], memberObj['generationYear']] =
+    formatEnumFields(match);
 }
 
 function processBirthdate(memberObj, birthdateValue) {
