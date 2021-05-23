@@ -16,7 +16,7 @@ const app = express();
 
 const limiter = new RateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 5,
+  max: 15,
 });
 
 app.use('/auth/', limiter);
