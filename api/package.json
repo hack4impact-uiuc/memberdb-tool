@@ -55,8 +55,8 @@
     "./**/*.{js,css,scss,json,md,jsx}": [
       "prettier --write"
     ],
-    "./client/**/*.{js,jsx}": [
-      "eslint --fix -c client/.eslintrc.json"
+    "./api/**/*.{js,jsx}": [
+      "eslint --fix -c api/.eslintrc.json"
     ]
   }
 }
