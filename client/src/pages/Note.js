@@ -124,9 +124,9 @@ function Note({ user }) {
       // data for editing an existing note
       if (noteID !== 'new') {
         const resp = await getNote(noteID);
-        if (resp.error.response.status === 403) {
+        if (resp.error && resp.error.response.status === 403) {
           const logout = await endUserSession();
-          if (!logout.error) return history.push('/login');
+          if (!logout.error) history.push('/login');
         }
         const currentNote = resp.data.result;
         if (currentNote) {
@@ -194,7 +194,7 @@ function Note({ user }) {
       setAllNoteLabels(cleanedNoteLabels);
     };
     init();
-  }, [noteID, user]);
+  }, [noteID, user, history]);
 
   /**
    * handles shortcuts to format rich text
