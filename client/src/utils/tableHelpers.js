@@ -174,6 +174,7 @@ export const notesColumnDefs = Object.freeze([
     field: 'metaData.referencedMembers',
     valueFormatter: membersFormatter,
   },
+<<<<<<< HEAD
   {
     headerName: 'Editors',
     field: 'metaData.access.editableBy',
@@ -184,4 +185,6 @@ export const notesColumnDefs = Object.freeze([
     field: 'metaData.access.viewableBy',
     valueFormatter: membersFormatter,
   },
+=======
+>>>>>>> origin/main
 ]);
