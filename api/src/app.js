@@ -8,7 +8,7 @@ const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const csrf = require('csurf');
+// const csrf = require('csurf');
 const apiRoutes = require('./api');
 const { errorHandler } = require('./middleware');
 const environment = process.env.NODE_ENV || 'dev';
@@ -43,7 +43,7 @@ if (environment == 'production') {
 
 app.use(cookieSession(sessionConfig));
 app.use(cookieParser());
-app.use(csrf({ cookie: true }));
+// app.use(csrf({ cookie: true }));
 
 // Mongo setup
 require('./utils/mongo-setup');
