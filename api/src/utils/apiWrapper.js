@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const SERVICE_URL = 'https://memberdb-encrypt.vercel.app';
+const SERVICE_URL = process.env.SERVICE_URL;
 
 const encryptNote = (body) => {
   const requestString = `${SERVICE_URL}/encrypt`;

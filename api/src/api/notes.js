@@ -25,17 +25,17 @@ const memberFromId = async (ids) => {
     { _id: { $in: ids } },
     { firstName: 1, lastName: 1 },
   );
-
-  const mappedMembers = {};
+  
+  const formattedMembers = {};
   // return derived full name and id from meber
   members.forEach(
     (member) =>
-      (mappedMembers[member._id] = {
+      (formattedMembers[member._id] = {
         memberId: member._id,
         name: `${member.firstName} ${member.lastName}`,
       }),
   );
-  return mappedMembers;
+  return formattedMembers;
 };
 
 router.get(
@@ -68,17 +68,17 @@ router.get(
       ...note.metaData.referencedMembers,
     ];
     const uniqueMemberIds = [...new Set(memberIds)];
-    const mappedMembers = await memberFromId(uniqueMemberIds);
+    const formattedMembers = await memberFromId(uniqueMemberIds);
 
     // Replace all members ids with object that has id and name
     note.metaData.access.viewableBy = note.metaData.access.viewableBy.map(
-      (member) => mappedMembers[member],
+      (member) => formattedMembers[member],
     );
     note.metaData.access.editableBy = note.metaData.access.editableBy.map(
-      (member) => mappedMembers[member],
+      (member) => formattedMembers[member],
     );
     note.metaData.referencedMembers = note.metaData.referencedMembers.map(
-      (member) => mappedMembers[member],
+      (member) => formattedMembers[member],
     );
 
     if (note.encrypt) {
@@ -144,18 +144,18 @@ router.get(
       ...note.metaData.referencedMembers,
     ]);
     const uniqueMemberIds = [...new Set(memberIds)];
-    const mappedMembers = await memberFromId(uniqueMemberIds);
+    const formattedMembers = await memberFromId(uniqueMemberIds);
 
     notes.forEach((note) => {
       // Replace all members ids with object that has id and name
       note.metaData.access.viewableBy = note.metaData.access.viewableBy.map(
-        (member) => mappedMembers[member],
+        (member) => formattedMembers[member],
       );
       note.metaData.access.editableBy = note.metaData.access.editableBy.map(
-        (member) => mappedMembers[member],
+        (member) => formattedMembers[member],
       );
       note.metaData.referencedMembers = note.metaData.referencedMembers.map(
-        (member) => mappedMembers[member],
+        (member) => formattedMembers[member],
       );
     });
 
