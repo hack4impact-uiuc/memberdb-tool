@@ -15,11 +15,6 @@
   ],
   "plugins": ["flowtype", "import", "react", "react-hooks"],
   "rules": {
-<<<<<<< HEAD
-    "react/require-default-props": "off",
-    "react/forbid-prop-types": "off",
-    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-=======
     "import/no-extraneous-dependencies": "off",
     "react/require-default-props": "off",
     "react/forbid-prop-types": "off",
@@ -29,7 +24,6 @@
         "allow": ["_id"]
       }
     ],
->>>>>>> origin/main
     "import/order": [
       "warn",
       {
@@ -44,16 +38,12 @@
         "newlines-between": "always"
       }
     ],
-<<<<<<< HEAD
-    "react/jsx-filename-extension": [1, { "extensions": [".js", "jsx"] }],
-=======
     "react/jsx-filename-extension": [
       1,
       {
         "extensions": [".js", "jsx"]
       }
     ],
->>>>>>> origin/main
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
