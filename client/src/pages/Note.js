@@ -32,6 +32,7 @@ import {
   deleteNote,
   getMembers,
   getNoteLabels,
+  endUserSession,
 } from '../utils/apiWrapper';
 import { titleCaseFormatter } from '../utils/formatters';
 
@@ -123,6 +124,10 @@ function Note({ user }) {
       // data for editing an existing note
       if (noteID !== 'new') {
         const resp = await getNote(noteID);
+        if (resp.error.response.status === 403) {
+          const logout = await endUserSession();
+          if (!logout.error) return history.push('/login');
+        }
         const currentNote = resp.data.result;
         if (currentNote) {
           setNoteState(NOTE_STATE.editing);

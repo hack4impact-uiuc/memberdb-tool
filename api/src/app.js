@@ -16,10 +16,10 @@ const app = express();
 
 const limiter = new RateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 15,
+  max: 45, // Maximum number of requests per minute
 });
 
-app.use('/auth/', limiter);
+app.use(limiter);
 
 // HTTPS, CORS, bodyParser
 app.use(helmet());

@@ -89,10 +89,20 @@ router.get(
         note,
         partialEncryptionKey,
       });
+
+      if (result.error && !result.error.response)
+        return res
+          .status(500)
+          .json({ success: false, message: 'encryption service is down' });
+      if (result.error)
+        return res
+          .status(403)
+          .json({ success: false, message: 'unauthorized' });
+
       note.content = result.data.note;
 
-      if (result.newToken)
-        req.session.authedCredentials.accessToken = result.newToken;
+      if (result.data.newToken)
+        req.session.authedCredentials.accessToken = result.data.newToken;
     }
 
     res.status(200).json({
@@ -182,10 +192,20 @@ router.post(
         authedCredentials,
         note,
       });
+
+      if (!result.error.response)
+        return res
+          .status(500)
+          .json({ success: false, message: 'encryption service is down' });
+      if (result.error)
+        return res
+          .status(403)
+          .json({ success: false, message: 'unauthorized' });
+
       data.content = result.data.note;
 
-      if (result.newToken)
-        req.session.authedCredentials.accessToken = result.newToken;
+      if (result.data.newToken)
+        req.session.authedCredentials.accessToken = result.data.newToken;
     }
 
     const note = await Note.create(req.body);
@@ -225,6 +245,16 @@ router.put(
           authedCredentials,
           note,
         });
+
+        if (!result.error.response)
+          return res
+            .status(500)
+            .json({ success: false, message: 'encryption service is down' });
+        if (result.error)
+          return res
+            .status(403)
+            .json({ success: false, message: 'unauthorized' });
+
         data.content = result.data.note;
         if (result.data.newToken)
           req.session.authedCredentials.accessToken = result.data.newToken;
