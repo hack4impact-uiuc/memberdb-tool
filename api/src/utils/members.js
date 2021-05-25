@@ -74,15 +74,6 @@ const validateField = (field, value, validatingFields) => {
   return true;
 };
 
-// Generates encryption passwords as a combination of the unique oauthID and UIN
-const generateEncryptionPasswords = async (memberIds, db) => {
-  const members = await Member.find({ _id: { $in: memberIds } });
-  const encryptionPasswords = members.map(
-    (member) => member.oauthID + member.UIN,
-  );
-  return encryptionPasswords;
-};
-
 module.exports = {
   allFields,
   getEditableFields,
@@ -90,6 +81,5 @@ module.exports = {
   filterViewableFields,
   validateField,
   validationFields,
-  generateEncryptionPasswords,
   errorMessages,
 };
