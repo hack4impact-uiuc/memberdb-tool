@@ -12,7 +12,7 @@ const {
   validateEditability,
   validateReqParams,
 } = require('../middleware/notes');
-const { encryptNote, decryptNote } = require('../utils/notes');
+const { encryptNote, decryptNote } = require('../utils/apiWrapper');
 
 /**
  * returns member names and ids from valid received ids
@@ -21,20 +21,21 @@ const { encryptNote, decryptNote } = require('../utils/notes');
  * @returns {Array<Object>}
  */
 const memberFromId = async (ids) => {
-  const memberPromises = ids
-    // filters out invalid ids
-    .filter((id) => !!id)
-    // creates promises for each valid id
-    .map((memberId) => Member.findById(memberId));
+  const members = await Member.find(
+    { _id: { $in: ids } },
+    { firstName: 1, lastName: 1 },
+  );
 
-  // get member data
-  const members = await Promise.all(memberPromises);
-
+  const formattedMembers = {};
   // return derived full name and id from meber
-  return members.map((member) => ({
-    memberId: member._id,
-    name: `${member.firstName} ${member.lastName}`,
-  }));
+  members.forEach(
+    (member) =>
+      (formattedMembers[member._id] = {
+        memberId: member._id,
+        name: `${member.firstName} ${member.lastName}`,
+      }),
+  );
+  return formattedMembers;
 };
 
 router.get(
@@ -61,28 +62,47 @@ router.get(
       ],
     }).lean();
 
+    const memberIds = [
+      ...note.metaData.access.viewableBy,
+      ...note.metaData.access.editableBy,
+      ...note.metaData.referencedMembers,
+    ];
+    const uniqueMemberIds = [...new Set(memberIds)];
+    const formattedMembers = await memberFromId(uniqueMemberIds);
+
     // Replace all members ids with object that has id and name
-    note['metaData']['access']['viewableBy'] = await memberFromId(
-      note['metaData']['access']['viewableBy'],
+    note.metaData.access.viewableBy = note.metaData.access.viewableBy.map(
+      (member) => formattedMembers[member],
     );
-    note['metaData']['access']['editableBy'] = await memberFromId(
-      note['metaData']['access']['editableBy'],
+    note.metaData.access.editableBy = note.metaData.access.editableBy.map(
+      (member) => formattedMembers[member],
     );
-    note['metaData']['referencedMembers'] = await memberFromId(
-      note['metaData']['referencedMembers'],
+    note.metaData.referencedMembers = note.metaData.referencedMembers.map(
+      (member) => formattedMembers[member],
     );
 
     if (note.encrypt) {
-      const encryptionKey = req.user.oauthID + req.user.UIN;
+      const partialEncryptionKey = req.user.oauthID + req.user.UIN;
+      const authedCredentials = req.session.authedCredentials;
+      const result = await decryptNote({
+        authedCredentials,
+        note,
+        partialEncryptionKey,
+      });
 
-      try {
-        note.content = await decryptNote(note.content, encryptionKey);
-      } catch (err) {
-        return res.status(403).json({
-          success: false,
-          message: 'Unauthorized',
-        });
-      }
+      if (result.error && !result.error.response)
+        return res
+          .status(500)
+          .json({ success: false, message: 'encryption service is down' });
+      if (result.error)
+        return res
+          .status(403)
+          .json({ success: false, message: 'unauthorized' });
+
+      note.content = result.data.note;
+
+      if (result.data.newToken)
+        req.session.authedCredentials.accessToken = result.data.newToken;
     }
 
     res.status(200).json({
@@ -96,7 +116,6 @@ router.get(
   '/',
   requireRegistered,
   errorWrap(async (req, res) => {
-    const output_notes = [];
     const filter = {
       'metaData.title': 1,
       'metaData.labels': 1,
@@ -119,24 +138,30 @@ router.get(
       filter,
     ).lean();
 
-    for (let note of notes) {
-      // Replace all members ids with object that has id and name
-      note['metaData']['access']['viewableBy'] = await memberFromId(
-        note['metaData']['access']['viewableBy'],
-      );
-      note['metaData']['access']['editableBy'] = await memberFromId(
-        note['metaData']['access']['editableBy'],
-      );
-      note['metaData']['referencedMembers'] = await memberFromId(
-        note['metaData']['referencedMembers'],
-      );
+    const memberIds = notes.flatMap((note) => [
+      ...note.metaData.access.viewableBy,
+      ...note.metaData.access.editableBy,
+      ...note.metaData.referencedMembers,
+    ]);
+    const uniqueMemberIds = [...new Set(memberIds)];
+    const formattedMembers = await memberFromId(uniqueMemberIds);
 
-      output_notes.push(note);
-    }
+    notes.forEach((note) => {
+      // Replace all members ids with object that has id and name
+      note.metaData.access.viewableBy = note.metaData.access.viewableBy.map(
+        (member) => formattedMembers[member],
+      );
+      note.metaData.access.editableBy = note.metaData.access.editableBy.map(
+        (member) => formattedMembers[member],
+      );
+      note.metaData.referencedMembers = note.metaData.referencedMembers.map(
+        (member) => formattedMembers[member],
+      );
+    });
 
     res.status(200).json({
       success: true,
-      result: output_notes,
+      result: notes,
     });
   }),
 );
@@ -161,7 +186,26 @@ router.post(
     req.body.metaData.access.editableBy.push(memberID.toString());
 
     if (req.body.encrypt) {
-      req.body.content = await encryptNote(req.body);
+      const authedCredentials = req.session.authedCredentials;
+      const note = req.body;
+      const result = await encryptNote({
+        authedCredentials,
+        note,
+      });
+
+      if (!result.error.response)
+        return res
+          .status(500)
+          .json({ success: false, message: 'encryption service is down' });
+      if (result.error)
+        return res
+          .status(403)
+          .json({ success: false, message: 'unauthorized' });
+
+      data.content = result.data.note;
+
+      if (result.data.newToken)
+        req.session.authedCredentials.accessToken = result.data.newToken;
     }
 
     const note = await Note.create(req.body);
@@ -195,7 +239,25 @@ router.put(
 
       data.metaData.versionHistory = currentVersionHistory;
       if (req.body.encrypt) {
-        data.content = await encryptNote(req.body);
+        const authedCredentials = req.session.authedCredentials;
+        const note = req.body;
+        const result = await encryptNote({
+          authedCredentials,
+          note,
+        });
+
+        if (!result.error.response)
+          return res
+            .status(500)
+            .json({ success: false, message: 'encryption service is down' });
+        if (result.error)
+          return res
+            .status(403)
+            .json({ success: false, message: 'unauthorized' });
+
+        data.content = result.data.note;
+        if (result.data.newToken)
+          req.session.authedCredentials.accessToken = result.data.newToken;
       }
 
       const updatedNote = await Note.findByIdAndUpdate(

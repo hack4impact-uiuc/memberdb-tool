@@ -23,10 +23,19 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.OAUTH_CALLBACK_URI,
+      passReqToCallback: true,
     },
-    async (accessToken, refreshToken, profile, cb) => {
+    async (req, accessToken, refreshToken, profile, cb) => {
       // find the user in the database based on their oauth id
       const user = await Member.findOne({ oauthID: profile.id });
+
+      // Set the user's tokens
+      req.session.authedCredentials = {
+        accessToken,
+        refreshToken,
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      };
 
       if (user) {
         // user exists

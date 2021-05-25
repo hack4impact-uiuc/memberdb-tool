@@ -5,7 +5,8 @@
     "GOOGLE_CLIENT_ID": "@memberdb_tool_google_client_id",
     "GOOGLE_CLIENT_SECRET": "@memberdb_tool_google_client_secret",
     "SESSION_SECRET": "@memberdb_tool_session_secret",
-    "OAUTH_CALLBACK_URI": "https://memberdb-tool.vercel.app/api/auth/redirectURI"
+    "OAUTH_CALLBACK_URI": "https://memberdb-tool.vercel.app/api/auth/redirectURI",
+    "SERVICE_URL": "@memberdb_tool_service_url"
   },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },

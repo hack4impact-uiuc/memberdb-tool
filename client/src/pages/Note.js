@@ -32,6 +32,7 @@ import {
   deleteNote,
   getMembers,
   getNoteLabels,
+  endUserSession,
 } from '../utils/apiWrapper';
 import { titleCaseFormatter } from '../utils/formatters';
 
@@ -123,6 +124,10 @@ function Note({ user }) {
       // data for editing an existing note
       if (noteID !== 'new') {
         const resp = await getNote(noteID);
+        if (resp.error && resp.error.response.status === 403) {
+          const logout = await endUserSession();
+          if (!logout.error) history.push('/login');
+        }
         const currentNote = resp.data.result;
         if (currentNote) {
           setNoteState(NOTE_STATE.editing);
@@ -189,7 +194,7 @@ function Note({ user }) {
       setAllNoteLabels(cleanedNoteLabels);
     };
     init();
-  }, [noteID, user]);
+  }, [noteID, user, history]);
 
   /**
    * handles shortcuts to format rich text
