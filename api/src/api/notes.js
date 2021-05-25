@@ -25,7 +25,7 @@ const memberFromId = async (ids) => {
     { _id: { $in: ids } },
     { firstName: 1, lastName: 1 },
   );
-  
+
   const formattedMembers = {};
   // return derived full name and id from meber
   members.forEach(
