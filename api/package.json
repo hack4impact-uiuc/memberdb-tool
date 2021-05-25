@@ -12,6 +12,7 @@
     "test": "jest --setupFiles dotenv/config"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",

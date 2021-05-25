@@ -25,6 +25,8 @@ router.get('/login', (req, res, next) => {
   const auth = passport.authenticate('google', {
     scope: ['profile', 'email'],
     state: Buffer.from(JSON.stringify(state)).toString('base64'),
+    prompt: 'consent',
+    accessType: 'offline',
   });
   auth(req, res, next);
 });
