@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Note from './pages/Note';
 import Notes from './pages/Notes';
 import Navbar from './components/navbar/Navbar';
-import PrivateRoute from './components/routes/PrivateRoute'
+import PrivateRoute from './components/routes/PrivateRoute';
 import { getUserAuth } from './utils/apiWrapper';
 
 function App() {
@@ -43,9 +43,21 @@ function App() {
             </Route>
           </Switch>
         </Route>
-        <PrivateRoute path={Routes.NOTE_PAGE} authed={user !== null} component={<Note user={user} />} />
-        <PrivateRoute path={Routes.NOTES} authed={user !== null} component={<Notes />} />
-        <PrivateRoute path={Routes.DEFAULT} authed={user !== null} component={<Home user={user} />} />
+        <PrivateRoute
+          path={Routes.NOTE_PAGE}
+          authed={user !== null}
+          component={<Note user={user} />}
+        />
+        <PrivateRoute
+          path={Routes.NOTES}
+          authed={user !== null}
+          component={<Notes />}
+        />
+        <PrivateRoute
+          path={Routes.DEFAULT}
+          authed={user !== null}
+          component={<Home user={user} />}
+        />
       </Switch>
     </div>
   );
