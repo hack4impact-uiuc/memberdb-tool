@@ -13,8 +13,8 @@ const PrivateRoute = ({ path, authed, component }) =>
 
 PrivateRoute.propTypes = {
   path: PropTypes.string.isRequired,
-  authed: Boolean.isRequired,
-  component: React.Component.isRequired,
+  authed: PropTypes.bool.isRequired,
+  component: PropTypes.object.isRequired,
 };
 
 export default PrivateRoute;
