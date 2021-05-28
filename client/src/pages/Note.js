@@ -127,6 +127,7 @@ function Note({ user }) {
         if (resp.error && resp.error.response.status === 403) {
           const logout = await endUserSession();
           if (!logout.error) history.push('/login');
+          return;
         }
         const currentNote = resp.data.result;
         if (currentNote) {
