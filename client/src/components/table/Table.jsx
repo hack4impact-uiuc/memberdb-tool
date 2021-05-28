@@ -1,12 +1,19 @@
+// @flow
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
 
 import '../../css/Table.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-const Table = ({ data, columns, onRowClick, sizeToFit }) => {
+type TableProp = {
+  data: Array<Object>,
+  columns: Array<Object>,
+  onRowClick: Function,
+  sizeToFit?: boolean,
+};
+
+const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp) => {
   const [entries, setEntries] = useState([]);
 
   const onGridReady = (params) => sizeToFit && params.api.sizeColumnsToFit();
@@ -37,13 +44,6 @@ const Table = ({ data, columns, onRowClick, sizeToFit }) => {
       />
     </div>
   );
-};
-
-Table.propTypes = {
-  data: PropTypes.array,
-  columns: PropTypes.array,
-  onRowClick: PropTypes.func,
-  sizeToFit: PropTypes.bool,
 };
 
 export default Table;

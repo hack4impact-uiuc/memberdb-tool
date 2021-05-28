@@ -1,6 +1,15 @@
 // @flow
 import React from 'react';
+
 import EnumAttribute from './EnumAttribute';
+
+type BooleanAttributeProps = {
+  value: string,
+  attributeLabel: string,
+  isDisabled: Function,
+  className: string,
+  onChange: Function,
+};
 
 const BooleanAttribute = ({
   value = '',
@@ -24,14 +33,6 @@ const BooleanAttribute = ({
       onChange={onChange}
     />
   );
-};
-
-type BooleanAttributeProps = {
-  value: string,
-  attributeLabel: string,
-  isDisabled: boolean,
-  className: string,
-  onChange: function,
 };
 
 export default BooleanAttribute;

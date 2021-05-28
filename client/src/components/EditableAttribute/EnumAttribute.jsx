@@ -6,6 +6,15 @@ import { startCase } from 'lodash';
 
 const defaultDropdownOption = { label: '', value: '' };
 
+type EnumAttributeProp = {
+  value: string,
+  valueOptions: Array<Object>,
+  attributeLabel: string,
+  isDisabled: boolean,
+  className: string,
+  onChange: Function,
+};
+
 const EnumAttribute = ({
   value = defaultDropdownOption.value,
   valueOptions = [],
@@ -36,15 +45,6 @@ const EnumAttribute = ({
       />
     </div>
   );
-};
-
-type EnumAttributeProp = {
-  value: string,
-  valueOptions: Array<Object>,
-  attributeLabel: string,
-  isDisabled: boolean,
-  className: string,
-  onChange: function,
 };
 
 export default EnumAttribute;

@@ -59,6 +59,11 @@ const SUBMIT_STATE = Object.freeze({
   success: 'success',
 });
 
+type DisplayListProps = {
+  subList: Array<any>,
+  parentList: Array<any>,
+};
+
 /**
  * Helper component to render a comma separated list
  * with the interface as the dropdown menu for view-only
@@ -81,9 +86,11 @@ const DisplayList = ({ subList, parentList }: DisplayListProps) => (
   </p>
 );
 
-type DisplayListProps = {
-  subList: Array<any>,
-  parentList: Array<any>,
+type NoteProps = {
+  user: {
+    _id: string,
+    firstName: string,
+  },
 };
 
 function Note({ user }: NoteProps): Node {
@@ -497,12 +504,5 @@ function Note({ user }: NoteProps): Node {
       );
   }
 }
-
-type NoteProps = {
-  user: {
-    _id: string,
-    firstName: string,
-  },
-};
 
 export default Note;

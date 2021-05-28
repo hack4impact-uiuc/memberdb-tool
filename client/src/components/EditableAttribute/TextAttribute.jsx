@@ -4,6 +4,16 @@ import type { Node } from 'react';
 import { startCase } from 'lodash';
 import { Form } from 'semantic-ui-react';
 
+type TextAttributeProp = {
+  value: string | number,
+  type: string,
+  attributeLabel: string,
+  isDisabled: boolean,
+  isRequired: boolean,
+  className: string,
+  onChange: Function,
+};
+
 const TextAttribute = ({
   type = 'text',
   value = '',
@@ -29,16 +39,6 @@ const TextAttribute = ({
       />
     </div>
   );
-};
-
-type TextAttributeProp = {
-  value: string | number,
-  type: string,
-  attributeLabel: string,
-  isDisabled: boolean,
-  isRequired: boolean,
-  className: string,
-  onChange: function,
 };
 
 export default TextAttribute;

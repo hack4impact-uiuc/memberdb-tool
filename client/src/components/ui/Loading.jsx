@@ -1,8 +1,12 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
-function Loading({ height }) {
+type LoadingProp = {
+  height: number,
+};
+
+function Loading({ height }: LoadingProp) {
   return (
     <div
       style={{
@@ -18,9 +22,5 @@ function Loading({ height }) {
     </div>
   );
 }
-
-Loading.propTypes = {
-  height: PropTypes.number,
-};
 
 export default Loading;

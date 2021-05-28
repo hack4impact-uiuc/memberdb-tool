@@ -1,6 +1,13 @@
+// @flow
 import React from 'react';
 import type { Node } from 'react';
 import '../../css/Page.css';
+
+type PageProp = {
+  title: any,
+  children: any,
+  menuItems?: any,
+};
 
 /**
  * Layout for a page
@@ -19,11 +26,5 @@ function Page({ title, children, menuItems }: PageProp): Node {
     </div>
   );
 }
-
-type PageProp = {
-  title: any,
-  children: any,
-  menuItems: any,
-};
 
 export default Page;

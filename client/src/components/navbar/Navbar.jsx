@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -5,6 +6,16 @@ import '../../css/Navbar.css';
 import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
 import { levelEnum } from '../../utils/consts';
 import * as Routes from '../../routes';
+
+type NavbarProp = {
+  user: {
+    _id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    level: string,
+  },
+};
 
 /**
  * Navbar display to view user sesion and React-route-dom navigation
@@ -35,9 +46,5 @@ const Navbar = ({ user }: NavbarProp) => (
     </ul>
   </nav>
 );
-
-type NavbarProp = {
-  user: Array<Object>,
-};
 
 export default Navbar;
