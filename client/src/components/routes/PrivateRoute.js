@@ -6,7 +6,7 @@ import * as Routes from '../../routes';
 
 const PrivateRoute = ({ path, authed, component }) =>
   authed ? (
-    <Route path={path} exact component={component} />
+    <Route path={path}>{component}</Route>
   ) : (
     <Redirect to={Routes.LOGIN_PAGE} />
   );
