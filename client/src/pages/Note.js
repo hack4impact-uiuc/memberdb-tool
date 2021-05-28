@@ -116,6 +116,8 @@ function Note({ user }) {
   const [members, setMembers] = useState([]);
   const [allNoteLabels, setAllNoteLabels] = useState([]);
 
+  const [isFetching, setIsFetching] = useState(false);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -235,6 +237,8 @@ function Note({ user }) {
       return;
     }
 
+    setIsFetching(true);
+
     // check if this note has a valid title, at least one referenced member,
     // and a valid editor state
     if (
@@ -265,6 +269,7 @@ function Note({ user }) {
     )
       .then((res) => {
         setSubmitState(SUBMIT_STATE.success);
+        setIsFetching(false);
         return res;
       })
       .then(
@@ -465,7 +470,12 @@ function Note({ user }) {
                   </Card.Content>
                 </Card>
                 {isEditable && (
-                  <Button primary fluid onClick={submitNote}>
+                  <Button
+                    primary
+                    fluid
+                    onClick={submitNote}
+                    disabled={isFetching}
+                  >
                     {noteState === NOTE_STATE.editing ? 'Update' : 'Create'}{' '}
                     Note
                   </Button>

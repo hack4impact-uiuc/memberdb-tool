@@ -191,7 +191,7 @@ router.post(
         note,
       });
 
-      if (!result.error.response)
+      if (result.error && !result.error.response)
         return res
           .status(500)
           .json({ success: false, message: 'encryption service is down' });
@@ -200,7 +200,7 @@ router.post(
           .status(403)
           .json({ success: false, message: 'unauthorized' });
 
-      data.content = result.data.note;
+      req.body.content = result.data.note;
 
       if (result.data.newToken)
         authedCredentials.accessToken = result.data.newToken;
@@ -244,7 +244,7 @@ router.put(
           note,
         });
 
-        if (!result.error.response)
+        if (result.error && !result.error.response)
           return res
             .status(500)
             .json({ success: false, message: 'encryption service is down' });
