@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import type { Node } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Header, Icon, Image, Message } from 'semantic-ui-react';
 
@@ -21,7 +22,7 @@ function useQuery() {
 /**
  * Displays the login page over everything else
  */
-const Login = () => {
+const Login = (): Node => {
   const didLoginFail = useQuery().get(LOGIN_FAILURE_QUERY_PARAM);
 
   return (

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import type { Node } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 import '../../css/Navbar.css';
@@ -21,7 +22,7 @@ type NavbarProp = {
  * Navbar display to view user sesion and React-route-dom navigation
  * @param {Object} user the current user of the session
  */
-const Navbar = ({ user }: NavbarProp) => (
+const Navbar = ({ user }: NavbarProp): Node => (
   <nav>
     <h2 id="nav-title">
       <Link className="nav-link" to={Routes.DEFAULT}>

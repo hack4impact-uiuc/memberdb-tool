@@ -1,5 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import type { Node } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import '../../css/Table.css';
@@ -13,7 +14,7 @@ type TableProp = {
   sizeToFit?: boolean,
 };
 
-const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp) => {
+const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp): Node => {
   const [entries, setEntries] = useState([]);
 
   const onGridReady = (params) => sizeToFit && params.api.sizeColumnsToFit();

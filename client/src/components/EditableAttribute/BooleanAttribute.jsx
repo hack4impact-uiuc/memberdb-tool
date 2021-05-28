@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import type { Node } from 'react';
 
 import EnumAttribute from './EnumAttribute';
 
@@ -17,7 +18,7 @@ const BooleanAttribute = ({
   isDisabled = false,
   className = '',
   onChange,
-}: BooleanAttributeProps) => {
+}: BooleanAttributeProps): Node => {
   const VALUE_OPTIONS = [
     { label: 'Yes', value: 'true' },
     { label: 'No', value: 'false' },

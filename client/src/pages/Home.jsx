@@ -1,5 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import type { Node } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Page from '../components/layout/Page';
@@ -9,7 +10,7 @@ import { getMembers } from '../utils/apiWrapper';
 
 import '../css/Home.css';
 
-const Home = () => {
+const Home = (): Node => {
   const [members, setMembers] = useState([]);
 
   const history = useHistory();

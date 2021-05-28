@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import type { Node } from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import '../../css/Note.css';
 
@@ -56,7 +57,7 @@ type EditorToolbarProps = {
 function EditorToolbar({
   handleRichStyle,
   handleBlockType,
-}: EditorToolbarProps) {
+}: EditorToolbarProps): Node {
   return (
     <div className="editor-toolbar">
       {TOOLBAR_BLOCKS.map((group) => (

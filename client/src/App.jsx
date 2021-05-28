@@ -11,7 +11,7 @@ import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/routes/PrivateRoute';
 import { getUserAuth } from './utils/apiWrapper';
 
-function App() {
+const App = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
@@ -61,6 +61,6 @@ function App() {
       </Switch>
     </div>
   );
-}
+};
 
 export default App;

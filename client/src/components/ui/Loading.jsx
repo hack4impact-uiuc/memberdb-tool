@@ -1,12 +1,13 @@
 // @flow
 import React from 'react';
+import type { Node } from 'react';
 import { Icon } from 'semantic-ui-react';
 
 type LoadingProp = {
   height: number,
 };
 
-function Loading({ height }: LoadingProp) {
+function Loading({ height }: LoadingProp): Node {
   return (
     <div
       style={{

@@ -93,7 +93,7 @@ type NoteProps = {
   },
 };
 
-function Note({ user }: NoteProps): Node {
+const Note = ({ user }: NoteProps): Node => {
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
   const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
 
@@ -503,6 +503,6 @@ function Note({ user }: NoteProps): Node {
         </Page>
       );
   }
-}
+};
 
 export default Note;

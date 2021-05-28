@@ -1,5 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import type { Node } from 'react';
 import '../../css/ProfileDropdown.css';
 import { Redirect } from 'react-router-dom';
 
@@ -17,7 +18,7 @@ type ProfileDropdownProp = {
  * Displays the Profile icon in the navbar + dropdown components for logout and viewing profile
  * @param {Object} user the current user of the session
  */
-const ProfileDropdown = ({ user }: ProfileDropdownProp) => {
+const ProfileDropdown = ({ user }: ProfileDropdownProp): Node => {
   const [redirectToMemberPage, setRedirectToMemberPage] = useState(false);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
