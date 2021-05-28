@@ -87,7 +87,6 @@ type DisplayListProps = {
 };
 
 function Note({ user }: NoteProps): Node {
-  // note state
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
   const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
 

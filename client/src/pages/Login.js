@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Header, Icon, Image, Message } from 'semantic-ui-react';
@@ -27,7 +28,7 @@ const Login = () => {
     <div className="login-wrapper">
       <div className="login-card">
         <h2>Member Database Login</h2>
-        {didLoginFail && (
+        {didLoginFail !== null && didLoginFail !== undefined && (
           <Message color="red">
             <Header as="h4">
               <Icon name="warning circle" />

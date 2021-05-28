@@ -1,5 +1,6 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import DatePicker from 'react-datepicker';
 import { startCase } from 'lodash';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,7 +13,7 @@ const DateAttribute = ({
   className = '',
   onChange,
   isRequired = false,
-}) => {
+}: DateAttributeProps): Node => {
   const onValueChange = (date) => {
     onChange(date, attributeLabel);
   };
@@ -31,13 +32,13 @@ const DateAttribute = ({
   );
 };
 
-DateAttribute.propTypes = {
-  value: PropTypes.number,
-  attributeLabel: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  className: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  isRequired: PropTypes.bool,
+type DateAttributeProps = {
+  value: number,
+  attributeLabel: string,
+  isDisabled: boolean,
+  className: string,
+  onChange: function,
+  isRequired: boolean,
 };
 
 export default DateAttribute;

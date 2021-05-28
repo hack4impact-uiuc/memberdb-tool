@@ -11,6 +11,7 @@ untyped-import=off
 
 [options]
 include_warnings=true
+esproposal.optional_chaining=enable
 
 [strict]
 

@@ -1,6 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import EnumAttribute from './EnumAttribute';
 
 const BooleanAttribute = ({
@@ -9,7 +8,7 @@ const BooleanAttribute = ({
   isDisabled = false,
   className = '',
   onChange,
-}) => {
+}: BooleanAttributeProps) => {
   const VALUE_OPTIONS = [
     { label: 'Yes', value: 'true' },
     { label: 'No', value: 'false' },
@@ -27,12 +26,12 @@ const BooleanAttribute = ({
   );
 };
 
-BooleanAttribute.propTypes = {
-  value: PropTypes.bool,
-  attributeLabel: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  className: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+type BooleanAttributeProps = {
+  value: string,
+  attributeLabel: string,
+  isDisabled: boolean,
+  className: string,
+  onChange: function,
 };
 
 export default BooleanAttribute;
