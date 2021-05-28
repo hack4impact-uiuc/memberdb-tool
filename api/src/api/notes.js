@@ -82,12 +82,10 @@ router.get(
     );
 
     if (note.encrypt) {
-      const partialEncryptionKey = req.user.oauthID + req.user.UIN;
-      const authedCredentials = req.session.authedCredentials;
+      const { authedCredentials } = req.session;
       const result = await decryptNote({
         authedCredentials,
         note,
-        partialEncryptionKey,
       });
 
       if (result.error && !result.error.response)
@@ -102,7 +100,7 @@ router.get(
       note.content = result.data.note;
 
       if (result.data.newToken)
-        req.session.authedCredentials.accessToken = result.data.newToken;
+        authedCredentials.accessToken = result.data.newToken;
     }
 
     res.status(200).json({
@@ -186,7 +184,7 @@ router.post(
     req.body.metaData.access.editableBy.push(memberID.toString());
 
     if (req.body.encrypt) {
-      const authedCredentials = req.session.authedCredentials;
+      const { authedCredentials } = req.session;
       const note = req.body;
       const result = await encryptNote({
         authedCredentials,
@@ -205,7 +203,7 @@ router.post(
       data.content = result.data.note;
 
       if (result.data.newToken)
-        req.session.authedCredentials.accessToken = result.data.newToken;
+        authedCredentials.accessToken = result.data.newToken;
     }
 
     const note = await Note.create(req.body);
@@ -239,7 +237,7 @@ router.put(
 
       data.metaData.versionHistory = currentVersionHistory;
       if (req.body.encrypt) {
-        const authedCredentials = req.session.authedCredentials;
+        const { authedCredentials } = req.session;
         const note = req.body;
         const result = await encryptNote({
           authedCredentials,
@@ -257,7 +255,7 @@ router.put(
 
         data.content = result.data.note;
         if (result.data.newToken)
-          req.session.authedCredentials.accessToken = result.data.newToken;
+          authedCredentials.accessToken = result.data.newToken;
       }
 
       const updatedNote = await Note.findByIdAndUpdate(
