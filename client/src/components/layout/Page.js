@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import '../../css/Page.css';
 
 /**
@@ -8,7 +8,7 @@ import '../../css/Page.css';
  * @param {*} props
  * @returns
  */
-function Page({ title, children, menuItems }) {
+function Page({ title, children, menuItems }: PageProp): Node {
   return (
     <div className="page-wrapper">
       <header>
@@ -20,10 +20,10 @@ function Page({ title, children, menuItems }) {
   );
 }
 
-Page.propTypes = {
-  title: PropTypes.any,
-  children: PropTypes.any,
-  menuItems: PropTypes.any,
+type PageProp = {
+  title: any,
+  children: any,
+  menuItems: any,
 };
 
 export default Page;
