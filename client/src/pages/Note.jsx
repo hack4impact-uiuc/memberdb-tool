@@ -1,5 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import type { Node } from 'react';
 import {
   Editor,
   EditorState,
@@ -19,7 +20,6 @@ import {
   Checkbox,
 } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
-import PropTypes from 'prop-types';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 
 import EditorToolbar from '../components/notes/EditorToolbar';
@@ -59,6 +59,11 @@ const SUBMIT_STATE = Object.freeze({
   success: 'success',
 });
 
+type DisplayListProps = {
+  subList: Array<any>,
+  parentList: Array<any>,
+};
+
 /**
  * Helper component to render a comma separated list
  * with the interface as the dropdown menu for view-only
@@ -67,7 +72,7 @@ const SUBMIT_STATE = Object.freeze({
  * @param {*} props
  * @returns
  */
-const DisplayList = ({ subList, parentList }) => (
+const DisplayList = ({ subList, parentList }: DisplayListProps) => (
   <p style={{ color: 'grey', fontWeight: 'normal' }}>
     {
       // TODO: Remove inline styles in favor of external CSS
@@ -75,19 +80,21 @@ const DisplayList = ({ subList, parentList }) => (
     {subList
       .map((id) => {
         const idx = parentList.findIndex((m) => m.value === id);
-        return parentList?.[idx]?.text;
+        if (idx !== -1) return parentList[idx].text;
+        return null;
       })
       .join(', ')}
   </p>
 );
 
-DisplayList.propTypes = {
-  subList: PropTypes.array,
-  parentList: PropTypes.array,
+type NoteProps = {
+  user: {
+    _id: string,
+    firstName: string,
+  },
 };
 
-function Note({ user }) {
-  // note state
+const Note = ({ user }: NoteProps): Node => {
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
   const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
 
@@ -158,7 +165,7 @@ function Note({ user }) {
 
           // check if current user is in editor list
           if (
-            currentEditableBy.findIndex((m) => m.memberId === user?._id) > -1
+            currentEditableBy.findIndex((m) => m.memberId === user._id) > -1
           ) {
             setIsEditable(true);
           }
@@ -497,13 +504,6 @@ function Note({ user }) {
         </Page>
       );
   }
-}
-
-Note.propTypes = {
-  user: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    firstName: PropTypes.string,
-  }).isRequired,
 };
 
 export default Note;

@@ -1,20 +1,21 @@
+// @flow
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import * as Routes from '../../routes';
 
-const PrivateRoute = ({ path, authed, component }) =>
+type PrivateRouteProp = {
+  path: string,
+  authed: boolean,
+  component: Object,
+};
+
+const PrivateRoute = ({ path, authed, component }: PrivateRouteProp): Node =>
   authed ? (
     <Route path={path}>{component}</Route>
   ) : (
     <Redirect to={Routes.LOGIN_PAGE} />
   );
-
-PrivateRoute.propTypes = {
-  path: PropTypes.string.isRequired,
-  authed: PropTypes.bool.isRequired,
-  component: PropTypes.object.isRequired,
-};
 
 export default PrivateRoute;

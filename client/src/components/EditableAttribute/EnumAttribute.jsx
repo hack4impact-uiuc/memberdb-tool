@@ -1,9 +1,19 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import Select from 'react-select';
 import { startCase } from 'lodash';
 
 const defaultDropdownOption = { label: '', value: '' };
+
+type EnumAttributeProp = {
+  value: string,
+  valueOptions: Array<Object>,
+  attributeLabel: string,
+  isDisabled: boolean,
+  className: string,
+  onChange: Function,
+};
 
 const EnumAttribute = ({
   value = defaultDropdownOption.value,
@@ -12,7 +22,7 @@ const EnumAttribute = ({
   isDisabled = false,
   className = '',
   onChange,
-}) => {
+}: EnumAttributeProp): Node => {
   const onValueChange = (selectedOption) => {
     onChange(selectedOption.value, attributeLabel);
   };
@@ -35,20 +45,6 @@ const EnumAttribute = ({
       />
     </div>
   );
-};
-
-EnumAttribute.propTypes = {
-  value: PropTypes.string,
-  valueOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    }),
-  ),
-  attributeLabel: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  className: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default EnumAttribute;
