@@ -80,7 +80,8 @@ const DisplayList = ({ subList, parentList }: DisplayListProps) => (
     {subList
       .map((id) => {
         const idx = parentList.findIndex((m) => m.value === id);
-        return parentList[idx].text;
+        if (idx !== -1) return parentList[idx].text;
+        return null;
       })
       .join(', ')}
   </p>
