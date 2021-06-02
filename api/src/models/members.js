@@ -26,7 +26,9 @@ const roleEnum = {
   PRODUCT_MANAGER: 'PRODUCT_MANAGER',
   PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
   DEVELOPER: 'SOFTWARE_DEVELOPER',
-  ACADEMY_MEMBER: 'ACADEMY_MEMBER'
+  ACADEMY_MEMBER: 'ACADEMY_MEMBER',
+  DIRECTOR_OF_FINANCE: "DIRECTOR_OF_FINANCE",
+  DIRECTOR_OF_OPERATIONS: "DIRECTOR_OF_OPERATIONS"
 };
 
 const chapterEnum = {
@@ -38,6 +40,10 @@ const chapterEnum = {
   CALIFORNIA_POLYTECHNIC_STATE_UNIVERSITY: "California Polytechnic State University",
   MCGILL_UNIVERSITY: "McGill University",
   UNIVERSITY_OF_MARYLAND_COLLEGE_PARK: "University of Maryland, College Park",
+  UNIVERSITY_OF_TENNESSEE_KNOXVILLE: "University of Tennessee, Knoxville",
+  UNIVERSITY_OF_MICHIGAN: "University of Michigan",
+  CARLETON_COLLEGE: "Carleton College",
+  NEW_YORK_UNIVERSITY: "New York University"
 }
 
 const Member = new mongoose.Schema({
