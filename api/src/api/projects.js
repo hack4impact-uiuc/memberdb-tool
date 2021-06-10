@@ -22,5 +22,4 @@ router.delete(
             message: "Successfully deleted project"
         })
     })
-
-})
+)
