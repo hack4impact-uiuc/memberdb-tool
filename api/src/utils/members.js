@@ -74,6 +74,15 @@ const validateField = (field, value, validatingFields) => {
   return true;
 };
 
+/*
+Filter a list of Members by publiclyVisible
+@params: List of Member objects
+@return: List of Member objects that are publicly visible.
+*/
+const getConsentingMembers = (members) => {
+  return members.filter((member) => member.publiclyVisible ? true : false);
+}
+
 module.exports = {
   allFields,
   getEditableFields,
@@ -82,4 +91,5 @@ module.exports = {
   validateField,
   validationFields,
   errorMessages,
+  getConsentingMembers
 };
