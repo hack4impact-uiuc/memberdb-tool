@@ -1,7 +1,6 @@
-
 /**
-* Schema representing a H4I Chapter
-*/
+ * Schema representing a H4I Chapter
+ */
 const { Schema, model } = require('mongoose');
 const { chapterEnum } = require('./members');
 
@@ -16,7 +15,7 @@ const Chapter = new Schema({
   chapterName: {
     type: String,
     enum: Object.values(chapterEnum),
-    required: true
+    required: true,
   },
   chapterEmail: { type: String, unique: true, required: true },
   currentLeadersEmail: { type: [String], required: true },
@@ -24,7 +23,7 @@ const Chapter = new Schema({
   status: {
     type: String,
     enum: Object.values(statusEnum),
-    required: true
+    required: true,
   },
   githubUrl: String,
   notionUrl: String,
