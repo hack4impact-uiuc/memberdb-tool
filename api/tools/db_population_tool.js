@@ -5,7 +5,7 @@ dotenv.config({
 });
 
 const csv = require('csvtojson');
-const Member = require('../src/models/member');
+const Member = require('../src/models/members');
 require('../src/utils/mongo-setup');
 
 // Regex to capture each part the grad sem year column

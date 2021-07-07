@@ -2,7 +2,7 @@ const express = require('express');
 const { requireDirector } = require('../middleware/auth');
 const errorWrap = require('../middleware/errorWrap');
 const router = express.Router();
-const Project = require("../models/project");
+const Project = require("../models/projects");
 
 router.delete(
     "/:id", 

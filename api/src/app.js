@@ -13,12 +13,18 @@ const { errorHandler } = require('./middleware');
 const environment = process.env.NODE_ENV || 'dev';
 const app = express();
 
-const limiter = new RateLimit({
-  windowMs: 5 * 60 * 1000, // Set window to 5 minutes
+const generalLimiter = new RateLimit({
+  windowMs: 1 * 60 * 1000, // Set window to 1 minutes
   max: 60, // Maximum number of requests per minute
 });
 
-app.use(limiter);
+const authLimiter = new RateLimit({
+  windowMs: 1 * 60 * 1000, // Set window to 1 minutes
+  max: 15, // Maximum number of requests per minute
+});
+
+app.use(generalLimiter);
+app.use('/api/auth', authLimiter);
 
 // HTTPS, CORS, bodyParser
 app.use(helmet());

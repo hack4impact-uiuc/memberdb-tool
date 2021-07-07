@@ -80,8 +80,9 @@ Filter a list of Members by publiclyVisible
 @return: List of Member objects that are publicly visible.
 */
 const getConsentingMembers = (members) => {
-  return members.filter((member) => member.publiclyVisible ? true : false);
-}
+  return members.filter((member) => (member.publiclyVisible ? true : false));
+};
+
 
 module.exports = {
   allFields,
@@ -91,5 +92,5 @@ module.exports = {
   validateField,
   validationFields,
   errorMessages,
-  getConsentingMembers
+  getConsentingMembers,
 };

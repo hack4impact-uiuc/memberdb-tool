@@ -1,17 +1,28 @@
+// @flow
 import React from 'react';
+import type { Node } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import '../../css/Navbar.css';
 import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
 import { levelEnum } from '../../utils/consts';
 import * as Routes from '../../routes';
 
+type NavbarProp = {
+  user: {
+    _id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    level: string,
+  },
+};
+
 /**
  * Navbar display to view user sesion and React-route-dom navigation
  * @param {Object} user the current user of the session
  */
-const Navbar = ({ user }) => (
+const Navbar = ({ user }: NavbarProp): Node => (
   <nav>
     <h2 id="nav-title">
       <Link className="nav-link" to={Routes.DEFAULT}>
@@ -36,15 +47,5 @@ const Navbar = ({ user }) => (
     </ul>
   </nav>
 );
-
-Navbar.propTypes = {
-  user: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    level: PropTypes.string,
-  }).isRequired,
-};
 
 export default Navbar;

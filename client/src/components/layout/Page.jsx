@@ -1,6 +1,13 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import '../../css/Page.css';
+
+type PageProp = {
+  title: any,
+  children: any,
+  menuItems?: any,
+};
 
 /**
  * Layout for a page
@@ -8,7 +15,7 @@ import '../../css/Page.css';
  * @param {*} props
  * @returns
  */
-function Page({ title, children, menuItems }) {
+function Page({ title, children, menuItems }: PageProp): Node {
   return (
     <div className="page-wrapper">
       <header>
@@ -19,11 +26,5 @@ function Page({ title, children, menuItems }) {
     </div>
   );
 }
-
-Page.propTypes = {
-  title: PropTypes.any,
-  children: PropTypes.any,
-  menuItems: PropTypes.any,
-};
 
 export default Page;
