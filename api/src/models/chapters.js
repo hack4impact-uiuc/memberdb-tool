@@ -1,15 +1,25 @@
-const mongoose = require('mongoose');
+/**
+ * Schema representing a H4I Chapter
+ */
+const { Schema, model } = require('mongoose');
+const { chapterEnum } = require('./members');
 
 const statusEnum = {
-  INCOMING: 'INCOMING',
-  INCUBATING: 'INCUBATING',
-  MATURE: 'MATURE',
-  DISSOLVED: 'DISSOLVED',
+  INCOMING: 'Incoming',
+  INCUBATING: 'Incubating',
+  MATURE: 'Mature',
+  DISSOLVED: 'Dissolved',
 };
 
-const Chapter = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
+const Chapter = new Schema({
+  chapterName: {
+    type: String,
+    enum: Object.values(chapterEnum),
+    required: true,
+  },
+  chapterEmail: { type: String, unique: true, required: true },
+  currentLeadersEmail: { type: [String], required: true },
+  yearFounded: { type: Number, required: true },
   status: {
     type: String,
     enum: Object.values(statusEnum),

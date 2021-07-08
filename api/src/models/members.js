@@ -5,16 +5,14 @@ const mongoose = require('mongoose');
 
 const levelEnum = {
   ADMIN: 'ADMIN',
-  DIRECTOR: 'DIRECTOR',
-  LEAD: 'LEAD',
+  CHAPTER_DIRECTOR: 'CHAPTER DIRECTOR',
   MEMBER: 'MEMBER',
-  TBD: 'TBD',
 };
 
-const locationEnum = {
-  REMOTE: 'REMOTE',
-  CAMPUS: 'ON_CAMPUS',
-  TBD: 'TBD',
+const statusEnum = {
+  ACTIVE: 'ACTIVE',
+  HIATUS: 'HIATUS',
+  RETIRED: 'RETIRED',
 };
 
 const roleEnum = {
@@ -29,92 +27,69 @@ const roleEnum = {
   PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
   DEVELOPER: 'SOFTWARE_DEVELOPER',
   ACADEMY_MEMBER: 'ACADEMY_MEMBER',
-  TBD: 'TBD',
+  DIRECTOR_OF_FINANCE: 'DIRECTOR_OF_FINANCE',
+  DIRECTOR_OF_OPERATIONS: 'DIRECTOR_OF_OPERATIONS',
 };
 
-const statusEnum = {
-  ACTIVE: 'ACTIVE',
-  HIATUS: 'HIATUS',
-  RETIRED: 'RETIRED',
-  TBD: 'TBD',
-};
-
-const semesterEnum = {
-  FALL: 'FALL',
-  SPRING: 'SPRING',
-  TBD: 'TBD',
-};
-
-const classStandingEnum = {
-  FRESHMAN: 'FRESHMAN',
-  SOPHOMORE: 'SOPHOMORE',
-  JUNIOR: 'JUNIOR',
-  SPRING_SENIOR: 'SPRING_SENIOR',
-  FALL_SENIOR: 'FALL_SENIOR',
-  MASTERS: 'MASTERS',
-  PHD: 'PHD',
-  TBD: 'TBD',
+const chapterEnum = {
+  UPENN: 'University of Pennsylvania',
+  UIUC: 'University of Illinois at Urbana-Champaign',
+  GEORGIA_TECH: 'Bits of Good - Georgia Tech',
+  CORNELL_UNIVERSITY: 'Cornell University',
+  BOSTON_UNIVERSITY: 'Boston University',
+  CALIFORNIA_POLYTECHNIC_STATE_UNIVERSITY:
+    'California Polytechnic State University',
+  MCGILL_UNIVERSITY: 'McGill University',
+  UNIVERSITY_OF_MARYLAND_COLLEGE_PARK: 'University of Maryland, College Park',
+  UNIVERSITY_OF_TENNESSEE_KNOXVILLE: 'University of Tennessee, Knoxville',
+  UNIVERSITY_OF_MICHIGAN: 'University of Michigan',
+  CARLETON_COLLEGE: 'Carleton College',
+  NEW_YORK_UNIVERSITY: 'New York University',
 };
 
 const Member = new mongoose.Schema({
-  firstName: { type: String, default: null },
-  lastName: { type: String, default: null },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   oauthID: { type: String, unique: true, sparse: true },
   email: { type: String, default: null, unique: true },
-  phone: { type: String, default: null },
-  netID: { type: String, default: null },
-  UIN: { type: String, default: null },
-  major: { type: String, default: null },
-  birthdate: { type: Date, default: null },
-  github: { type: String, default: null },
-  snapchat: { type: String, default: null },
-  instagram: { type: String, default: null },
-  areDuesPaid: { type: Boolean, default: null },
-
-  gradYear: { type: Number, default: null },
-  gradSemester: {
+  chapter: {
     type: String,
-    enum: Object.values(semesterEnum),
-    default: semesterEnum.TBD,
+    enum: Object.values(chapterEnum),
+    required: true,
   },
-
-  classStanding: {
-    type: String,
-    enum: Object.values(classStandingEnum),
-    default: classStandingEnum.TBD,
-  },
-
-  generationYear: { type: Number, default: null },
-  generationSemester: {
-    type: String,
-    enum: Object.values(semesterEnum),
-    default: semesterEnum.TBD,
-  },
-
-  location: {
-    type: String,
-    enum: Object.values(locationEnum),
-    default: locationEnum.TBD,
-  },
-
   role: {
     type: String,
     enum: Object.values(roleEnum),
-    default: roleEnum.TBD,
+    required: true,
   },
-
-  level: {
-    type: String,
-    enum: Object.values(levelEnum),
-    default: levelEnum.TBD,
-  },
-
+  gradYear: { type: Number, required: true },
+  yearJoined: { type: Number, required: true },
   status: {
     type: String,
     enum: Object.values(statusEnum),
-    default: statusEnum.TBD,
+    required: true,
+  },
+  yearLeft: {
+    type: Number,
+    default: null,
+    required: function () {
+      return this.status === statusEnum.RETIRED;
+    },
+  },
+  publiclyVisible: { type: Boolean, required: true },
+  linkedin: { type: String, default: null },
+  github: { type: String, default: null },
+  level: {
+    type: String,
+    enum: Object.values(levelEnum),
+    default: levelEnum.MEMBER,
+  },
+  notes: {
+    type: String,
+    default: null,
   },
 });
 
 module.exports = mongoose.model('Member', Member);
 module.exports.levelEnum = levelEnum;
+module.exports.chapterEnum = chapterEnum;
