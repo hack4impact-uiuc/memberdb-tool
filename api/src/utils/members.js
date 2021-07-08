@@ -83,6 +83,7 @@ const getConsentingMembers = (members) => {
   return members.filter((member) => (member.publiclyVisible ? true : false));
 };
 
+
 module.exports = {
   allFields,
   getEditableFields,
