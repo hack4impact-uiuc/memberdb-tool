@@ -39,6 +39,9 @@ const Navbar = ({ user }: NavbarProp): Node => (
         <NavLink to="/">Members</NavLink>
       </li>
       <li>
+        <NavLink to="/projects">Projects</NavLink>
+      </li>
+      <li>
         <NavLink to="/notes">Notes</NavLink>
       </li>
       <li className="profile-item">
