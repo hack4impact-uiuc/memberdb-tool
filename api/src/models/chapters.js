@@ -28,8 +28,10 @@ const Chapter = new Schema({
   githubUrl: String,
   notionUrl: String,
   websiteUrl: String,
+  linkedInUrl: String,
   socialUrls: [String],
   notes: String,
+  leaders: [{ type: Schema.Types.ObjectId, ref: 'Member' }],
 });
 
 module.exports = model('Chapter', Chapter);
