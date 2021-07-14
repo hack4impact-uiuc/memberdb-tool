@@ -25,12 +25,13 @@ const Chapter = new Schema({
     enum: Object.values(statusEnum),
     required: true,
   },
-  website: { type: String, default: null },
-  linkedin: { type: String, default: null },
-  github: { type: String, default: null },
-  notion: { type: String, default: null },
-  socialUrls: { type: [String], default: null },
-  leaders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Member' }],
+  githubUrl: String,
+  notionUrl: String,
+  websiteUrl: String,
+  linkedInUrl: String,
+  socialUrls: [String],
+  notes: String,
+  leaders: [{ type: Schema.Types.ObjectId, ref: 'Member' }],
 });
 
-module.exports = mongoose.model('Chapter', Chapter);
+module.exports = model('Chapter', Chapter);
