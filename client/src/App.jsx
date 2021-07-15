@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Note from './pages/Note';
 import Notes from './pages/Notes';
+import Projects from './pages/Projects';
 import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/routes/PrivateRoute';
 import { getUserAuth } from './utils/apiWrapper';
@@ -32,6 +33,9 @@ const App = () => {
       <Switch>
         <Route exact path={Routes.LOGIN_PAGE}>
           {user ? <Redirect to={Routes.DEFAULT} /> : <Login />}
+        </Route>
+        <Route path={Routes.PROJECTS}>
+          {user ? <Projects /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
         <Route path={Routes.MEMBER_PAGE}>
           <Switch>
