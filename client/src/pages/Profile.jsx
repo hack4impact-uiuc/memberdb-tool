@@ -1,14 +1,12 @@
 // @flow
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, Redirect } from 'react-router-dom';
-import { Form, Message, Icon, Button, Card } from 'semantic-ui-react';
+import { useParams, Redirect } from 'react-router-dom';
+import { Form, Message, Icon, Button, Card, Grid } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import Page from '../components/layout/Page';
 import TextAttribute from '../components/EditableAttribute/TextAttribute';
 import EnumAttribute from '../components/EditableAttribute/EnumAttribute';
-import BooleanAttribute from '../components/EditableAttribute/BooleanAttribute';
-import DateAttribute from '../components/EditableAttribute/DateAttribute';
 import '../css/Profile.css';
 import {
   getMemberByID,
@@ -51,7 +49,7 @@ const Profile = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [enumOptions, setEnumOptions] = useState({});
-  const [schemaTypes, setSchemaTypes] = useState({});
+  // const [schemaTypes, setSchemaTypes] = useState({});
   const [userPermissions, setUserPermissions] = useState({
     view: [],
     edit: [],
@@ -88,7 +86,7 @@ const Profile = () => {
         setLocalUser(memberDataResponse.data.result);
       }
       setUserPermissions(memberPermissionResponse.data.result);
-      setSchemaTypes(memberSchemaResponse.data.result);
+      // setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
       setErrorMessage(null);
     }
@@ -98,11 +96,11 @@ const Profile = () => {
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
-  const isOfType = (attribute, type) => {
-    if (!schemaTypes || !type || !schemaTypes[type]) return false;
+  // const isOfType = (attribute, type) => {
+  //   if (!schemaTypes || !type || !schemaTypes[type]) return false;
 
-    return schemaTypes[type].includes(attribute);
-  };
+  //   return schemaTypes[type].includes(attribute);
+  // };
 
   const onAttributeChange = (value, attributeLabel) => {
     setLocalUser({
@@ -157,157 +155,281 @@ const Profile = () => {
     }
   };
 
+  // const defaultDropdownOption = { text: '', value: '' };
+
+  // const getOptionFromValue = (valueOptions = [], val) => {
+  //   const dropdownOption = valueOptions.find((option) => option.value === val);
+  //   if (dropdownOption) {
+  //     return dropdownOption;
+  //   }
+
+  //   return defaultDropdownOption;
+  // };
+
   return (
-    <Page
-      title={
-        <>
-          <Link to="/">Members</Link> / {upstreamUser.firstName}{' '}
-          {upstreamUser.lastName}
-        </>
-      }
-    >
-      {/* Redirects to the new member page immediately after creating and getting a success response */}
-      {newUserID && <Redirect to={`/member/${newUserID}`} />}
-      <Card fluid>
-        <Card.Content>
-          <Card.Header>Profile</Card.Header>
-          <Form fluid className="profile-form" onSubmit={submitChanges}>
-            <div className="form-grid">
-              {
-                // Main content
-                userPermissions.view.map((attribute) => {
-                  if (isOfType(attribute, 'Number')) {
-                    return (
-                      <TextAttribute
-                        type="number"
-                        value={localUser[attribute]}
-                        key={attribute}
-                        attributeLabel={attribute}
-                        className="attribute"
-                        onChange={onAttributeChange}
-                        isDisabled={!userPermissions.edit.includes(attribute)}
-                        isRequired={requiredFields.includes(attribute)}
-                      />
-                    );
-                  }
-
-                  if (isOfType(attribute, 'Enum')) {
-                    return (
-                      <EnumAttribute
-                        value={localUser[attribute]}
-                        valueOptions={enumOptions[attribute]}
-                        key={attribute}
-                        attributeLabel={attribute}
-                        className="attribute"
-                        onChange={onAttributeChange}
-                        isDisabled={!userPermissions.edit.includes(attribute)}
-                      />
-                    );
-                  }
-
-                  if (isOfType(attribute, 'Boolean')) {
-                    return (
-                      <BooleanAttribute
-                        value={localUser[attribute]}
-                        key={attribute}
-                        attributeLabel={attribute}
-                        className="attribute"
-                        onChange={onAttributeChange}
-                        isDisabled={!userPermissions.edit.includes(attribute)}
-                      />
-                    );
-                  }
-
-                  if (isOfType(attribute, 'Date')) {
-                    return (
-                      <DateAttribute
-                        value={Date.parse(localUser[attribute])}
-                        key={attribute}
-                        attributeLabel={attribute}
-                        onChange={onAttributeChange}
-                        className="attribute"
-                        isDisabled={!userPermissions.edit.includes(attribute)}
-                        isRequired={requiredFields.includes(attribute)}
-                      />
-                    );
-                  }
-
-                  if (isOfType(attribute, 'String')) {
-                    return (
-                      <TextAttribute
-                        type="text"
-                        value={localUser[attribute]}
-                        attributeLabel={attribute}
-                        className="attribute"
-                        key={attribute}
-                        onChange={onAttributeChange}
-                        isDisabled={!userPermissions.edit.includes(attribute)}
-                        isRequired={requiredFields.includes(attribute)}
-                      />
-                    );
-                  }
-
-                  return <div key={attribute} />;
-                })
-              }
-            </div>
-            {
-              // Message displayed upon successfully updating member
-              successMessage ? (
-                <div className="profile-alert">
-                  <Message icon big positive>
-                    <Icon name="thumbs up" />
-                    <Message.Content>
-                      <Message.Header>
-                        {newUser ? 'Create User' : 'Update'} Succeeded!
-                      </Message.Header>
-                      {successMessage}
-                    </Message.Content>
-                  </Message>
-                </div>
-              ) : (
-                <div />
-              )
-            }
-
-            {
-              // Message displayed upon receiving an error response
-              errorMessage !== null && errorMessage !== undefined ? (
-                <div className="profile-alert">
-                  <Message className="profile-alert" icon big negative>
-                    <Icon name="warning circle" />
-                    <Message.Content>
-                      <Message.Header>
-                        {newUser ? 'Create User' : 'Update'} Failed!
-                      </Message.Header>
-                      {errorMessage}
-                    </Message.Content>
-                  </Message>
-                </div>
-              ) : (
-                <div />
-              )
-            }
-
-            {userPermissions.edit.length > 0 ? (
-              <>
-                <Button
-                  size="big"
-                  id="submit-button"
-                  disabled={_.isEqual(upstreamUser, localUser)}
-                  type="large"
-                  onClick={submitChanges}
+    <div className="profile-page">
+      <Page title="Profile">
+        {/* Redirects to the new member page immediately after creating and getting a success response */}
+        {newUserID && <Redirect to={`/member/${newUserID}`} />}
+        <Card fluid raised className="profile-card">
+          <Card.Content>
+            <Card.Header style={{ marginBottom: 10 }}>
+              <h2>
+                {`${upstreamUser.firstName} ${upstreamUser.lastName}`}
+                <span
+                  style={{ fontSize: '13px', opacity: 0.8, marginLeft: '20px' }}
                 >
-                  {newUser ? 'Create User' : 'Update'}
-                </Button>
-              </>
-            ) : (
-              <div />
-            )}
-          </Form>
-        </Card.Content>
-      </Card>
-    </Page>
+                  {upstreamUser.level}
+                </span>
+              </h2>
+            </Card.Header>
+            <Form fluid className="profile-form" onSubmit={submitChanges}>
+              <Grid columns="equal">
+                <Grid.Row className="row">
+                  <Grid.Column>
+                    <TextAttribute
+                      type="text"
+                      value={localUser.firstName}
+                      key="firstName"
+                      attributeLabel="firstName"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('firstName')}
+                      isRequired={requiredFields.includes('firstName')}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <TextAttribute
+                      type="text"
+                      value={localUser.lastName}
+                      key="lastName"
+                      attributeLabel="lastName"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('lastName')}
+                      isRequired={requiredFields.includes('lastName')}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row className="row">
+                  <Grid.Column>
+                    <TextAttribute
+                      type="text"
+                      value={localUser.email}
+                      key="email"
+                      attributeLabel="email"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('email')}
+                      isRequired={requiredFields.includes('email')}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Grid columns="equal">
+                      <Grid.Column>
+                        <EnumAttribute
+                          value={localUser.gradSemester}
+                          valueOptions={enumOptions.gradSemester}
+                          key="gradSemester"
+                          attributeLabel="gradSemester"
+                          className="attribute"
+                          onChange={onAttributeChange}
+                          isDisabled={
+                            !userPermissions.edit.includes('gradSemester')
+                          }
+                        />
+                      </Grid.Column>
+                      <Grid.Column>
+                        <TextAttribute
+                          type="number"
+                          value={localUser.gradYear}
+                          key="gradYear"
+                          attributeLabel="gradYear"
+                          className="attribute"
+                          onChange={onAttributeChange}
+                          isDisabled={
+                            !userPermissions.edit.includes('gradYear')
+                          }
+                          isRequired={requiredFields.includes('gradYear')}
+                        />
+                      </Grid.Column>
+                    </Grid>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row className="row">
+                  <Grid.Column>
+                    <EnumAttribute
+                      value={localUser.chapter}
+                      valueOptions={enumOptions.chapter}
+                      key="chapter"
+                      attributeLabel="chapter"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('chapter')}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <EnumAttribute
+                      value={localUser.role}
+                      valueOptions={enumOptions.role}
+                      key="role"
+                      attributeLabel="role"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('role')}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row className="row">
+                  <Grid.Column>
+                    <EnumAttribute
+                      value={localUser.status}
+                      valueOptions={enumOptions.status}
+                      key="status"
+                      attributeLabel="status"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('status')}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Grid columns="equal">
+                      <Grid.Column>
+                        <EnumAttribute
+                          value={localUser.generationSemester}
+                          valueOptions={enumOptions.generationSemester}
+                          key="generationSemester"
+                          attributeLabel="generationSemester"
+                          className="attribute"
+                          onChange={onAttributeChange}
+                          isDisabled={
+                            !userPermissions.edit.includes('generationSemester')
+                          }
+                        />
+                      </Grid.Column>
+                      <Grid.Column>
+                        <TextAttribute
+                          type="number"
+                          value={localUser.generationYear}
+                          key="generationYear"
+                          attributeLabel="generationYear"
+                          className="attribute"
+                          onChange={onAttributeChange}
+                          isDisabled={
+                            !userPermissions.edit.includes('generationYear')
+                          }
+                          isRequired={requiredFields.includes('generationYear')}
+                        />
+                      </Grid.Column>
+                    </Grid>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row className="row">
+                  <Grid.Column>
+                    <TextAttribute
+                      type="text"
+                      value={localUser.instagram}
+                      key="instagram"
+                      attributeLabel="instagram"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('instagram')}
+                      isRequired={requiredFields.includes('instagram')}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <TextAttribute
+                      type="text"
+                      value={localUser.snapchat}
+                      key="snapchat"
+                      attributeLabel="snapchat"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('snapchat')}
+                      isRequired={requiredFields.includes('snapchat')}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <TextAttribute
+                      type="text"
+                      value={localUser.github}
+                      key="github"
+                      attributeLabel="github"
+                      className="attribute"
+                      onChange={onAttributeChange}
+                      isDisabled={!userPermissions.edit.includes('github')}
+                      isRequired={requiredFields.includes('github')}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row className="row">
+                  <Grid.Column>
+                    <Form.TextArea
+                      style={{ minHeight: 100, maxHeight: 100 }}
+                      label="NOTES"
+                      fluid
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+
+              {
+                // Message displayed upon successfully updating member
+                successMessage ? (
+                  <div className="profile-alert">
+                    <Message icon big positive>
+                      <Icon name="thumbs up" />
+                      <Message.Content>
+                        <Message.Header>
+                          {newUser ? 'Create User' : 'Update'} Succeeded!
+                        </Message.Header>
+                        {successMessage}
+                      </Message.Content>
+                    </Message>
+                  </div>
+                ) : (
+                  <div />
+                )
+              }
+
+              {
+                // Message displayed upon receiving an error response
+                errorMessage !== null && errorMessage !== undefined ? (
+                  <div className="profile-alert">
+                    <Message className="profile-alert" icon big negative>
+                      <Icon name="warning circle" />
+                      <Message.Content>
+                        <Message.Header>
+                          {newUser ? 'Create User' : 'Update'} Failed!
+                        </Message.Header>
+                        {errorMessage}
+                      </Message.Content>
+                    </Message>
+                  </div>
+                ) : (
+                  <div />
+                )
+              }
+
+              {userPermissions.edit.length > 0 ? (
+                <div id="submit-button">
+                  <Button
+                    size="big"
+                    disabled={_.isEqual(upstreamUser, localUser)}
+                    type="large"
+                    onClick={submitChanges}
+                  >
+                    {newUser ? 'Create User' : 'Update'}
+                  </Button>
+                </div>
+              ) : (
+                <div />
+              )}
+            </Form>
+          </Card.Content>
+        </Card>
+      </Page>
+    </div>
   );
 };
 

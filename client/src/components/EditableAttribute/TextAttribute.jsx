@@ -29,8 +29,9 @@ const TextAttribute = ({
 
   return (
     <div className={className}>
-      <p>{startCase(attributeLabel)}</p>
+      <p>{startCase(attributeLabel).toUpperCase()}</p>
       <Form.Input
+        size="small"
         type={type}
         value={value}
         onChange={onValueChange}
