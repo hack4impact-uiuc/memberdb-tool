@@ -7,6 +7,7 @@ import '../../css/Navbar.css';
 import ProfileDropdown from '../ProfileDropdown/ProfileDropdown';
 import { levelEnum } from '../../utils/consts';
 import * as Routes from '../../routes';
+import bannerLogo from '../../assets/banner-full-color.svg';
 
 type NavbarProp = {
   user: {
@@ -26,7 +27,10 @@ const Navbar = ({ user }: NavbarProp): Node => (
   <nav>
     <h2 id="nav-title">
       <Link className="nav-link" to={Routes.DEFAULT}>
-        H4I Member Database
+        <div className="nav-brand">
+          <img src={bannerLogo}></img>
+          Member Database
+        </div>
       </Link>
     </h2>
     <ul>

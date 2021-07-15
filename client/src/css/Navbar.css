@@ -32,6 +32,12 @@ nav .nav-link {
   color: black;
 }
 
+nav .nav-link .nav-brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 nav .profile-item p {
   margin: 0;
   display: flex;
