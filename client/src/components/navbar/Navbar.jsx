@@ -43,7 +43,13 @@ const Navbar = ({ user }: NavbarProp): Node => (
         <NavLink to="/">Members</NavLink>
       </li>
       <li>
-        <NavLink to="/notes">Notes</NavLink>
+        <NavLink to="/notes">Chapters</NavLink>
+      </li>
+      <li>
+        <NavLink to="/">Projects</NavLink>
+      </li>
+      <li>
+        <NavLink to="/notes">Summary</NavLink>
       </li>
       <li className="profile-item">
         <ProfileDropdown user={user} />

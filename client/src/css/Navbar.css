@@ -36,6 +36,12 @@ nav .nav-link .nav-brand {
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 16px;
+}
+
+nav .nav-link .nav-brand img {
+  margin-right: 8px;
+  height: '90%';
 }
 
 nav .profile-item p {
@@ -67,16 +73,17 @@ nav > ul > li > * {
   align-items: center;
 }
 
-nav > ul > li > a,
+/* nav > ul > li > a,
 nav > ul > li > a:hover {
   color: black;
 }
-
-nav > ul > li {
+ */
+/* nav > ul > li {
   border-right: 1px solid #d3d3d3;
-}
+} */
 
-nav > ul > li > a:hover {
-  background-color: navy;
-  color: white;
+/* nav > ul > li > a:hover {
+  background-color: white;
+  color: black;
 }
+ */
