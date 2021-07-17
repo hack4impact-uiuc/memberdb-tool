@@ -55,10 +55,10 @@ const ProfileDropdown = ({ user }: ProfileDropdownProp): Node => {
           type="button"
           className="dropdown-item"
         >
-          View Profile
+          Profile
         </button>
         <button type="button" className="dropdown-item" onClick={logout}>
-          Logout
+          Sign Out
         </button>
       </div>
     </div>
