@@ -29,7 +29,7 @@ const DateAttribute = ({
 
   return (
     <div className={className}>
-      <p>{startCase(attributeLabel)}</p>
+      <p>{startCase(attributeLabel).toUpperCase()}</p>
       <DatePicker
         className="datePicker"
         onChange={onValueChange}

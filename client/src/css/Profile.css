@@ -1,3 +1,28 @@
+.profile-page {
+  display: flex;
+  margin: auto;
+  width: 950px;
+  padding-bottom: 50px;
+}
+
+.profile-card {
+  padding: 30px 30px 0px 30px !important;
+}
+.profile-card .row {
+  /* padding-top: 30px !important; */
+}
+
+.profile-card #submit-button {
+  float: right;
+}
+
+.profile-card #submit-button > button {
+  margin: 2rem auto 0;
+  display: block;
+  background-color: #0069ca;
+  color: white;
+}
+
 .attribute {
   margin-bottom: 1rem;
 }

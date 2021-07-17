@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import type { Node } from 'react';
+import { Sticky } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 
 import '../../css/Navbar.css';
@@ -23,29 +24,33 @@ type NavbarProp = {
  * @param {Object} user the current user of the session
  */
 const Navbar = ({ user }: NavbarProp): Node => (
-  <nav>
-    <h2 id="nav-title">
-      <Link className="nav-link" to={Routes.DEFAULT}>
-        H4I Member Database
-      </Link>
-    </h2>
-    <ul>
-      {levelEnum[user.level] >= levelEnum.DIRECTOR && (
-        <li>
-          <NavLink to="/member/new">Add Member</NavLink>
-        </li>
-      )}
-      <li>
-        <NavLink to="/">Members</NavLink>
-      </li>
-      <li>
-        <NavLink to="/notes">Notes</NavLink>
-      </li>
-      <li className="profile-item">
-        <ProfileDropdown user={user} />
-      </li>
-    </ul>
-  </nav>
+  <Sticky>
+    <nav>
+      <div className="nav-content">
+        <h2 id="nav-title">
+          <Link className="nav-link" to={Routes.DEFAULT}>
+            H4I Member Database
+          </Link>
+        </h2>
+        <ul>
+          {levelEnum[user.level] >= levelEnum.DIRECTOR && (
+            <li>
+              <NavLink to="/member/new">Add Member</NavLink>
+            </li>
+          )}
+          <li>
+            <NavLink to="/">Members</NavLink>
+          </li>
+          <li>
+            <NavLink to="/notes">Notes</NavLink>
+          </li>
+          <li className="profile-item">
+            <ProfileDropdown user={user} />
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </Sticky>
 );
 
 export default Navbar;

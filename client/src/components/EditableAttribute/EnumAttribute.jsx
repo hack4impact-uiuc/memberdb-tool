@@ -35,7 +35,7 @@ const EnumAttribute = ({
 
   return (
     <div className={className}>
-      <p>{startCase(attributeLabel)}</p>
+      <p>{startCase(attributeLabel).toUpperCase()}</p>
       <Select
         value={getOptionFromValue(value)}
         isDisabled={isDisabled}

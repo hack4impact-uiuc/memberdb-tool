@@ -1,10 +1,5 @@
 nav {
-  display: flex;
-  margin: 0 auto;
-  align-items: stretch;
-  position: relative;
-  height: 70px;
-  --font-size: 16px;
+  background-color: white;
 }
 
 nav::after {
@@ -14,6 +9,18 @@ nav::after {
   position: absolute;
   bottom: 0;
   left: min(calc((100vw - 1200px) / -2), -2.5%);
+}
+
+nav .nav-content {
+  max-width: 1200px;
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  margin: 0 auto;
+  align-items: stretch;
+  position: relative;
+  height: 70px;
+  --font-size: 16px;
 }
 
 nav #nav-title {
@@ -43,7 +50,7 @@ nav .profile-item .dropdown > p > *:last-child {
   margin-left: 1em;
 }
 
-nav > ul {
+nav > div > ul {
   padding: 0;
   margin: 0;
   display: flex;
@@ -51,26 +58,26 @@ nav > ul {
   font-size: var(--font-size);
 }
 
-nav > ul > li {
+nav > div > ul > li {
   display: flex;
 }
 
-nav > ul > li > * {
+nav > div > ul > li > * {
   padding: 0 1.5em;
   display: flex;
   align-items: center;
 }
 
-nav > ul > li > a,
-nav > ul > li > a:hover {
+nav > div > ul > li > a,
+nav > div > ul > li > a:hover {
   color: black;
 }
 
-nav > ul > li {
+nav > div > ul > li {
   border-right: 1px solid #d3d3d3;
 }
 
-nav > ul > li > a:hover {
+nav > div > ul > li > a:hover {
   background-color: navy;
   color: white;
 }
