@@ -1,6 +1,7 @@
 .dropdown {
   overflow: visible;
   position: relative;
+  padding-right: 0;
 }
 
 .dropdown:hover {
@@ -17,6 +18,7 @@
   background: navy;
   color: white;
   user-select: none;
+  padding: 0px !important;
 }
 
 .dropdown-content {
