@@ -54,11 +54,6 @@ const App = () => {
           authed={user !== null}
           component={<Notes />}
         />
-        {/* <PrivateRoute
-          path={Routes.DEFAULT}
-          authed={user !== null}
-          component={<Home user={user} />}
-        /> */}
         <Route exact path={Routes.DEFAULT}>
           {user ? <Home user={user} /> : <Login />}
         </Route>
