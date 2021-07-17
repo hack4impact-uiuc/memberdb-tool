@@ -9,7 +9,6 @@ nav {
 
 nav::after {
   content: '';
-  border-bottom: 1px solid #d3d3d3;
   width: 100vw;
   position: absolute;
   bottom: 0;
@@ -73,14 +72,14 @@ nav > ul > li > * {
   align-items: center;
 }
 
-/* nav > ul > li > a,
 nav > ul > li > a:hover {
-  color: black;
+  color: #0069ca;
+  font-weight: 700;
 }
- */
-/* nav > ul > li {
-  border-right: 1px solid #d3d3d3;
-} */
+
+nav > ul > li > a {
+  color: #333333;
+}
 
 /* nav > ul > li > a:hover {
   background-color: white;
