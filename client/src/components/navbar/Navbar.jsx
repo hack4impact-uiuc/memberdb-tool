@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ const Navbar = ({ user }: NavbarProp): Node => (
     <h2 id="nav-title">
       <Link className="nav-link" to={Routes.DEFAULT}>
         <div className="nav-brand">
-          <img src={bannerLogo}></img>
+          <img src={bannerLogo} alt="Hack4Impact banner" />
           Member Database
         </div>
       </Link>
