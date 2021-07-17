@@ -8,15 +8,12 @@
 }
 
 .dropdown .avatar {
-  vertical-align: middle;
-  width: 2em;
-  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5em;
+  height: 2.5em;
   border-radius: 50%;
-}
-
-div.avatar {
-  display: grid;
-  place-items: center;
   background: navy;
   color: white;
   user-select: none;
@@ -32,6 +29,8 @@ div.avatar {
   z-index: 1;
   right: 0;
   top: calc(100% - 1px);
+  overflow: hidden;
+  border-radius: 6px !important;
 }
 
 .dropdown-item {
