@@ -39,7 +39,7 @@ nav .nav-link .nav-brand {
 }
 
 nav .nav-link .nav-brand img {
-  margin-right: 8px;
+  margin-right: 12px;
   height: '90%';
 }
 
@@ -72,7 +72,7 @@ nav > ul > li > * {
   align-items: center;
 }
 
-nav > ul > li > a:hover {
+nav > ul > li > a.active {
   color: #0069ca;
   font-weight: 700;
 }
@@ -80,9 +80,3 @@ nav > ul > li > a:hover {
 nav > ul > li > a {
   color: #333333;
 }
-
-/* nav > ul > li > a:hover {
-  background-color: white;
-  color: black;
-}
- */
