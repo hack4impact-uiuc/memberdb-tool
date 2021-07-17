@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { Node } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -40,18 +40,20 @@ const Navbar = ({ user }: NavbarProp): Node => (
         </li>
       )}
       <li>
-        <NavLink to="/">Members</NavLink>
+        <NavLink to={Routes.DEFAULT} exact>
+          Members
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/notes">Chapters</NavLink>
+        <NavLink to={Routes.CHAPTERS}>Chapters</NavLink>
       </li>
       <li>
-        <NavLink to="/">Projects</NavLink>
+        <NavLink to={Routes.PROJECTS}>Projects</NavLink>
       </li>
       <li>
-        <NavLink to="/notes">Summary</NavLink>
+        <NavLink to={Routes.SUMMARY}>Summary</NavLink>
       </li>
-      <li className="profile-item">
+      <li>
         <ProfileDropdown user={user} />
       </li>
     </ul>
