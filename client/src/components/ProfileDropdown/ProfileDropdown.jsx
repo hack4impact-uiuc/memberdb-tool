@@ -48,10 +48,7 @@ const ProfileDropdown = ({ user }: ProfileDropdownProp): Node => {
       {isLoggedOut && <Redirect to={Routes.LOGIN_PAGE} />}
 
       {/** Rendered JSX */}
-      <p>
-        Hello, {user.firstName}!
-        <div className="avatar">{user.firstName?.[0] ?? '?'}</div>
-      </p>
+      <div className="avatar">{user.firstName?.[0] ?? '?'}</div>
       <div className="dropdown-content">
         <button
           onClick={handleProfileRedirect}
