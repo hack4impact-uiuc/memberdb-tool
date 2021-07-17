@@ -54,6 +54,9 @@ const Navbar = ({ user }: NavbarProp): Node => (
         <NavLink to={Routes.SUMMARY}>Summary</NavLink>
       </li>
       <li>
+        <NavLink to={Routes.NOTES}>Notes</NavLink>
+      </li>
+      <li>
         <ProfileDropdown user={user} />
       </li>
     </ul>
