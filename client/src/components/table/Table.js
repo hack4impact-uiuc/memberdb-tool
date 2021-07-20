@@ -5,11 +5,16 @@ import { AgGridReact } from 'ag-grid-react';
 import '../../css/Table.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { Button } from "semantic-ui-react";
 
 const Table = ({ data, columns, onRowClick, sizeToFit }) => {
   const [entries, setEntries] = useState([]);
+  const [gridApi, setGridApi ] = useState(null);
 
-  const onGridReady = (params) => sizeToFit && params.api.sizeColumnsToFit();
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    sizeToFit && params.api.sizeColumnsToFit();
+  }
 
   useEffect(() => {
     setEntries(data);
@@ -17,6 +22,9 @@ const Table = ({ data, columns, onRowClick, sizeToFit }) => {
 
   return (
     <div className="ag-theme-alpine table-wrapper">
+      <div className="action-container">
+        <Button size="medium" onClick={() => gridApi.exportDataAsCsv()}> Export as CSV</Button>
+      </div>
       <AgGridReact
         onGridReady={onGridReady}
         rowData={entries}

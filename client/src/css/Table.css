@@ -7,3 +7,9 @@
 .ag-cell-wrapper {
   line-height: 1.5rem;
 }
+
+.action-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
