@@ -38,7 +38,7 @@ router.get(
       success: true,
       result: Project.find({ chapter: Member.chapterEnum[req.params.chapter] }),
     });
-  })
-)
+  }),
+);
 
 module.exports = router;
