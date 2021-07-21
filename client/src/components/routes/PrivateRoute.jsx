@@ -13,7 +13,9 @@ type PrivateRouteProp = {
 
 const PrivateRoute = ({ path, authed, component }: PrivateRouteProp): Node =>
   authed ? (
-    <Route path={path}>{component}</Route>
+    <Route exact path={path}>
+      {component}
+    </Route>
   ) : (
     <Redirect to={Routes.LOGIN_PAGE} />
   );

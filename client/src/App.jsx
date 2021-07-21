@@ -7,8 +7,10 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Note from './pages/Note';
 import Notes from './pages/Notes';
+import Chapters from './pages/Chapters';
 import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/routes/PrivateRoute';
+import NotFound from './pages/NotFound';
 import { getUserAuth } from './utils/apiWrapper';
 
 const App = () => {
@@ -43,6 +45,9 @@ const App = () => {
             </Route>
           </Switch>
         </Route>
+        <Route path={Routes.CHAPTERS}>
+          {user ? <Chapters /> : <Redirect to={Routes.LOGIN_PAGE} />}
+        </Route>
         <PrivateRoute
           path={Routes.NOTE_PAGE}
           authed={user !== null}
@@ -53,11 +58,12 @@ const App = () => {
           authed={user !== null}
           component={<Notes />}
         />
-        <PrivateRoute
-          path={Routes.DEFAULT}
-          authed={user !== null}
-          component={<Home user={user} />}
-        />
+        <Route exact path={Routes.DEFAULT}>
+          {user ? <Home user={user} /> : <Login />}
+        </Route>
+        <Route exact path={Routes.NOT_FOUND}>
+          <NotFound />
+        </Route>
       </Switch>
     </div>
   );
