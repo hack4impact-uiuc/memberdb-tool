@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Note from './pages/Note';
 import Notes from './pages/Notes';
+import Chapters from './pages/Chapters';
 import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/routes/PrivateRoute';
 import NotFound from './pages/NotFound';
@@ -43,6 +44,9 @@ const App = () => {
               {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
             </Route>
           </Switch>
+        </Route>
+        <Route path={Routes.CHAPTERS}>
+          {user ? <Chapters /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
         <PrivateRoute
           path={Routes.NOTE_PAGE}
