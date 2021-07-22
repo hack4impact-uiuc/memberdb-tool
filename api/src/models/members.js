@@ -5,8 +5,10 @@ const mongoose = require('mongoose');
 
 const levelEnum = {
   ADMIN: 'ADMIN',
-  CHAPTER_DIRECTOR: 'CHAPTER DIRECTOR',
+  DIRECTOR: 'DIRECTOR',
   MEMBER: 'MEMBER',
+  LEAD: 'LEAD',
+  TBD: 'TBD',
 };
 
 const statusEnum = {
