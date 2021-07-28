@@ -7,10 +7,14 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Note from './pages/Note';
 import Notes from './pages/Notes';
+import Chapters from './pages/Chapters';
+import Projects from './pages/Projects';
 import Navbar from './components/navbar/Navbar';
+import PrivateRoute from './components/routes/PrivateRoute';
+import NotFound from './pages/NotFound';
 import { getUserAuth } from './utils/apiWrapper';
 
-function App() {
+const App = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
@@ -32,6 +36,9 @@ function App() {
         <Route exact path={Routes.LOGIN_PAGE}>
           {user ? <Redirect to={Routes.DEFAULT} /> : <Login />}
         </Route>
+        <Route path={Routes.PROJECTS}>
+          {user ? <Projects /> : <Redirect to={Routes.LOGIN_PAGE} />}
+        </Route>
         <Route path={Routes.MEMBER_PAGE}>
           <Switch>
             <Route path={Routes.NOTE_PAGE}>
@@ -42,16 +49,28 @@ function App() {
             </Route>
           </Switch>
         </Route>
-        <Route path={Routes.NOTE_PAGE}>{user && <Note user={user} />}</Route>
-        <Route path={Routes.NOTES}>
-          <Notes />
+        <Route path={Routes.CHAPTERS}>
+          {user ? <Chapters /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
-        <Route path={Routes.DEFAULT}>
-          {user ? <Home user={user} /> : <Redirect to={Routes.LOGIN_PAGE} />}
+        <PrivateRoute
+          path={Routes.NOTE_PAGE}
+          authed={user !== null}
+          component={<Note user={user} />}
+        />
+        <PrivateRoute
+          path={Routes.NOTES}
+          authed={user !== null}
+          component={<Notes />}
+        />
+        <Route exact path={Routes.DEFAULT}>
+          {user ? <Home user={user} /> : <Login />}
+        </Route>
+        <Route exact path={Routes.NOT_FOUND}>
+          <NotFound />
         </Route>
       </Switch>
     </div>
   );
-}
+};
 
 export default App;

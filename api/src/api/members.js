@@ -13,34 +13,51 @@ const {
   errorMessages,
 } = require('../utils/members');
 
-const validateMemberQuery = (req, res, next) => {
-  // Middleware that verifies that fields to be inserted/updated actually
-  // exist in the Member schema, and that user has permission to update them
-  const editableFields = getEditableFields(req.user, req.params.memberId);
+const validateMemberQuery = (multiple = false) => {
+  return (req, res, next) => {
+    // Middleware that verifies that fields to be inserted/updated actually
+    // exist in the Member schema, and that user has permission to update them
+    const users = multiple ? req.body.users : req.body;
+    const editableFields = getEditableFields(req.user, req.params.memberId);
 
-  for (const field in req.body) {
-    if (!allFields.includes(field)) {
-      return res.status(400).json({
-        success: false,
-        message: `No such field ${field} in member`,
-      });
+    function validateUser(user) {
+      for (const field in user) {
+        if (!allFields.includes(field)) {
+          return {
+            success: false,
+            message: `No such field ${field} in member`,
+          };
+        }
+
+        if (!editableFields.includes(field)) {
+          return {
+            success: false,
+            message: `Cannot update protected field ${field} in member`,
+          };
+        }
+
+        if (!validateField(field, user[field], validationFields)) {
+          return {
+            success: false,
+            message: `${field} is formatted incorrectly`,
+          };
+        }
+      }
+      return null;
     }
 
-    if (!editableFields.includes(field)) {
-      return res.status(401).json({
-        success: false,
-        message: `Cannot update protected field ${field} in member`,
-      });
+    // If multiple users need to be tested
+    if (Array.isArray(users)) {
+      for (const user of users) {
+        const errorMessage = validateUser(user);
+        if (errorMessage) return res.end(JSON.stringify(errorMessage));
+      }
+    } else {
+      const errorMessage = validateUser(users);
+      if (errorMessage) return res.end(JSON.stringify(errorMessage));
     }
-
-    if (!validateField(field, req.body[field], validationFields)) {
-      return res.status(400).json({
-        success: false,
-        message: `${field} is formatted incorrectly`,
-      });
-    }
-  }
-  next();
+    next();
+  };
 };
 
 router.get(
@@ -74,7 +91,7 @@ router.get(
 router.post(
   '/',
   requireDirector,
-  validateMemberQuery,
+  validateMemberQuery(),
   errorWrap(async (req, res) => {
     const member = await Member.create(req.body);
     return res.status(200).json({
@@ -84,6 +101,40 @@ router.post(
   }),
 );
 
+router.post(
+  '/addMany',
+  requireDirector,
+  validateMemberQuery(true),
+  errorWrap(async (req, res) => {
+    const newMembers = [];
+    for (const user of req.body.users) {
+      newMembers.push(await Member.create(user));
+    }
+    return res.status(200).json({
+      success: true,
+      result: newMembers,
+    });
+  }),
+);
+
+router.delete(
+  '/:memberId',
+  requireDirector,
+  validateMemberQuery(),
+  errorWrap(async (req, res) => {
+    const member = await Member.findByIdAndDelete(req.params.memberId);
+    if (!member) {
+      return res.status(200).json({
+        success: false,
+        message: 'Member not found with id',
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      result: member,
+    });
+  }),
+);
 // Gives the enum options to the frontend to populate the dropdown.
 // The key in the 'options' object must be the same as the DB attribute.
 router.get(
@@ -169,7 +220,7 @@ router.get(
 router.put(
   '/:memberId',
   requireRegistered,
-  validateMemberQuery,
+  validateMemberQuery(),
   errorWrap(async (req, res) => {
     const updatedMember = await Member.findByIdAndUpdate(
       req.params.memberId,
@@ -188,6 +239,24 @@ router.put(
       success: true,
       message: 'Member updated',
       result: filterViewableFields(req.user, updatedMember),
+    });
+  }),
+);
+
+// Gets all members associated with a given chapter
+router.get(
+  '/chapter/:chapter',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    if (!Object.keys(Member.chapterEnum).includes(req.params.chapter)) {
+      return res.status(404).json({
+        success: false,
+        message: req.params.chapter + ' is not a valid chapter.',
+      });
+    }
+    res.json({
+      success: true,
+      result: Member.find({ chapter: Member.chapterEnum[req.params.chapter] }),
     });
   }),
 );

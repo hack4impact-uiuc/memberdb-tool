@@ -1,6 +1,7 @@
+// @flow
 import React from 'react';
+import type { Node } from 'react';
 import { Button, Icon } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
 import '../../css/Note.css';
 
 /**
@@ -41,6 +42,11 @@ const TOOLBAR_BLOCKS = Object.freeze([
  */
 const TOOLBAR_STYLES = Object.freeze([['bold', 'italic', 'underline']]);
 
+type EditorToolbarProps = {
+  handleRichStyle: Function,
+  handleBlockType: Function,
+};
+
 /**
  * Toolbar for formatting in a DraftJS editor provided
  * callbacks for toggling rich styles and block types
@@ -48,7 +54,10 @@ const TOOLBAR_STYLES = Object.freeze([['bold', 'italic', 'underline']]);
  * @param {*} props
  * @returns
  */
-function EditorToolbar({ handleRichStyle, handleBlockType }) {
+function EditorToolbar({
+  handleRichStyle,
+  handleBlockType,
+}: EditorToolbarProps): Node {
   return (
     <div className="editor-toolbar">
       {TOOLBAR_BLOCKS.map((group) => (
@@ -82,10 +91,5 @@ function EditorToolbar({ handleRichStyle, handleBlockType }) {
     </div>
   );
 }
-
-EditorToolbar.propTypes = {
-  handleRichStyle: PropTypes.func.isRequired,
-  handleBlockType: PropTypes.func.isRequired,
-};
 
 export default EditorToolbar;
