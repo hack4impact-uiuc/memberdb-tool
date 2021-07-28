@@ -3,4 +3,7 @@ export const MEMBER_PAGE = '/member/:memberID';
 export const LOGIN_PAGE = '/login';
 export const NOTES = '/notes';
 export const NOTE_PAGE = `/notes/:noteID`;
+export const NOT_FOUND = '*';
 export const PROJECTS = '/projects';
+export const CHAPTERS = '/chapters';
+export const SUMMARY = '/summary';
