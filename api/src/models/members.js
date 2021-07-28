@@ -27,24 +27,25 @@ const roleEnum = {
   PRODUCT_DESIGNER: 'PRODUCT_DESIGNER',
   DEVELOPER: 'SOFTWARE_DEVELOPER',
   ACADEMY_MEMBER: 'ACADEMY_MEMBER',
-  DIRECTOR_OF_FINANCE: "DIRECTOR_OF_FINANCE",
-  DIRECTOR_OF_OPERATIONS: "DIRECTOR_OF_OPERATIONS"
+  DIRECTOR_OF_FINANCE: 'DIRECTOR_OF_FINANCE',
+  DIRECTOR_OF_OPERATIONS: 'DIRECTOR_OF_OPERATIONS',
 };
 
 const chapterEnum = {
-  UPENN: "University of Pennsylvania",
-  UIUC: "University of Illinois at Urbana-Champaign",
-  GEORGIA_TECH: "Bits of Good - Georgia Tech",
-  CORNELL_UNIVERSITY: "Cornell University",
-  BOSTON_UNIVERSITY: "Boston University",
-  CALIFORNIA_POLYTECHNIC_STATE_UNIVERSITY: "California Polytechnic State University",
-  MCGILL_UNIVERSITY: "McGill University",
-  UNIVERSITY_OF_MARYLAND_COLLEGE_PARK: "University of Maryland, College Park",
-  UNIVERSITY_OF_TENNESSEE_KNOXVILLE: "University of Tennessee, Knoxville",
-  UNIVERSITY_OF_MICHIGAN: "University of Michigan",
-  CARLETON_COLLEGE: "Carleton College",
-  NEW_YORK_UNIVERSITY: "New York University"
-}
+  UPENN: 'University of Pennsylvania',
+  UIUC: 'University of Illinois at Urbana-Champaign',
+  GEORGIA_TECH: 'Bits of Good - Georgia Tech',
+  CORNELL_UNIVERSITY: 'Cornell University',
+  BOSTON_UNIVERSITY: 'Boston University',
+  CALIFORNIA_POLYTECHNIC_STATE_UNIVERSITY:
+    'California Polytechnic State University',
+  MCGILL_UNIVERSITY: 'McGill University',
+  UNIVERSITY_OF_MARYLAND_COLLEGE_PARK: 'University of Maryland, College Park',
+  UNIVERSITY_OF_TENNESSEE_KNOXVILLE: 'University of Tennessee, Knoxville',
+  UNIVERSITY_OF_MICHIGAN: 'University of Michigan',
+  CARLETON_COLLEGE: 'Carleton College',
+  NEW_YORK_UNIVERSITY: 'New York University',
+};
 
 const Member = new mongoose.Schema({
   firstName: { type: String, required: true },
@@ -54,26 +55,26 @@ const Member = new mongoose.Schema({
   chapter: {
     type: String,
     enum: Object.values(chapterEnum),
-    required: true
+    required: true,
   },
   role: {
     type: String,
     enum: Object.values(roleEnum),
-    required: true
+    required: true,
   },
   gradYear: { type: Number, required: true },
-  yearJoined: { type: Number, required: true},
+  yearJoined: { type: Number, required: true },
   status: {
     type: String,
     enum: Object.values(statusEnum),
-    required: true
+    required: true,
   },
   yearLeft: {
     type: Number,
     default: null,
     required: function () {
-	    return this.status === statusEnum.RETIRED
-    }
+      return this.status === statusEnum.RETIRED;
+    },
   },
   publiclyVisible: { type: Boolean, required: true },
   linkedin: { type: String, default: null },
@@ -85,9 +86,10 @@ const Member = new mongoose.Schema({
   },
   notes: {
     type: String,
-    default: null
-  }
+    default: null,
+  },
 });
 
 module.exports = mongoose.model('Member', Member);
 module.exports.levelEnum = levelEnum;
+module.exports.chapterEnum = chapterEnum;

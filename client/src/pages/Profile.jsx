@@ -1,3 +1,4 @@
+// @flow
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, Redirect } from 'react-router-dom';
 import { Form, Message, Icon, Button, Card } from 'semantic-ui-react';
@@ -62,7 +63,7 @@ const Profile = () => {
 
       const responses = [];
 
-      let memberDataResponse;
+      let memberDataResponse = null;
       if (!newUser) {
         memberDataResponse = await getMemberByID(memberID);
         responses.push(memberDataResponse);
@@ -82,7 +83,7 @@ const Profile = () => {
         return;
       }
 
-      if (!newUser) {
+      if (!newUser && memberDataResponse !== null) {
         setUpstreamUser(memberDataResponse.data.result);
         setLocalUser(memberDataResponse.data.result);
       }
@@ -271,7 +272,7 @@ const Profile = () => {
 
             {
               // Message displayed upon receiving an error response
-              errorMessage ? (
+              errorMessage !== null && errorMessage !== undefined ? (
                 <div className="profile-alert">
                   <Message className="profile-alert" icon big negative>
                     <Icon name="warning circle" />

@@ -175,3 +175,55 @@ export const notesColumnDefs = Object.freeze([
     valueFormatter: membersFormatter,
   },
 ]);
+
+/**
+ * @constant
+ * @type {Array<Object>}
+ */
+export const projectColumnDefs = Object.freeze([
+  {
+    headerName: 'Project Name',
+    field: 'projectName',
+    pinned: 'left',
+    valueGetter: nameGetter,
+  },
+  {
+    headerName: 'Chapter',
+    field: 'chapter',
+    valueFormatter: tableTitleCaseFormatter,
+  },
+  {
+    headerName: 'Description',
+    field: 'description',
+  },
+  {
+    headerName: 'Status',
+    valueGetter: generationGetter,
+    comparator: semesterComparator,
+    valueFormatter: tableTitleCaseFormatter,
+  },
+  {
+    headerName: 'Duration',
+    field: 'duration',
+  },
+  {
+    headerName: 'Team Email Contact',
+    field: 'teamMembersEmail',
+  },
+  {
+    headerName: 'Website URL',
+    field: 'websiteUrl',
+  },
+  {
+    headerName: 'Github URL',
+    field: 'githubUrl',
+  },
+  {
+    headerName: 'Figma URL',
+    field: 'figmaUrl',
+  },
+  {
+    headerName: 'Notes',
+    field: 'notes',
+  },
+]);

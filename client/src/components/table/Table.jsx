@@ -1,5 +1,6 @@
+// @flow
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import '../../css/Table.css';
@@ -7,7 +8,14 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { Button } from "semantic-ui-react";
 
-const Table = ({ data, columns, onRowClick, sizeToFit }) => {
+type TableProp = {
+  data: Array<Object>,
+  columns: Array<Object>,
+  onRowClick: Function,
+  sizeToFit?: boolean,
+};
+
+const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp): Node => {
   const [entries, setEntries] = useState([]);
   const [gridApi, setGridApi ] = useState(null);
 
@@ -45,13 +53,6 @@ const Table = ({ data, columns, onRowClick, sizeToFit }) => {
       />
     </div>
   );
-};
-
-Table.propTypes = {
-  data: PropTypes.array,
-  columns: PropTypes.array,
-  onRowClick: PropTypes.func,
-  sizeToFit: PropTypes.bool,
 };
 
 export default Table;

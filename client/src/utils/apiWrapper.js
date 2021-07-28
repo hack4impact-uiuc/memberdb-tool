@@ -215,3 +215,18 @@ export const createMember = (member) => {
       error,
     }));
 };
+
+// Retrieves all projects
+export const getProjects = () => {
+  const requestString = `${BACKEND_BASE_URL}/projects`;
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_PROJECTS_FAIL',
+      error,
+    }));
+};

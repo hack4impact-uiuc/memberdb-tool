@@ -1,7 +1,18 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import { startCase } from 'lodash';
 import { Form } from 'semantic-ui-react';
+
+type TextAttributeProp = {
+  value: string | number,
+  type: string,
+  attributeLabel: string,
+  isDisabled: boolean,
+  isRequired: boolean,
+  className: string,
+  onChange: Function,
+};
 
 const TextAttribute = ({
   type = 'text',
@@ -11,7 +22,7 @@ const TextAttribute = ({
   className = '',
   onChange,
   isRequired = false,
-}) => {
+}: TextAttributeProp): Node => {
   const onValueChange = (e) => {
     onChange(e.target.value, attributeLabel);
   };
@@ -28,16 +39,6 @@ const TextAttribute = ({
       />
     </div>
   );
-};
-
-TextAttribute.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  type: PropTypes.string,
-  attributeLabel: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  isRequired: PropTypes.bool,
-  className: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default TextAttribute;

@@ -1,12 +1,20 @@
 [ignore]
+.*/build/.*
 
 [include]
 
 [libs]
 
 [lints]
+all=warn
+untyped-import=off
 
 [options]
+include_warnings=true
 esproposal.optional_chaining=enable
 
 [strict]
+
+[untyped]
+.*/node_modules/draft-js
+.*/node_modules/react-select
