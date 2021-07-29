@@ -20,7 +20,9 @@ const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp): Node => {
 
   const onGridReady = (params) => {
     setGridApi(params.api);
-    sizeToFit && params.api.sizeColumnsToFit();
+    if (sizeToFit) {
+      params.api.sizeColumnsToFit();
+    }
   };
 
   useEffect(() => {
