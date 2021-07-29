@@ -31,7 +31,7 @@ const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp): Node => {
   return (
     <div className="ag-theme-alpine table-wrapper">
       <div className="action-container">
-        <Button size="medium" onClick={() => gridApi.exportDataAsCsv()}> Export as CSV</Button>
+        <Button size="medium" onClick={() => gridApi?.exportDataAsCsv()}> Export as CSV</Button>
       </div>
       <AgGridReact
         onGridReady={onGridReady}
