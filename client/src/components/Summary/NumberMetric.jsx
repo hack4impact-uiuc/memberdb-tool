@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import PropTypes from 'prop-types';
 import '../../css/Summary.css';
 
 const NumberMetric = ({ options, defaultOption, value, label }) => {
@@ -21,6 +22,13 @@ const NumberMetric = ({ options, defaultOption, value, label }) => {
       <span className="num-metric-label">{label}</span>
     </div>
   );
+};
+
+NumberMetric.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string),
+  defaultOption: PropTypes.string,
+  value: PropTypes.number,
+  label: PropTypes.string,
 };
 
 export default NumberMetric;
