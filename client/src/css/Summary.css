@@ -1,0 +1,32 @@
+.num-metric-container {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+.num-metric-select {
+  width: 50%;
+  padding-top: 30px;
+}
+
+.num-metric-select > div {
+  border-radius: 20px;
+}
+
+.num-metric-big-num,
+.num-metric-label {
+  font-family: 'HK Grotesk', Sans-Serif;
+  padding-top: 38px;
+}
+
+.num-metric-big-num {
+  color: #0069ca;
+  font-size: 64px;
+}
+
+.num-metric-label {
+  font-size: 24px;
+  padding-bottom: 54px;
+}
