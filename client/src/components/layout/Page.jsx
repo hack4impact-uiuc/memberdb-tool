@@ -4,8 +4,8 @@ import type { Node } from 'react';
 import '../../css/Page.css';
 
 type PageProp = {
-  title: any,
-  children: any,
+  title?: any,
+  children?: any,
   menuItems?: any,
 };
 
