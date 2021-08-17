@@ -19,7 +19,14 @@ const Home = (): Node => {
     const getAllMembers = async () => {
       const allMembers = await getMembers();
       if (allMembers.data) {
-        setMembers(allMembers.data.result);
+        const membersWithLinks = allMembers.data.result.map((member) => {
+          member.links = {
+            github: member.github,
+            linkedin: member.linkedin,
+          };
+          return member;
+        });
+        setMembers(membersWithLinks);
       }
     };
     getAllMembers();

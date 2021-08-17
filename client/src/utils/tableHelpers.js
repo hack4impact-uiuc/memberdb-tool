@@ -1,4 +1,5 @@
 import moment from 'moment';
+import LinkIcons from '../components/table/LinkIcons';
 
 import { titleCaseFormatter } from './formatters';
 
@@ -90,6 +91,11 @@ export const memberColumnDefs = Object.freeze([
   {
     headerName: 'Phone #',
     field: 'phone',
+  },
+  {
+    headerName: 'Links',
+    field: 'links',
+    cellRendererFramework: LinkIcons,
   },
   {
     headerName: 'NetID',
