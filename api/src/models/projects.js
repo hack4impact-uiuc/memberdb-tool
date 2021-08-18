@@ -43,8 +43,8 @@ const Project = new Schema({
   duration: timeInDevelopment,
   teamMembersEmail: [String],
   websiteUrl: String,
-  githubUrl: String,
-  figmaUrl: String,
+  github: String,
+  figma: String,
   notes: String,
 });
 
