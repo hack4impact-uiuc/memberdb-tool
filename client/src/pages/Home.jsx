@@ -20,11 +20,12 @@ const Home = (): Node => {
       const allMembers = await getMembers();
       if (allMembers.data) {
         const membersWithLinks = allMembers.data.result.map((member) => {
-          member.links = {
+          const memberCopy = { ...member };
+          memberCopy.links = {
             github: member.github,
             linkedin: member.linkedin,
           };
-          return member;
+          return memberCopy;
         });
         setMembers(membersWithLinks);
       }

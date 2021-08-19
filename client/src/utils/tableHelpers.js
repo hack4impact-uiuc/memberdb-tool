@@ -1,4 +1,5 @@
 import moment from 'moment';
+
 import LinkIcons, { link } from '../components/table/LinkIcons';
 
 import { titleCaseFormatter } from './formatters';
