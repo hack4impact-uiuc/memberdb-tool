@@ -1,5 +1,5 @@
 import moment from 'moment';
-import LinkIcons from '../components/table/LinkIcons';
+import LinkIcons, { link } from '../components/table/LinkIcons';
 
 import { titleCaseFormatter } from './formatters';
 
@@ -96,6 +96,7 @@ export const memberColumnDefs = Object.freeze([
     headerName: 'Links',
     field: 'links',
     cellRendererFramework: LinkIcons,
+    cellRendererParams: { linkTypes: [link.GITHUB, link.LINKEDIN, link.OTHER] },
   },
   {
     headerName: 'NetID',
