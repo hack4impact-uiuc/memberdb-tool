@@ -13,3 +13,7 @@
   justify-content: flex-end;
   margin-bottom: 0.5rem;
 }
+
+.table-link-icons {
+  padding: 0 3px;
+}
