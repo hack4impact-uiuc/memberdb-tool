@@ -152,6 +152,31 @@ router.get(
   }),
 );
 
+router.post(
+  '/:memberId',
+  errorWrap(async (req, res) => {
+    if (req.body.secret !== process.env.SESSION_SECRET) {
+      return res.status(401).json({
+        success: false,
+        message: 'Request is missing service secret',
+      });
+    }
+
+    const member = await Member.findById(req.params.memberId);
+    if (!member) {
+      return res.status(404).json({
+        success: false,
+        message: 'Member not found with id',
+      });
+    }
+
+    res.json({
+      success: true,
+      result: filterViewableFields(member, member),
+    });
+  }),
+);
+
 router.get(
   '/:memberId/permissions',
   requireRegistered,
