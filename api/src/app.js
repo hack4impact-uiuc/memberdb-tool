@@ -46,6 +46,7 @@ const sessionConfig =
         domain: '.h4i.app',
       }
     : { secret: process.env.SESSION_SECRET };
+
 if (environment == 'production') {
   app.set('trust proxy', 1);
   sessionConfig.secure = true;
