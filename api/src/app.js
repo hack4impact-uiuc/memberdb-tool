@@ -39,10 +39,14 @@ app.use(bodyParser.json({ limit: '2.1mb' }));
 app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 
 // Session support, needed for authentication
-const sessionConfig = {
-  secret: process.env.SESSION_SECRET,
-  domain: '.h4i.app',
-};
+const sessionConfig =
+  environment == 'production'
+    ? {
+        secret: process.env.SESSION_SECRET,
+        domain: '.h4i.app',
+      }
+    : { secret: process.env.SESSION_SECRET };
+
 if (environment == 'production') {
   app.set('trust proxy', 1);
   sessionConfig.secure = true;
