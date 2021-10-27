@@ -86,4 +86,39 @@ router.put(
   }),
 );
 
+router.put(
+  '/:id/updateMemberTable',
+  validationMiddleware('UPDATE'),
+  requireAdmin,
+  errorWrap(async (req, res) => {
+    const { memberTableLayout } = req.body;
+    if (!memberTableLayout) {
+      res.status(400).json({
+        success: false,
+        message: 'Table Layout not found',
+      });
+      return;
+    }
+    let chapter = await Chapter.findByIdAndUpdate(
+      req.params.id,
+      { memberTableLayout },
+      {
+        runValidators: true,
+      },
+    );
+    if (chapter) {
+      res.status(200).json({
+        success: true,
+        result: chapter.toObject,
+        message: 'Chapter modfied',
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'Chapter not found',
+      });
+    }
+  }),
+);
+
 module.exports = router;

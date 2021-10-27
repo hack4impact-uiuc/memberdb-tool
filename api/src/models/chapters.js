@@ -32,6 +32,7 @@ const Chapter = new Schema({
   socialUrls: [String],
   notes: String,
   leaders: [{ type: Schema.Types.ObjectId, ref: 'Member' }],
+  memberTableLayout: [String],
 });
 
 module.exports = model('Chapter', Chapter);
