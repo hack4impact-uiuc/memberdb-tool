@@ -45,15 +45,6 @@ const Navbar = ({ user }: NavbarProp): Node => (
         </NavLink>
       </li>
       <li>
-        <NavLink to={Routes.CHAPTERS}>Chapters</NavLink>
-      </li>
-      <li>
-        <NavLink to={Routes.PROJECTS}>Projects</NavLink>
-      </li>
-      <li>
-        <NavLink to={Routes.SUMMARY}>Summary</NavLink>
-      </li>
-      <li>
         <NavLink to={Routes.NOTES}>Notes</NavLink>
       </li>
       <li>
