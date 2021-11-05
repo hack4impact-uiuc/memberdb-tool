@@ -1,4 +1,8 @@
+const flatten = require('lodash/flatten');
+
 const Note = require('../models/notes');
+const Member = require('../models/members');
+const { MEMBER_ALIASES } = require('../api/members');
 const { isAdmin } = require('./auth');
 
 // middleware to validate if user can edit
@@ -38,7 +42,46 @@ const validateReqParams = (req, res, next) => {
   next();
 };
 
+// helper function to convert an alias to its ids
+const convertAliasToIds = async (referencedIds) => {
+  const cleanedIds = await Promise.all(
+    referencedIds.map(async (idOrAlias) => {
+      if (!(idOrAlias in MEMBER_ALIASES)) return idOrAlias;
+
+      const roles = MEMBER_ALIASES[idOrAlias];
+      const nestedIds = await Member.find(
+        { role: { $in: roles }, status: 'ACTIVE' },
+        { _id: 1 },
+      );
+      const ids = nestedIds.map((nestedId) => String(nestedId._id));
+
+      return ids;
+    }),
+  );
+
+  const flattenedIds = flatten(cleanedIds);
+  return flattenedIds;
+};
+
+// middleware to parse the aliases into their respective IDs
+const parseNoteAliases = async (req, res, next) => {
+  const note = req.body;
+
+  note.metaData.referencedMembers = [
+    ...new Set(await convertAliasToIds(note.metaData.referencedMembers)),
+  ];
+  note.metaData.access.editableBy = [
+    ...new Set(await convertAliasToIds(note.metaData.access.editableBy)),
+  ];
+  note.metaData.access.viewableBy = [
+    ...new Set(await convertAliasToIds(note.metaData.access.viewableBy)),
+  ];
+
+  next();
+};
+
 module.exports = {
   validateEditability,
   validateReqParams,
+  parseNoteAliases,
 };

@@ -31,6 +31,7 @@ import {
   updateNote,
   deleteNote,
   getMembers,
+  getMemberAliases,
   getNoteLabels,
   endUserSession,
 } from '../utils/apiWrapper';
@@ -191,7 +192,19 @@ const Note = ({ user }: NoteProps): Node => {
         text: `${m.firstName} ${m.lastName}`,
         value: m._id,
       }));
-      setMembers(cleanedMembers);
+
+      // get alias types
+      const memberAliases = await getMemberAliases();
+
+      const cleanedMemberAliases = (memberAliases?.data?.result ?? []).map(
+        (m) => ({
+          key: m,
+          text: m,
+          value: m,
+        }),
+      );
+
+      setMembers([...cleanedMemberAliases, ...cleanedMembers]);
 
       const resNoteLabels = await getNoteLabels();
       const cleanedNoteLabels = (resNoteLabels?.data?.result ?? []).map(

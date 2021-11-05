@@ -13,6 +13,22 @@ const {
   errorMessages,
 } = require('../utils/members');
 
+const MEMBER_ALIASES = {
+  'Co-Directors': ['CO_DIRECTOR'],
+  Directors: [
+    'CO_DIRECTOR',
+    'COMMUNITY_DIRECTOR',
+    'EXTERNAL_DIRECTOR',
+    'TECH_DIRECTOR',
+  ],
+  Leads: [
+    'ACADEMY_LEAD',
+    'TECH_LEAD',
+    'PRODUCT_RESEARCH_LEAD',
+    'PRODUCT_MANAGER',
+  ],
+};
+
 const validateMemberQuery = (req, res, next) => {
   // Middleware that verifies that fields to be inserted/updated actually
   // exist in the Member schema, and that user has permission to update them
@@ -65,6 +81,17 @@ router.get(
     res.json({
       success: true,
       result: filteredMembers,
+    });
+  }),
+);
+
+router.get(
+  '/aliases',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    res.json({
+      success: true,
+      result: Object.keys(MEMBER_ALIASES),
     });
   }),
 );
@@ -218,3 +245,4 @@ router.put(
 );
 
 module.exports = router;
+module.exports.MEMBER_ALIASES = MEMBER_ALIASES;

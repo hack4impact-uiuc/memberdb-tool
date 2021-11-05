@@ -9,9 +9,11 @@ const actions = Object.freeze({
 });
 
 const labelsEnum = [
-  '1v1',
-  '2v1',
-  '2v2',
+  '1:1',
+  '2:1',
+  '2:2',
+  'Midpoint Reflection',
+  'Final Reflection',
   'Lead Interview',
   'Director Interview',
   'Meeting',

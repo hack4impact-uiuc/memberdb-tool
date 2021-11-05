@@ -110,6 +110,21 @@ export const getMembers = () => {
     }));
 };
 
+// Retrieves all member aliases
+export const getMemberAliases = () => {
+  const requestString = `${BACKEND_BASE_URL}/members/aliases`;
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_MEMBER_ALIASES_FAIL',
+      error,
+    }));
+};
+
 // Retrieves a member's permissions from their mongo ID
 export const updateMember = (member, memberID) => {
   const requestString = `${BACKEND_BASE_URL}/members/${memberID}`;

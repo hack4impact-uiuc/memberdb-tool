@@ -11,6 +11,7 @@ const {
 const {
   validateEditability,
   validateReqParams,
+  parseNoteAliases,
 } = require('../middleware/notes');
 const { encryptNote, decryptNote } = require('../utils/apiWrapper');
 
@@ -167,6 +168,7 @@ router.get(
 router.post(
   '/',
   requireLead,
+  parseNoteAliases,
   errorWrap(async (req, res) => {
     const memberID = req.user._id;
     const currentVersion = {
