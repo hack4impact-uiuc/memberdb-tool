@@ -167,7 +167,7 @@ router.get(
 
 router.post(
   '/',
-  requireLead,
+  requireRegistered,
   parseNoteAliases,
   errorWrap(async (req, res) => {
     const memberID = req.user._id;
