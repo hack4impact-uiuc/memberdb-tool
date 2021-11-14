@@ -164,7 +164,7 @@ router.get(
           member: formattedMembers[versionChange.memberID],
         }),
       );
-      
+
       note.createdBy = note.metaData.versionHistory[0].member.name;
     });
 

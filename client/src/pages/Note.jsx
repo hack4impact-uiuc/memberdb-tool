@@ -293,7 +293,6 @@ const Note = ({ user }: NoteProps): Node => {
       .then((res) => {
         setSubmitState(SUBMIT_STATE.success);
         setIsFetching(false);
-        console.log(res);
         history.push(`/notes/${res.data.data._id}`);
         return res;
       })
@@ -514,7 +513,7 @@ const Note = ({ user }: NoteProps): Node => {
                 {lastVersion && (
                   <div id="last-edited-text">
                     <p>{`Last edited by ${
-                      members.find((m) => m.key == lastVersion.memberID)
+                      members.find((m) => m.key === lastVersion.memberID)
                         ?.text ?? ''
                     } on ${new Date(lastVersion.date).toDateString()}`}</p>
                   </div>
