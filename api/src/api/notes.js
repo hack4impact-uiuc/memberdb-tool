@@ -121,6 +121,7 @@ router.get(
       'metaData.referencedMembers': 1,
       'metaData.access.viewableBy': 1,
       'metaData.access.editableBy': 1,
+      'metaData.versionHistory': 1,
     };
 
     const notes = await Note.find(
@@ -141,6 +142,7 @@ router.get(
       ...note.metaData.access.viewableBy,
       ...note.metaData.access.editableBy,
       ...note.metaData.referencedMembers,
+      ...note.metaData.versionHistory.map((e) => e.memberID),
     ]);
     const uniqueMemberIds = [...new Set(memberIds)];
     const formattedMembers = await memberFromId(uniqueMemberIds);
@@ -156,6 +158,14 @@ router.get(
       note.metaData.referencedMembers = note.metaData.referencedMembers.map(
         (member) => formattedMembers[member],
       );
+      note.metaData.versionHistory = note.metaData.versionHistory.map(
+        (versionChange) => ({
+          ...versionChange,
+          member: formattedMembers[versionChange.memberID],
+        }),
+      );
+      
+      note.createdBy = note.metaData.versionHistory[0].member.name;
     });
 
     res.status(200).json({

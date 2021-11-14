@@ -115,6 +115,7 @@ const Note = ({ user }: NoteProps): Node => {
   const [viewableBy, setViewableBy] = useState([]);
   const [editableBy, setEditableBy] = useState([]);
   const [encryptNote, setEncryptNote] = useState(true);
+  const [lastVersion, setLastVersion] = useState(null);
 
   // TODO: Implement safety guards for leaving an edited form
   // We can use a window.confirm() here or a semantic modal instead
@@ -151,6 +152,7 @@ const Note = ({ user }: NoteProps): Node => {
                 editableBy: currentEditableBy,
                 viewableBy: currentViewableBy,
               },
+              versionHistory,
             },
             content,
             encrypt,
@@ -163,6 +165,7 @@ const Note = ({ user }: NoteProps): Node => {
           setViewableBy(currentViewableBy.map((m) => m.memberId));
           setEditableBy(currentEditableBy.map((m) => m.memberId));
           setEncryptNote(encrypt);
+          setLastVersion(versionHistory[versionHistory.length - 1]);
 
           // check if current user is in editor list
           if (
@@ -290,13 +293,10 @@ const Note = ({ user }: NoteProps): Node => {
       .then((res) => {
         setSubmitState(SUBMIT_STATE.success);
         setIsFetching(false);
+        console.log(res);
+        history.push(`/notes/${res.data.data._id}`);
         return res;
       })
-      .then(
-        (res) =>
-          res?.data?.result?._id &&
-          history.push(`/notes/${res.data.result._id}`),
-      )
       .catch(() => setSubmitState(SUBMIT_STATE.error));
   };
 
@@ -510,6 +510,14 @@ const Note = ({ user }: NoteProps): Node => {
                 )}
                 {submitState === SUBMIT_STATE.success && (
                   <Message color="green" content="Successfully submitted!" />
+                )}
+                {lastVersion && (
+                  <div id="last-edited-text">
+                    <p>{`Last edited by ${
+                      members.find((m) => m.key == lastVersion.memberID)
+                        ?.text ?? ''
+                    } on ${new Date(lastVersion.date).toDateString()}`}</p>
+                  </div>
                 )}
               </Grid.Column>
             </Grid>

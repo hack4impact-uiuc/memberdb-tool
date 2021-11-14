@@ -44,16 +44,10 @@ const App = () => {
             </Route>
           </Switch>
         </Route>
-        <PrivateRoute
-          path={Routes.NOTE_PAGE}
-          authed={user !== null}
-          component={<Note user={user} />}
-        />
-        <PrivateRoute
-          path={Routes.NOTES}
-          authed={user !== null}
-          component={<Notes />}
-        />
+        <Route path={Routes.NOTE_PAGE}>
+          {user ? <Note user={user} /> : <Login />}
+        </Route>
+        <Route path={Routes.NOTES}>{user ? <Notes /> : <Login />}</Route>
         <Route exact path={Routes.DEFAULT}>
           {user ? <Home user={user} /> : <Login />}
         </Route>

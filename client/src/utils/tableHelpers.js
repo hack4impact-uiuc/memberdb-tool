@@ -174,4 +174,8 @@ export const notesColumnDefs = Object.freeze([
     field: 'metaData.referencedMembers',
     valueFormatter: membersFormatter,
   },
+  {
+    headerName: 'Created By',
+    field: 'createdBy',
+  },
 ]);

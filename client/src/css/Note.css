@@ -61,3 +61,7 @@ div.editor-toolbar {
 div.editor-toolbar > *:not(:first-child) {
   margin-left: 8px !important;
 }
+
+#last-edited-text {
+  margin-top: 8px;
+}
