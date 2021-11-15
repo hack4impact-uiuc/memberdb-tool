@@ -279,7 +279,7 @@ router.put(
       return res.status(200).json({
         success: true,
         message: 'Note successfully updated',
-        data: updatedNote,
+        result: updatedNote,
       });
     } else {
       return res.status(404).json({

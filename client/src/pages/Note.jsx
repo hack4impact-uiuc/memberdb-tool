@@ -293,7 +293,7 @@ const Note = ({ user }: NoteProps): Node => {
       .then((res) => {
         setSubmitState(SUBMIT_STATE.success);
         setIsFetching(false);
-        history.push(`/notes/${res.data.data._id}`);
+        history.push(`/notes/${res.data.result._id}`);
         return res;
       })
       .catch(() => setSubmitState(SUBMIT_STATE.error));
