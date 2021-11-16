@@ -234,6 +234,7 @@ const getVersionHistory = async (id) => {
 router.put(
   '/:notesId',
   requireRegistered,
+  parseNoteAliases,
   validateEditability,
   validateReqParams,
   errorWrap(async (req, res) => {
