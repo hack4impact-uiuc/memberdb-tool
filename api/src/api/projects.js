@@ -65,6 +65,16 @@ router.delete(
 );
 
 router.get(
+  '/',
+  errorWrap(async (req, res) => {
+    res.json({
+      success: true,
+      result: await Project.find({}),
+    });
+  }),
+);
+
+router.get(
   '/:chapter',
   errorWrap(async (req, res) => {
     if (!Object.keys(Member.chapterEnum).includes(req.params.chapter)) {
