@@ -1,0 +1,35 @@
+@import "../../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+.ag-theme-alpine {
+  @include ag-theme-alpine((
+    border-radius: 10px,
+    row-height: 64px,
+    border: 1px solid #DCDCDC,
+  ));
+
+  .ag-header {
+    background-color: #EEEEEE;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .ag-root-wrapper {
+    border-radius: 10px;
+  }
+}
+
+.table-wrapper {
+  height: 75vh;
+  width: 100%;
+  margin: auto;
+}
+
+.ag-cell-wrapper {
+  line-height: 1.5rem;
+}
+
+.action-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}

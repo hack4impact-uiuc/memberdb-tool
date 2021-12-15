@@ -24,43 +24,45 @@ type NavbarProp = {
  * @param {Object} user the current user of the session
  */
 const Navbar = ({ user }: NavbarProp): Node => (
-  <nav>
-    <h2 id="nav-title">
-      <Link className="nav-link" to={Routes.DEFAULT}>
-        <div className="nav-brand">
-          <img src={bannerLogo} alt="Hack4Impact banner" />
-          Member Database
-        </div>
-      </Link>
-    </h2>
-    <ul>
-      {levelEnum[user.level] >= levelEnum.DIRECTOR && (
+  <div className='nav-wrapper'>
+    <nav>
+      <h2 id="nav-title">
+        <Link className="nav-link" to={Routes.DEFAULT}>
+          <div className="nav-brand">
+            <img src={bannerLogo} alt="Hack4Impact banner" />
+            <div className='nav-title'>Member Database</div> 
+          </div>
+        </Link>
+      </h2>
+      <ul>
+        {levelEnum[user.level] >= levelEnum.DIRECTOR && (
+          <li>
+            <NavLink to="/member/new">Add Member</NavLink>
+          </li>
+        )}
         <li>
-          <NavLink to="/member/new">Add Member</NavLink>
+          <NavLink to={Routes.DEFAULT} exact>
+            Members
+          </NavLink>
         </li>
-      )}
-      <li>
-        <NavLink to={Routes.DEFAULT} exact>
-          Members
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to={Routes.CHAPTERS}>Chapters</NavLink>
-      </li>
-      <li>
-        <NavLink to={Routes.PROJECTS}>Projects</NavLink>
-      </li>
-      <li>
-        <NavLink to={Routes.SUMMARY}>Summary</NavLink>
-      </li>
-      <li>
-        <NavLink to={Routes.NOTES}>Notes</NavLink>
-      </li>
-      <li>
-        <ProfileDropdown user={user} />
-      </li>
-    </ul>
-  </nav>
+        <li>
+          <NavLink to={Routes.CHAPTERS}>Chapters</NavLink>
+        </li>
+        <li>
+          <NavLink to={Routes.PROJECTS}>Projects</NavLink>
+        </li>
+        <li>
+          <NavLink to={Routes.SUMMARY}>Summary</NavLink>
+        </li>
+        <li>
+          <NavLink to={Routes.NOTES}>Notes</NavLink>
+        </li>
+        <li>
+          <ProfileDropdown user={user} />
+        </li>
+      </ul>
+    </nav>
+  </div>
 );
 
 export default Navbar;
