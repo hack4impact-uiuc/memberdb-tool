@@ -24,13 +24,13 @@ type NavbarProp = {
  * @param {Object} user the current user of the session
  */
 const Navbar = ({ user }: NavbarProp): Node => (
-  <div className='nav-wrapper'>
+  <div className="nav-wrapper">
     <nav>
       <h2 id="nav-title">
         <Link className="nav-link" to={Routes.DEFAULT}>
           <div className="nav-brand">
             <img src={bannerLogo} alt="Hack4Impact banner" />
-            <div className='nav-title'>Member Database</div> 
+            <div className="nav-title">Member Database</div>
           </div>
         </Link>
       </h2>

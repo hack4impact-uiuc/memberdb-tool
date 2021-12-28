@@ -31,7 +31,7 @@ const App = () => {
   // TODO: Create user context and remove prop drilling
 
   return (
-    <div className='app-container'>
+    <div className="app-container">
       {user && <Navbar user={user} />}
       <Switch>
         <Route exact path={Routes.LOGIN_PAGE}>
