@@ -1,0 +1,26 @@
+.label-wrapper {
+  display: inline-flex;
+  height: 24px;
+  padding: 2px 5px;
+  border-radius: 15px;
+  margin: 6px;
+  align-items: center;
+}
+
+.label-content {
+  padding: 0px 20px;
+}
+
+.initials {
+  display: inline-flex;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  font-size: 9px;
+  text-transform: uppercase;
+  justify-content: center;
+}
+
+.close-label {
+  cursor: pointer;
+}

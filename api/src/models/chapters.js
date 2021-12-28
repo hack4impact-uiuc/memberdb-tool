@@ -25,13 +25,14 @@ const Chapter = new Schema({
     enum: Object.values(statusEnum),
     required: true,
   },
-  githubUrl: String,
+  github: String,
   notionUrl: String,
   websiteUrl: String,
-  linkedInUrl: String,
+  linkedIn: String,
   socialUrls: [String],
   notes: String,
   leaders: [{ type: Schema.Types.ObjectId, ref: 'Member' }],
+  memberTableLayout: [String],
 });
 
 module.exports = model('Chapter', Chapter);
