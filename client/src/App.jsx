@@ -13,6 +13,7 @@ import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/routes/PrivateRoute';
 import NotFound from './pages/NotFound';
 import { getUserAuth } from './utils/apiWrapper';
+import './css/App.css';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -30,7 +31,7 @@ const App = () => {
   // TODO: Create user context and remove prop drilling
 
   return (
-    <div>
+    <div className="app-container">
       {user && <Navbar user={user} />}
       <Switch>
         <Route exact path={Routes.LOGIN_PAGE}>
