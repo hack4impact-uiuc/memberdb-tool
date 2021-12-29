@@ -1,0 +1,7 @@
+.ui.form .disabled.field,
+field.disabled > label,
+.ui.disabled.dropdown,
+.ui.form .field.disabled > label {
+  pointer-events: none;
+  opacity: 1;
+}

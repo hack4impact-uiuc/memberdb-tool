@@ -230,3 +230,16 @@ export const getProjects = () => {
       error,
     }));
 };
+
+// Updates a project
+export const updateProject = (project, projectID) => {
+  const requestString = `${BACKEND_BASE_URL}/projects/${projectID}`;
+  return axios
+    .put(requestString, {
+      ...project,
+    })
+    .catch((error) => ({
+      type: 'UPDATE_PROJECT_FAIL',
+      error,
+    }));
+};
