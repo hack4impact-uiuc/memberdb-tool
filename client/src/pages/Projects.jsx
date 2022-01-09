@@ -72,7 +72,7 @@ const Projects = (): Node => {
   const filterObj = (raw, allowed) => {
     const filtered = Object.values(
       Object.fromEntries(
-        Object.entries(raw).filter(([key, value]) => allowed.includes(key)),
+        Object.entries(raw).filter(([key]) => allowed.includes(key)),
       ),
     );
     return filtered;
@@ -200,7 +200,7 @@ const Projects = (): Node => {
                 : []
             }
             disabled={!editMode}
-            onChange={(e, { value }) => {
+            onChange={(_, { value }) => {
               const newTeam = [];
               value.forEach((e) =>
                 newTeam.push(findKey(teamEmails, partial(isEqual, e))),
@@ -228,7 +228,7 @@ const Projects = (): Node => {
             type="submit"
             content="Save Changes"
             disabled={isEqual(currProj, unmodProj)}
-            onClick={(e) => {
+            onClick={() => {
               setUnmodProj(currProj);
               updateProject(currProj, currProj._id);
               window.location.reload();
