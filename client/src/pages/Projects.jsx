@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import type { Node } from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { isEqual } from 'lodash';
+import { isEqual, findKey, partial } from 'lodash';
+import { Sidebar, Segment, Form, Icon, Modal } from 'semantic-ui-react';
 
 import Page from '../components/layout/Page';
 import Table from '../components/table/Table';
@@ -18,7 +18,6 @@ import { chapterOptions, possibleStatuses } from '../utils/consts';
 
 import '../css/Home.css';
 import '../css/Project.css';
-import { Sidebar, Segment, Form, Icon, Modal } from 'semantic-ui-react';
 
 const Projects = (): Node => {
   const [projects, setProjects] = useState([]);
@@ -44,9 +43,9 @@ const Projects = (): Node => {
       const allMembers = await getMembers();
       if (allMembers.data) {
         const teamMemberList = [];
-        let teamEmails = {};
+        let teamEmail = {};
         allMembers.data.result.forEach((e) => {
-          teamEmails = { ...teamEmails, [e.email]: e.firstName + e.lastName };
+          teamEmail = { ...teamEmail, [e.email]: e.firstName + e.lastName };
           teamMemberList.push({
             key: e.firstName + e.lastName,
             value: e.firstName + e.lastName,
@@ -54,7 +53,7 @@ const Projects = (): Node => {
           });
         });
         setTeamMembers(teamMemberList);
-        setTeamEmails(teamEmails);
+        setTeamEmails(teamEmail);
       }
     };
     const getCurrMember = async () => {
@@ -71,15 +70,12 @@ const Projects = (): Node => {
   }, []);
 
   const filterObj = (raw, allowed) => {
-    if (allowed) {
-      const filtered = Object.keys(raw)
-        .filter((key) => allowed.includes(key))
-        .reduce((obj, key) => {
-          obj[key] = raw[key];
-          return obj;
-        }, {});
-      return Object.values(filtered);
-    }
+    const filtered = Object.values(
+      Object.fromEntries(
+        Object.entries(raw).filter(([key, value]) => allowed.includes(key)),
+      ),
+    );
+    return filtered;
   };
 
   return (
@@ -106,6 +102,7 @@ const Projects = (): Node => {
               setUnmodProj(currProj);
               updateProject(currProj, currProj._id);
               setShowModal(false);
+              window.location.reload();
             },
           },
         ]}
@@ -191,7 +188,6 @@ const Projects = (): Node => {
               setCurrProj({ ...currProj, duration: value });
             }}
           />
-          {console.log(currProj)}
           <Form.Dropdown
             label="Team Members"
             multiple
@@ -204,6 +200,13 @@ const Projects = (): Node => {
                 : []
             }
             disabled={!editMode}
+            onChange={(e, { value }) => {
+              const newTeam = [];
+              value.forEach((e) =>
+                newTeam.push(findKey(teamEmails, partial(isEqual, e))),
+              );
+              setCurrProj({ ...currProj, teamMembersEmail: newTeam });
+            }}
           />
           <Form.Input
             label="Github (Optional)"
@@ -228,7 +231,7 @@ const Projects = (): Node => {
             onClick={(e) => {
               setUnmodProj(currProj);
               updateProject(currProj, currProj._id);
-              e.preventDefault();
+              window.location.reload();
             }}
           />
         </Form.Group>

@@ -11,6 +11,7 @@ type TableProp = {
   data: Array<Object>,
   columns: Array<Object>,
   onRowClick: Function,
+  onRowDoubleClick: Function,
   sizeToFit?: boolean,
 };
 
