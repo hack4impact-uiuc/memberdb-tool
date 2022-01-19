@@ -46,6 +46,7 @@ const Project = new Schema({
   github: String,
   figma: String,
   notes: String,
+  notion: String,
 });
 
 module.exports = model('Project', Project);

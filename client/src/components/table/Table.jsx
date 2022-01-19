@@ -9,10 +9,17 @@ type TableProp = {
   data: Array<Object>,
   columns: Array<Object>,
   onRowClick: Function,
+  onRowDoubleClick: Function,
   sizeToFit?: boolean,
 };
 
-const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp): Node => {
+const Table = ({
+  data,
+  columns,
+  onRowClick,
+  onRowDoubleClick,
+  sizeToFit,
+}: TableProp): Node => {
   const [entries, setEntries] = useState([]);
   const [gridApi, setGridApi] = useState(null);
 
@@ -47,6 +54,7 @@ const Table = ({ data, columns, onRowClick, sizeToFit }: TableProp): Node => {
           ensureDomOrder: true,
         }}
         onRowClicked={(e) => onRowClick?.(e)}
+        onRowDoubleClicked={(e) => onRowDoubleClick?.(e)}
         columnDefs={columns}
         floatingFilter
         enableCellTextSelection
