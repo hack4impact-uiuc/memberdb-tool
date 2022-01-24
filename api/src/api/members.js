@@ -12,6 +12,7 @@ const {
   validationFields,
   errorMessages,
 } = require('../utils/members');
+const { requireValidChapterOrAllChapters } = require('../middleware/chapters');
 
 const validateMemberQuery = (multiple = false) => {
   return (req, res, next) => {
@@ -260,5 +261,18 @@ router.get(
     });
   }),
 );
+
+router.get(
+  '/count/:chapter',
+  requireRegistered,
+  requireValidChapterOrAllChapters,
+  errorWrap(async (req, res) => {
+    const { chapter } = req.params
+    return res.json({
+      success: true,
+      result: chapter === "all" ? await Member.estimatedDocumentCount() : await Member.countDocuments({chapter: Member.chapterEnum[chapter]})
+    })
+  })
+)
 
 module.exports = router;
