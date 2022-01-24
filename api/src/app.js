@@ -62,6 +62,8 @@ app.use('/api', apiRoutes);
 app.get('/', (req, res) => res.json('API working!'));
 app.get('/favicon.ico', (req, res) => res.status(204));
 
+// Test getNewMemberCount
+
 app.use(function (req, res, next) {
   next(createError(404));
 });

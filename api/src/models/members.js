@@ -90,6 +90,26 @@ const Member = new mongoose.Schema({
     type: String,
     default: null,
   },
+  creationDate: {
+    type: Date,
+    default: null,
+  },
+});
+
+const gradYear = new mongoose.Schema({
+  time: {
+    enum: [
+      'Spring',
+      'Summer',
+      'Fall',
+      'Winter',
+      'Quarter 1',
+      'Quarter 2',
+      'Quarter 3',
+      'Quarter 4',
+    ],
+  },
+  year: { type: Number, min: 2000, max: 2100 },
 });
 
 module.exports = mongoose.model('Member', Member);

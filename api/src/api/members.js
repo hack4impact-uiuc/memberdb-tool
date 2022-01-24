@@ -261,4 +261,25 @@ router.get(
   }),
 );
 
+// Gets the new member count
+router.get(
+  '/newCount/:chapter',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    if (!Object.keys(Member.chapterEnum).includes(req.params.chapter)) {
+      return res.status(404).json({
+        success: false,
+        message: req.params.chapter + ' is not a valid chapter.',
+      });
+    }
+    res.json({
+      success: true,
+      result: Member.find({
+        chapter: Member.chapterEnum[req.params.chapter],
+        creationDate: { $gt: 4 },
+      }),
+    });
+  }),
+);
+
 module.exports = router;
