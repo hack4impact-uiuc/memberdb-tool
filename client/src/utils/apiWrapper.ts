@@ -36,7 +36,7 @@ export const endUserSession = () => {
 };
 
 // Retrieves a member from their mongo ID
-export const getMemberByID = (mongoID) => {
+export const getMemberByID = (mongoID: string) => {
   const requestString = `${BACKEND_BASE_URL}/members/${mongoID}`;
   return axios
     .get(requestString, {
@@ -51,7 +51,7 @@ export const getMemberByID = (mongoID) => {
 };
 
 // Retrieves a member's permissions from their mongo ID
-export const getMemberPermissionsByID = (mongoID) => {
+export const getMemberPermissionsByID = (mongoID: string) => {
   const requestString = `${BACKEND_BASE_URL}/members/${mongoID}/permissions`;
   return axios
     .get(requestString, {
@@ -111,7 +111,7 @@ export const getMembers = () => {
 };
 
 // Retrieves a member's permissions from their mongo ID
-export const updateMember = (member, memberID) => {
+export const updateMember = (member: any, memberID: string) => {
   const requestString = `${BACKEND_BASE_URL}/members/${memberID}`;
   return axios
     .put(requestString, {
@@ -124,7 +124,7 @@ export const updateMember = (member, memberID) => {
 };
 
 // Retrieves a note by ID
-export const getNote = (noteID) => {
+export const getNote = (noteID: string) => {
   const requestString = `${BACKEND_BASE_URL}/notes/${noteID}`;
   return axios
     .get(requestString, {
@@ -154,7 +154,7 @@ export const getNotes = () => {
 };
 
 // Updates a note
-export const updateNote = (note, noteID) => {
+export const updateNote = (note: any, noteID: string) => {
   const requestString = `${BACKEND_BASE_URL}/notes/${noteID}`;
   return axios
     .put(requestString, {
@@ -167,7 +167,7 @@ export const updateNote = (note, noteID) => {
 };
 
 // Deletes a note
-export const deleteNote = (noteID) => {
+export const deleteNote = (noteID: string) => {
   const requestString = `${BACKEND_BASE_URL}/notes/${noteID}`;
   return axios.delete(requestString).catch((error) => ({
     type: 'UPDATE_NOTE_FAIL',
@@ -176,7 +176,7 @@ export const deleteNote = (noteID) => {
 };
 
 // Creates a new note
-export const createNote = (note) => {
+export const createNote = (note: any) => {
   const requestString = `${BACKEND_BASE_URL}/notes`;
   return axios
     .post(requestString, {
@@ -204,7 +204,7 @@ export const getNoteLabels = () => {
 };
 
 // Creates a new member
-export const createMember = (member) => {
+export const createMember = (member: any) => {
   const requestString = `${BACKEND_BASE_URL}/members/`;
   return axios
     .post(requestString, {
@@ -232,7 +232,7 @@ export const getProjects = () => {
 };
 
 // Updates a project
-export const updateProject = (project, projectID) => {
+export const updateProject = (project: any, projectID: string) => {
   const requestString = `${BACKEND_BASE_URL}/projects/${projectID}`;
   return axios
     .put(requestString, {

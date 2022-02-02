@@ -1,6 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
-import type { Node } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 import { isEqual, findKey, partial } from 'lodash';
 import { Sidebar, Segment, Form, Icon, Modal } from 'semantic-ui-react';
@@ -19,7 +18,7 @@ import { chapterOptions, possibleStatuses } from '../utils/consts';
 import '../css/Home.css';
 import '../css/Project.css';
 
-const Projects = (): Node => {
+const Projects = (): ReactElement => {
   const [projects, setProjects] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [visible, setVisible] = useState(false);

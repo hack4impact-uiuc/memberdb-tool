@@ -1,6 +1,5 @@
 // @flow
-import React from 'react';
-import type { Node } from 'react';
+import React, { ReactElement } from 'react';
 import DatePicker from 'react-datepicker';
 import { startCase } from 'lodash';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -22,8 +21,8 @@ const DateAttribute = ({
   className = '',
   onChange,
   isRequired = false,
-}: DateAttributeProps): Node => {
-  const onValueChange = (date) => {
+}: DateAttributeProps): ReactElement => {
+  const onValueChange = (date: any) => {
     onChange(date, attributeLabel);
   };
 

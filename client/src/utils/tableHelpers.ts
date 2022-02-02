@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import LinkIcons, { link } from '../components/table/LinkIcons';
+import LinkIcons, { Link } from '../components/table/LinkIcons';
 
 import { titleCaseFormatter } from './formatters';
 
@@ -21,21 +21,21 @@ const FieldVals = Object.freeze({
 });
 
 // Sort Birth Dates in ascending order (earlier dates first)
-const dateComparator = (value1, value2) => {
+const dateComparator = (value1: any, value2: any) => {
   const date1 = moment(value1, BIRTH_DATE_FORMAT);
   const date2 = moment(value2, BIRTH_DATE_FORMAT);
   return date1.diff(date2);
 };
 
 // Sort Grad Year && Generation in ascending order (earlier cohorts first)
-const semesterComparator = (value1, value2) => {
+const semesterComparator = (value1: any, value2: any) => {
   // parseInt uses base 10 when changing to an integer
   const [sem1, year1] = value1
     .split(' ')
-    .map((val) => (parseInt(val, 10) ? Number(val) : val));
+    .map((val: any) => (parseInt(val, 10) ? Number(val) : val));
   const [sem2, year2] = value2
     .split(' ')
-    .map((val) => (parseInt(val, 10) ? Number(val) : val));
+    .map((val: any) => (parseInt(val, 10) ? Number(val) : val));
   if (year1 < year2) return -1;
   if (year1 > year2) return 1;
   if (sem1 === FieldVals.fall && sem2 === FieldVals.spring) return 1;
@@ -44,30 +44,30 @@ const semesterComparator = (value1, value2) => {
 };
 
 // Combine both Semester and Year into a single column
-const graduationGetter = ({ data }) => {
+const graduationGetter = ({ data }: any) => {
   if (data.gradSemester === FieldVals.tbd) return data.gradSemester;
   return `${data.gradSemester} ${data.gradYear}`;
 };
 
 // Get generation label from member data
-const generationGetter = ({ data }) => {
+const generationGetter = ({ data }: any) => {
   if (data.generationSemester === FieldVals.tbd) return data.generationSemester;
   return `${data.generationSemester} ${data.generationYear}`;
 };
 
 // Gets full name from member data
-const nameGetter = ({ data }) =>
+const nameGetter = ({ data }: any) =>
   `${data.firstName ?? ''} ${data.lastName ?? ''}`;
 
 // Gets birthday in format from member data
-const birthDateGetter = ({ data }) => {
+const birthDateGetter = ({ data }: any) => {
   if (!data.birthdate) return 'Not Given';
   const date = moment(data.birthdate).format(BIRTH_DATE_FORMAT);
   return date;
 };
 
 // Formats table for title case
-const tableTitleCaseFormatter = ({ value }) => titleCaseFormatter(value);
+const tableTitleCaseFormatter = ({ value }: any) => titleCaseFormatter(value);
 
 /**
  * @constant
@@ -97,7 +97,7 @@ export const memberColumnDefs = Object.freeze([
     headerName: 'Links',
     field: 'links',
     cellRendererFramework: LinkIcons,
-    cellRendererParams: { linkTypes: [link.GITHUB, link.LINKEDIN, link.OTHER] },
+    cellRendererParams: { linkTypes: [Link.GITHUB, Link.LINKEDIN, Link.OTHER] },
   },
   {
     headerName: 'NetID',
@@ -162,7 +162,7 @@ export const memberColumnDefs = Object.freeze([
   },
 ]);
 
-const membersFormatter = ({ value }) => value.map((m) => m.name).join(', ');
+const membersFormatter = ({ value }: any) => value.map((m: any) => m.name).join(', ');
 
 /**
  * @constant

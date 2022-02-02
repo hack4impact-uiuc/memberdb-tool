@@ -1,6 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
-import type { Node } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import '../../css/Table.scss';
 import { Button } from 'semantic-ui-react';
@@ -19,7 +18,7 @@ const Table = ({
   onRowClick,
   onRowDoubleClick,
   sizeToFit,
-}: TableProp): Node => {
+}: TableProp): ReactElement => {
   const [entries, setEntries] = useState([]);
   const [gridApi, setGridApi] = useState(null);
 

@@ -1,6 +1,5 @@
 // @flow
-import React from 'react';
-import type { Node } from 'react';
+import React, { ReactElement } from 'react';
 import '../../css/Page.css';
 
 type PageProp = {
@@ -15,7 +14,7 @@ type PageProp = {
  * @param {*} props
  * @returns
  */
-function Page({ title, children, menuItems }: PageProp): Node {
+const Page = ({ title, children, menuItems }: PageProp): ReactElement => {
   return (
     <div className="page-wrapper">
       <header>
