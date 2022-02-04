@@ -30,9 +30,9 @@ const SUCCESS_MESSAGE_POPUP_TIME_MS = 4000;
  * Checks if the given API responses were successful
  * @param  {...any} responses Any amount of response objects
  */
-const areResponsesSuccessful = (...responses) => {
+const areResponsesSuccessful = (...responses: any) => {
   let success = true;
-  responses.forEach((response) => {
+  responses.forEach((response: any) => {
     if (response == null || response.data == null || !response.data.success)
       success = false;
   });
@@ -41,15 +41,15 @@ const areResponsesSuccessful = (...responses) => {
 };
 
 const Profile = () => {
-  const { memberID } = useParams();
+  const { memberID } = useParams<any>();
   const newUser = memberID === 'new';
   const [newUserID, setNewUserID] = useState(false);
 
   // Upstream user is the DB version. Local user captures local changes made to the user.
-  const [upstreamUser, setUpstreamUser] = useState({});
+  const [upstreamUser, setUpstreamUser] = useState({firstName: '', lastName: '', _id: ''});
   const [localUser, setLocalUser] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [enumOptions, setEnumOptions] = useState({});
   const [schemaTypes, setSchemaTypes] = useState({});
   const [userPermissions, setUserPermissions] = useState({
@@ -90,7 +90,7 @@ const Profile = () => {
       setUserPermissions(memberPermissionResponse.data.result);
       setSchemaTypes(memberSchemaResponse.data.result);
       setEnumOptions(enumOptionsResponse.data.result);
-      setErrorMessage(null);
+      setErrorMessage('');
     }
 
     getUserData();
@@ -98,13 +98,13 @@ const Profile = () => {
 
   // Returns true if the member attribute is of the given type.
   // Type is a string defined by mongoose. See https://mongoosejs.com/docs/schematypes.html
-  const isOfType = (attribute, type) => {
-    if (!schemaTypes || !type || !schemaTypes[type]) return false;
+  const isOfType = (attribute: any, type: any) => {
+    if (!schemaTypes || !type || !(schemaTypes as any)[type]) return false;
 
-    return schemaTypes[type].includes(attribute);
+    return (schemaTypes as any)[type].includes(attribute);
   };
 
-  const onAttributeChange = (value, attributeLabel) => {
+  const onAttributeChange = (value: any, attributeLabel: any) => {
     setLocalUser({
       ...localUser,
       [attributeLabel]: value,
@@ -120,15 +120,15 @@ const Profile = () => {
     return updatedUser;
   };
 
-  const setTemporarySuccessMessage = (contents) => {
+  const setTemporarySuccessMessage = (contents: string) => {
     setSuccessMessage(contents);
-    setTimeout(() => setSuccessMessage(null), SUCCESS_MESSAGE_POPUP_TIME_MS);
+    setTimeout(() => setSuccessMessage(''), SUCCESS_MESSAGE_POPUP_TIME_MS);
   };
 
   const submitChanges = async () => {
     let missingFields = false;
     requiredFields.forEach((field) => {
-      if (!localUser[field]) {
+      if (!(localUser as any)[field]) {
         missingFields = true;
       }
     });
@@ -148,10 +148,10 @@ const Profile = () => {
             : '.'
         }`,
       );
-      setSuccessMessage(null);
+      setSuccessMessage('');
     } else {
       setTemporarySuccessMessage(newUser ? 'User Created' : 'User updated');
-      setErrorMessage(null);
+      setErrorMessage('');
       setUpstreamUser(result.data.result);
       if (newUser) setNewUserID(result.data.result._id);
     }
@@ -221,7 +221,7 @@ const Profile = () => {
                   if (isOfType(attribute, 'Date')) {
                     return (
                       <DateAttribute
-                        value={Date.parse(localUser[attribute])}
+                        value={new Date(localUser[attribute])}
                         key={attribute}
                         attributeLabel={attribute}
                         onChange={onAttributeChange}

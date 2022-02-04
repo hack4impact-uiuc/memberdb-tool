@@ -16,7 +16,7 @@ import { getUserAuth } from './utils/apiWrapper';
 import './css/App.css';
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({firstName: '', lastName: '', email: '', level: '', _id: '' });
   const location = useLocation();
 
   // updates user session on router changes
@@ -35,36 +35,36 @@ const App = () => {
       {user && <Navbar user={user} />}
       <Switch>
         <Route exact path={Routes.LOGIN_PAGE}>
-          {user ? <Redirect to={Routes.DEFAULT} /> : <Login />}
+          {user._id ? <Redirect to={Routes.DEFAULT} /> : <Login />}
         </Route>
         <Route path={Routes.PROJECTS}>
-          {user ? <Projects /> : <Redirect to={Routes.LOGIN_PAGE} />}
+          {user._id ? <Projects /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
         <Route path={Routes.MEMBER_PAGE}>
           <Switch>
             <Route path={Routes.NOTE_PAGE}>
-              {user && <Note user={user} />}
+              {user._id && <Note user={user} />}
             </Route>
-            <Route DEFAULT>
-              {user ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
+            <Route>
+              {user._id ? <Profile /> : <Redirect to={Routes.LOGIN_PAGE} />}
             </Route>
           </Switch>
         </Route>
         <Route path={Routes.CHAPTERS}>
-          {user ? <Chapters /> : <Redirect to={Routes.LOGIN_PAGE} />}
+          {user._id ? <Chapters /> : <Redirect to={Routes.LOGIN_PAGE} />}
         </Route>
         <PrivateRoute
           path={Routes.NOTE_PAGE}
-          authed={user !== null}
+          authed={!!user._id}
           component={<Note user={user} />}
         />
         <PrivateRoute
           path={Routes.NOTES}
-          authed={user !== null}
+          authed={!!user._id}
           component={<Notes />}
         />
         <Route exact path={Routes.DEFAULT}>
-          {user ? <Home user={user} /> : <Login />}
+          {user._id ? <Home/> : <Login />}
         </Route>
         <Route exact path={Routes.NOT_FOUND}>
           <NotFound />

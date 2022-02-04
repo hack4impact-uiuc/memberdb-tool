@@ -73,7 +73,7 @@ const tableTitleCaseFormatter = ({ value }: any) => titleCaseFormatter(value);
  * @constant
  * @type {Array<Object>}
  */
-export const memberColumnDefs = Object.freeze([
+export const memberColumnDefs = [
   {
     headerName: 'Name',
     field: 'name',
@@ -160,7 +160,7 @@ export const memberColumnDefs = Object.freeze([
     field: 'status',
     valueFormatter: tableTitleCaseFormatter,
   },
-]);
+];
 
 const membersFormatter = ({ value }: any) => value.map((m: any) => m.name).join(', ');
 
@@ -168,7 +168,7 @@ const membersFormatter = ({ value }: any) => value.map((m: any) => m.name).join(
  * @constant
  * @type {Array<Object>}
  */
-export const notesColumnDefs = Object.freeze([
+export const notesColumnDefs = [
   {
     headerName: 'Title',
     field: 'metaData.title',
@@ -182,13 +182,13 @@ export const notesColumnDefs = Object.freeze([
     field: 'metaData.referencedMembers',
     valueFormatter: membersFormatter,
   },
-]);
+];
 
 /**
  * @constant
  * @type {Array<Object>}
  */
-export const projectColumnDefs = Object.freeze([
+export const projectColumnDefs = [
   {
     headerName: 'Project Name',
     field: 'projectName',
@@ -234,4 +234,4 @@ export const projectColumnDefs = Object.freeze([
     headerName: 'Notes',
     field: 'notes',
   },
-]);
+];

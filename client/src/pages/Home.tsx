@@ -18,7 +18,7 @@ const Home = (): ReactElement => {
     const getAllMembers = async () => {
       const allMembers = await getMembers();
       if (allMembers.data) {
-        const membersWithLinks = allMembers.data.result.map((member) => {
+        const membersWithLinks = allMembers.data.result.map((member: any) => {
           const memberCopy = { ...member };
           memberCopy.links = {
             github: member.github,
@@ -37,7 +37,7 @@ const Home = (): ReactElement => {
       <Table
         data={members}
         columns={memberColumnDefs}
-        onRowClick={(e) => history.push(`/member/${e.data._id}`)}
+        onRowClick={(e: any) => history.push(`/member/${e.data._id}`)}
       />
     </Page>
   );

@@ -48,7 +48,7 @@ const Notes = (): ReactElement => {
         <Table
           data={notes}
           columns={notesColumnDefs}
-          onRowClick={(e) => history.push(`/notes/${e.data._id}`)}
+          onRowClick={(e: any) => history.push(`/notes/${e.data._id}`)}
           sizeToFit
         />
       ) : (

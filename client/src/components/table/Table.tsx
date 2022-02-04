@@ -8,7 +8,7 @@ type TableProp = {
   data: Array<Object>,
   columns: Array<Object>,
   onRowClick: Function,
-  onRowDoubleClick: Function,
+  onRowDoubleClick?: Function,
   sizeToFit?: boolean,
 };
 
@@ -49,8 +49,6 @@ const Table = ({
           sortable: true,
           wrapText: true,
           autoHeight: true,
-          enableCellTextSelection: true,
-          ensureDomOrder: true,
         }}
         onRowClicked={(e) => onRowClick?.(e)}
         onRowDoubleClicked={(e) => onRowDoubleClick?.(e)}

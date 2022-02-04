@@ -18,11 +18,22 @@ import { chapterOptions, possibleStatuses } from '../utils/consts';
 import '../css/Home.css';
 import '../css/Project.css';
 
+const emptyProject = {
+  _id: '',
+  projectName: '',
+  chapter: '',
+  description: '',
+  status: '',
+  duration: { amount: 0, unit: ''},
+  teamMembersEmail: [] as any[],
+  github: '',
+  notion: ''
+}
 const Projects = (): ReactElement => {
   const [projects, setProjects] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [visible, setVisible] = useState(false);
-  const [currProj, setCurrProj] = useState({ projectName: '' });
+  const [currProj, setCurrProj] = useState(emptyProject);
   const [unmodProj, setUnmodProj] = useState({});
   const [editable, setEditable] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -41,9 +52,9 @@ const Projects = (): ReactElement => {
     const getAllMembers = async () => {
       const allMembers = await getMembers();
       if (allMembers.data) {
-        const teamMemberList = [];
+        const teamMemberList: any[] = [];
         let teamEmail = {};
-        allMembers.data.result.forEach((e) => {
+        allMembers.data.result.forEach((e: any) => {
           teamEmail = { ...teamEmail, [e.email]: e.firstName + e.lastName };
           teamMemberList.push({
             key: e.firstName + e.lastName,
@@ -68,7 +79,7 @@ const Projects = (): ReactElement => {
     getCurrMember();
   }, []);
 
-  const filterObj = (raw, allowed) => {
+  const filterObj = (raw: any, allowed: any): any[] => {
     const filtered = Object.values(
       Object.fromEntries(
         Object.entries(raw).filter(([key]) => allowed.includes(key)),
@@ -149,8 +160,8 @@ const Projects = (): ReactElement => {
             selection
             options={chapterOptions}
             value={currProj.chapter}
-            onChange={(e, { value }) => {
-              setCurrProj({ ...currProj, chapter: value });
+            onChange={(_, { value }) => {
+              setCurrProj({ ...currProj, chapter: (value as string) });
             }}
             disabled={!editMode}
           />
@@ -159,8 +170,8 @@ const Projects = (): ReactElement => {
             placeholder="Write project description here"
             defaultValue={currProj.description}
             readOnly={!editMode}
-            onChange={(e, { value }) => {
-              setCurrProj({ ...currProj, description: value });
+            onChange={(_, { value }) => {
+              setCurrProj({ ...currProj, description: (value as string) });
             }}
           />
           <Form.Dropdown
@@ -170,8 +181,8 @@ const Projects = (): ReactElement => {
             selection
             options={possibleStatuses}
             value={currProj.status}
-            onChange={(e, { value }) => {
-              setCurrProj({ ...currProj, status: value });
+            onChange={(_, { value }) => {
+              setCurrProj({ ...currProj, status: (value as string)});
             }}
             disabled={!editMode}
           />
@@ -184,7 +195,7 @@ const Projects = (): ReactElement => {
             }
             readOnly={!editMode}
             onChange={(e, { value }) => {
-              setCurrProj({ ...currProj, duration: value });
+              setCurrProj({ ...currProj, duration: (value as any)});
             }}
           />
           <Form.Dropdown
@@ -200,8 +211,8 @@ const Projects = (): ReactElement => {
             }
             disabled={!editMode}
             onChange={(_, { value }) => {
-              const newTeam = [];
-              value.forEach((e) =>
+              const newTeam: any[] = [];
+              (value as []).forEach((e: any) =>
                 newTeam.push(findKey(teamEmails, partial(isEqual, e))),
               );
               setCurrProj({ ...currProj, teamMembersEmail: newTeam });
@@ -241,8 +252,8 @@ const Projects = (): ReactElement => {
           <Table
             data={projects}
             columns={projectColumnDefs}
-            onRowClick={(e) => history.push(`/projects/${e.data._id}`)}
-            onRowDoubleClick={(e) => {
+            onRowClick={(e: any) => history.push(`/projects/${e.data._id}`)}
+            onRowDoubleClick={(e: any) => {
               setCurrProj(e.data);
               setVisible(true);
               setUnmodProj(e.data);

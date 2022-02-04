@@ -1,6 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
-import type { Node } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import {
   Editor,
   EditorState,
@@ -94,7 +93,7 @@ type NoteProps = {
   },
 };
 
-const Note = ({ user }: NoteProps): Node => {
+const Note = ({ user }: NoteProps): ReactElement => {
   const [noteState, setNoteState] = useState(NOTE_STATE.loading);
   const [submitState, setSubmitState] = useState(SUBMIT_STATE.start);
 
@@ -102,17 +101,17 @@ const Note = ({ user }: NoteProps): Node => {
   const [isEditable, setIsEditable] = useState(false);
 
   // routing
-  const { noteID } = useParams();
+  const { noteID } = useParams<any>();
 
   // form data
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(),
   );
-  const [noteTitle, setNoteTitle] = useState(null);
-  const [noteLabels, setNoteLabels] = useState([]);
-  const [referencedMembers, setReferencedMembers] = useState([]);
-  const [viewableBy, setViewableBy] = useState([]);
-  const [editableBy, setEditableBy] = useState([]);
+  const [noteTitle, setNoteTitle] = useState('');
+  const [noteLabels, setNoteLabels] = useState<any[]>([]);
+  const [referencedMembers, setReferencedMembers] = useState<any[]>([]);
+  const [viewableBy, setViewableBy] = useState<any[]>([]);
+  const [editableBy, setEditableBy] = useState<any[]>([]);
   const [encryptNote, setEncryptNote] = useState(true);
 
   // TODO: Implement safety guards for leaving an edited form
@@ -158,14 +157,14 @@ const Note = ({ user }: NoteProps): Node => {
           // TODO! Migrate to Form library for validation + modeling
           setNoteTitle(title);
           setNoteLabels(labels);
-          setReferencedMembers(currentReferencedMembers.map((m) => m.memberId));
-          setViewableBy(currentViewableBy.map((m) => m.memberId));
-          setEditableBy(currentEditableBy.map((m) => m.memberId));
+          setReferencedMembers(currentReferencedMembers.map((m: any) => m.memberId));
+          setViewableBy(currentViewableBy.map((m: any) => m.memberId));
+          setEditableBy(currentEditableBy.map((m: any) => m.memberId));
           setEncryptNote(encrypt);
 
           // check if current user is in editor list
           if (
-            currentEditableBy.findIndex((m) => m.memberId === user._id) > -1
+            currentEditableBy.findIndex((m: any) => m.memberId === user._id) > -1
           ) {
             setIsEditable(true);
           }
@@ -213,7 +212,7 @@ const Note = ({ user }: NoteProps): Node => {
    * @param {*} currentEditorState
    * @returns {'handled' | 'not-handled'}
    */
-  function handleKeyCommand(command, currentEditorState) {
+  function handleKeyCommand(command:any,  currentEditorState: any) {
     const newState = RichUtils.handleKeyCommand(currentEditorState, command);
 
     if (newState) {
@@ -230,7 +229,7 @@ const Note = ({ user }: NoteProps): Node => {
    * @param {*} currentEditorState
    * @returns {boolean}
    */
-  const validateEditorState = (currentEditorState) =>
+  const validateEditorState = (currentEditorState: any) =>
     currentEditorState.getCurrentContent().hasText();
 
   /**
@@ -291,7 +290,7 @@ const Note = ({ user }: NoteProps): Node => {
    * Handles toggling the received rich inline style
    * @param {string} richStyle
    */
-  function handleRichStyle(richStyle) {
+  function handleRichStyle(richStyle: any) {
     const newState = RichUtils.toggleInlineStyle(editorState, richStyle);
     if (newState) setEditorState(newState);
   }
@@ -300,7 +299,7 @@ const Note = ({ user }: NoteProps): Node => {
    * Handles toggling the received block type
    * @param {string} blockType
    */
-  function handleBlockType(blockType) {
+  function handleBlockType(blockType: any) {
     const newState = RichUtils.toggleBlockType(editorState, blockType);
     if (newState) setEditorState(newState);
   }
