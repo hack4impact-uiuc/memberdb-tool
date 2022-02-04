@@ -1,6 +1,5 @@
 // @flow
-import React from 'react';
-import type { Node } from 'react';
+import React, { ReactElement } from 'react';
 import { startCase } from 'lodash';
 import { Form } from 'semantic-ui-react';
 
@@ -22,8 +21,8 @@ const TextAttribute = ({
   className = '',
   onChange,
   isRequired = false,
-}: TextAttributeProp): Node => {
-  const onValueChange = (e) => {
+}: TextAttributeProp): ReactElement => {
+  const onValueChange = (e: any) => {
     onChange(e.target.value, attributeLabel);
   };
 

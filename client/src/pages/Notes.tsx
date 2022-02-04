@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Icon } from 'semantic-ui-react';
 import 'draft-js/dist/Draft.css';
@@ -10,7 +10,7 @@ import Loading from '../components/ui/Loading';
 import Page from '../components/layout/Page';
 import Table from '../components/table/Table';
 
-function Notes() {
+const Notes = (): ReactElement => {
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,7 +48,7 @@ function Notes() {
         <Table
           data={notes}
           columns={notesColumnDefs}
-          onRowClick={(e) => history.push(`/notes/${e.data._id}`)}
+          onRowClick={(e: any) => history.push(`/notes/${e.data._id}`)}
           sizeToFit
         />
       ) : (
@@ -57,4 +57,5 @@ function Notes() {
     </Page>
   );
 }
+
 export default Notes;

@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { MouseEventHandler, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import './Label.css';
 import { IoCloseOutline } from 'react-icons/io5';
 
+type ClickLabelProp = {
+  children: ReactElement,
+  textColor: string,
+  backgroundColor: string,
+  initials: string,
+  onClickClose: MouseEventHandler
+};
+
 const ClickLabel = ({
   children,
-  textColor,
-  backgroundColor,
+  textColor = 'black',
+  backgroundColor = 'lightgrey',
   initials,
   onClickClose,
-}) => {
+}: ClickLabelProp) => {
   const labelStyles = {
     color: textColor,
     backgroundColor,
   };
 
   const initialsStyles = {
-    color: backgroundColor,
-    backgroundColor: textColor,
+    color: textColor,
+    backgroundColor,
   };
 
   return (
@@ -37,19 +45,6 @@ const ClickLabel = ({
       )}
     </div>
   );
-};
-
-ClickLabel.propTypes = {
-  children: PropTypes.string,
-  textColor: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  initials: PropTypes.string,
-  onClickClose: PropTypes.func,
-};
-
-ClickLabel.defaultProps = {
-  textColor: 'black',
-  backgroundColor: 'lightgrey',
 };
 
 export default ClickLabel;

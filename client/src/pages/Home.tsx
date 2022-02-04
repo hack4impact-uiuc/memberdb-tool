@@ -1,6 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
-import type { Node } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Page from '../components/layout/Page';
@@ -10,7 +9,7 @@ import { getMembers } from '../utils/apiWrapper';
 
 import '../css/Home.css';
 
-const Home = (): Node => {
+const Home = (): ReactElement => {
   const [members, setMembers] = useState([]);
 
   const history = useHistory();
@@ -19,7 +18,7 @@ const Home = (): Node => {
     const getAllMembers = async () => {
       const allMembers = await getMembers();
       if (allMembers.data) {
-        const membersWithLinks = allMembers.data.result.map((member) => {
+        const membersWithLinks = allMembers.data.result.map((member: any) => {
           const memberCopy = { ...member };
           memberCopy.links = {
             github: member.github,
@@ -38,7 +37,7 @@ const Home = (): Node => {
       <Table
         data={members}
         columns={memberColumnDefs}
-        onRowClick={(e) => history.push(`/member/${e.data._id}`)}
+        onRowClick={(e: any) => history.push(`/member/${e.data._id}`)}
       />
     </Page>
   );

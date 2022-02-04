@@ -1,5 +1,5 @@
 // @flow
-import React, { Node } from 'react';
+import React, { ReactElement } from 'react';
 import { Modal, Header, Button, Icon } from 'semantic-ui-react';
 
 import '../../css/WarningModal.css';
@@ -9,7 +9,7 @@ type WarningModalProp = {
   description: String,
   noAction: () => void,
   yesAction: () => void,
-  isOpen: Bool,
+  isOpen: boolean,
   noText?: String,
   yesText?: String,
 };
@@ -22,7 +22,7 @@ const WarningModal = ({
   isOpen,
   noText = 'No',
   yesText = 'Yes',
-}: WarningModalProp): Node => (
+}: WarningModalProp): ReactElement => (
   <Modal className="warning-modal" open={isOpen}>
     <Header className="warning-modal-title" content={title} />
     <Modal.Content>

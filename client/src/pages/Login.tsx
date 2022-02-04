@@ -1,6 +1,5 @@
 // @flow
-import React from 'react';
-import type { Node } from 'react';
+import React, { ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Header, Icon, Image, Message } from 'semantic-ui-react';
 
@@ -22,7 +21,7 @@ function useQuery() {
 /**
  * Displays the login page over everything else
  */
-const Login = (): Node => {
+const Login = (): ReactElement => {
   const didLoginFail = useQuery().get(LOGIN_FAILURE_QUERY_PARAM);
 
   return (
@@ -44,7 +43,7 @@ const Login = (): Node => {
               'auth/login',
               FRONTEND_BASE_URL,
               `${FRONTEND_BASE_URL}/login?${LOGIN_FAILURE_QUERY_PARAM}=1`,
-            )}
+            ).toString()}
           >
             <Header as="h5">
               <Image circular src={googleIcon} /> Sign in with Google

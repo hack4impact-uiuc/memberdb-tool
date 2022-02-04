@@ -1,6 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
-import type { Node } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import '../../css/Table.scss';
 import { Button } from 'semantic-ui-react';
@@ -9,7 +8,7 @@ type TableProp = {
   data: Array<Object>,
   columns: Array<Object>,
   onRowClick: Function,
-  onRowDoubleClick: Function,
+  onRowDoubleClick?: Function,
   sizeToFit?: boolean,
 };
 
@@ -19,7 +18,7 @@ const Table = ({
   onRowClick,
   onRowDoubleClick,
   sizeToFit,
-}: TableProp): Node => {
+}: TableProp): ReactElement => {
   const [entries, setEntries] = useState([]);
   const [gridApi, setGridApi] = useState(null);
 
@@ -50,8 +49,6 @@ const Table = ({
           sortable: true,
           wrapText: true,
           autoHeight: true,
-          enableCellTextSelection: true,
-          ensureDomOrder: true,
         }}
         onRowClicked={(e) => onRowClick?.(e)}
         onRowDoubleClicked={(e) => onRowDoubleClick?.(e)}

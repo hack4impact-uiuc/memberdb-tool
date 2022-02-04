@@ -1,6 +1,6 @@
 // @flow
-import * as React from 'react';
-import type { Node } from 'react';
+import React from 'react';
+import { ReactElement } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import * as Routes from '../../routes';
@@ -11,7 +11,7 @@ type PrivateRouteProp = {
   component: Object,
 };
 
-const PrivateRoute = ({ path, authed, component }: PrivateRouteProp): Node =>
+const PrivateRoute = ({ path, authed, component }: PrivateRouteProp): ReactElement =>
   authed ? (
     <Route exact path={path}>
       {component}

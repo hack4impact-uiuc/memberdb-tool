@@ -1,6 +1,5 @@
 // @flow
-import React from 'react';
-import type { Node } from 'react';
+import React, { ReactElement } from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import '../../css/Note.css';
 
@@ -57,14 +56,14 @@ type EditorToolbarProps = {
 function EditorToolbar({
   handleRichStyle,
   handleBlockType,
-}: EditorToolbarProps): Node {
+}: EditorToolbarProps): ReactElement {
   return (
     <div className="editor-toolbar">
       {TOOLBAR_BLOCKS.map((group) => (
         <Button.Group>
           {group.map((block) => (
             <Button
-              onMouseDown={(e) => e.preventDefault()}
+              onMouseDown={(e: any) => e.preventDefault()}
               onClick={() => {
                 handleBlockType(block.value);
               }}
@@ -79,11 +78,11 @@ function EditorToolbar({
         <Button.Group>
           {group.map((style) => (
             <Button
-              onMouseDown={(e) => e.preventDefault()}
+              onMouseDown={(e: any) => e.preventDefault()}
               onClick={() => handleRichStyle(style.toUpperCase())}
               icon
             >
-              <Icon name={style} />
+              <Icon className={style} />
             </Button>
           ))}
         </Button.Group>
