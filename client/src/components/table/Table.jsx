@@ -39,7 +39,9 @@ const Table = ({
   return (
     <div className="ag-theme-alpine table-wrapper">
       <div className="action-container">
-        <Button size="medium" onClick={() => gridApi?.exportDataAsCsv()}>
+        <Button
+          size="medium"
+          onClick={() => gridApi?.exportDataAsCsv({ onlySelected: gridApi.getSelectedNodes().length != 0 }) }>
           {' '}
           Export as CSV
         </Button>

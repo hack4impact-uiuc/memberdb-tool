@@ -79,6 +79,8 @@ export const memberColumnDefs = Object.freeze([
     field: 'name',
     pinned: 'left',
     valueGetter: nameGetter,
+    checkboxSelection: true,
+    headerCheckboxSelection: true,
   },
   {
     headerName: 'Class Standing',
