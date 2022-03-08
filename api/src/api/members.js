@@ -267,19 +267,22 @@ router.get(
   errorWrap(async (req, res) => {
     let members = await Member.find({ role: req.params.role });
     if (req.params.chapter) {
-      if (!Object.values(chapterEnum).includes(req.params.chapter)){
+      if (!Object.values(chapterEnum).includes(req.params.chapter)) {
         return res.status(404).json({
           success: false,
           message: req.params.chapter + ' is not a valid chapter.',
-        })
+        });
       }
-      members = await Member.find({ role: req.params.role, chapter: req.params.chapter });
+      members = await Member.find({
+        role: req.params.role,
+        chapter: req.params.chapter,
+      });
     }
     if (!members) {
       return res.status(404).json({
         success: false,
         message: req.params.role + ' is not a valid role.',
-      })
+      });
     }
     res.json({
       success: true,
