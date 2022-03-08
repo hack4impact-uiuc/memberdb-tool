@@ -2,9 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import type { Node } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import '../../css/Table.css';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import '../../css/Table.scss';
 import { Button } from 'semantic-ui-react';
 
 type TableProp = {
