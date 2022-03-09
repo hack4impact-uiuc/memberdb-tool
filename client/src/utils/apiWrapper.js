@@ -243,3 +243,20 @@ export const updateProject = (project, projectID) => {
       error,
     }));
 };
+
+export const getRoleCount = (role, chapter) => {
+  let requestString = `${BACKEND_BASE_URL}/members/role/${role}`;
+  if (chapter) {
+    requestString = `${BACKEND_BASE_URL}/members/role/${role}/${chapter}`;
+  }
+  return axios
+    .get(requestString, {
+      headers: {
+        'Content-Type': 'application/JSON',
+      },
+    })
+    .catch((error) => ({
+      type: 'GET_ROLE_FAIL',
+      error,
+    }));
+};

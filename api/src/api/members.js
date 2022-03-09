@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Member = require('../models/members');
+const { Member, chapterEnum } = require('../models/members');
 const errorWrap = require('../middleware/errorWrap');
 const { requireRegistered, requireDirector } = require('../middleware/auth');
 const {
@@ -257,6 +257,36 @@ router.get(
     res.json({
       success: true,
       result: Member.find({ chapter: Member.chapterEnum[req.params.chapter] }),
+    });
+  }),
+);
+
+router.get(
+  '/role/:role/:chapter?',
+  requireRegistered,
+  errorWrap(async (req, res) => {
+    let members = await Member.find({ role: req.params.role });
+    if (req.params.chapter) {
+      if (!Object.values(chapterEnum).includes(req.params.chapter)) {
+        return res.status(404).json({
+          success: false,
+          message: req.params.chapter + ' is not a valid chapter.',
+        });
+      }
+      members = await Member.find({
+        role: req.params.role,
+        chapter: req.params.chapter,
+      });
+    }
+    if (!members) {
+      return res.status(404).json({
+        success: false,
+        message: req.params.role + ' is not a valid role.',
+      });
+    }
+    res.json({
+      success: true,
+      result: members,
     });
   }),
 );
