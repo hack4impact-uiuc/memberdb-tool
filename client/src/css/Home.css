@@ -3,3 +3,13 @@
 html {
   font-family: 'Inter', sans-serif;
 }
+
+.ui.table thead th {
+  font-weight: 200;
+  text-align: center;
+}
+
+.ui.basic.button, .ui.basic.buttons .button, .ui.basic.button:hover {
+  color: rgb(33, 133, 208) !important;
+  background: transparent none !important;
+}

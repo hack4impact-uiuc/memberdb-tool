@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import type { Node } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import '../../css/Table.scss';
-import { Button } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
+import CSVReader from 'react-csv-reader';
 
 type TableProp = {
   data: Array<Object>,

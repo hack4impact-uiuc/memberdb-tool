@@ -29,7 +29,6 @@ const App = () => {
   }, [location]);
 
   // TODO: Create user context and remove prop drilling
-
   return (
     <div className="app-container">
       {user && <Navbar user={user} />}
