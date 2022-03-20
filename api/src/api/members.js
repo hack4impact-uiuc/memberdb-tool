@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Member, chapterEnum } = require('../models/members');
+const { chapterEnum } = require('../models/members');
+const Member = require('../models/members');
 const errorWrap = require('../middleware/errorWrap');
 const { requireRegistered, requireDirector } = require('../middleware/auth');
 const {
