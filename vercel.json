@@ -9,10 +9,10 @@
     "SERVICE_URL": "@memberdb_tool_service_url"
   },
   "builds": [
-    { "src": "api/src/app.js", "use": "@now/node" },
+    { "src": "api/src/app.js", "use": "@vercel/node" },
     {
       "src": "client/package.json",
-      "use": "@now/static-build",
+      "use": "@vercel/static-build",
       "config": { "distDir": "build" }
     }
   ],
