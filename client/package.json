@@ -41,7 +41,7 @@
     "prettier": "^2.2.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "lint": "eslint src --ext js,jsx",
     "lint:fix": "eslint --fix src --ext js,jsx",
     "format": "prettier --write \"./**/*.{js,jsx,json,md}\"",
