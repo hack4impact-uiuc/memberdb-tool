@@ -8,14 +8,6 @@
     "OAUTH_CALLBACK_URI": "https://memberdb-tool.vercel.app/api/auth/redirectURI",
     "SERVICE_URL": "@memberdb_tool_service_url"
   },
-  "builds": [
-    { "src": "api/src/app.js", "use": "@vercel/node" },
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
-    }
-  ],
   "routes": [
     {
       "src": "/api/(.*)",
