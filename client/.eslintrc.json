@@ -18,6 +18,7 @@
     "import/no-extraneous-dependencies": "off",
     "react/require-default-props": "off",
     "react/forbid-prop-types": "off",
+    "react/jsx-no-bind": "off",
     "no-underscore-dangle": [
       "error",
       {
